@@ -1,23 +1,24 @@
 const express = require('express')
+const User = require('../models/user')
+const {
+    createUser,
+    getCallendars,
+    getSingleCallendar,
+    deleteEvent,
+    addEvent
+} = require('../controllers/calControllers')
 
 const router = express.Router()
 
-router.get('/',(req,res)=>{
-    res.json({mssg: 'get All cal'})
-})
+router.get('/:user_id',getCallendars)
 
-router.get('/:id',(req,res)=>{
-    res.json({mssg: 'get single cal'})
-})
+router.get('/:user_id/:cal_id',getSingleCallendar)
 
-router.post('/',(req,res)=>{
-    
-    res.json({mssg: 'post a new cal'})
-})
+router.post('/', createUser)
 
-router.delete('/:id', (re1,res)=>{
-    res.json({mssg: 'delete single'})
-})
+router.post('/:user_id/:cal_id/:month_id/:day_id/:event_id', addEvent)
+
+router.delete('/:user_id/:cal_id/:month_id/:day_id/:event_id',deleteEvent)
 
 router.patch('/:id', (req,res)=>{
     res.json({mssg: 'update single'})
