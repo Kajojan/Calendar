@@ -2,12 +2,11 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik, Formik } from "formik";
 import * as Yup from "yup";
-import { useDispatch , useSelector} from "react-redux";
-import {Add} from "../features/UserSlice";
-import { v4 as uuidv4 } from 'uuid';
+import { useDispatch, useSelector } from "react-redux";
+import { Add, postData } from "../features/UserSlice";
+import { v4 as uuidv4 } from "uuid";
 
 function SingUp() {
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const formik = useFormik({
@@ -39,8 +38,19 @@ function SingUp() {
       ConPassword: "",
     },
     onSubmit: (values) => {
-      dispatch(Add({...values, id: uuidv4()}))
+      const user_id = uuidv4();
+      dispatch(Add({ ...values, id: user_id }));
+
       formik.handleReset();
+      dispatch(
+        postData({
+          user_id: user_id,
+          name: values.firstName,
+          lastName: values.lastName,
+          emial: values.email,
+          password: values.password,
+        })
+      );
       navigate("/mainpage");
     },
   });

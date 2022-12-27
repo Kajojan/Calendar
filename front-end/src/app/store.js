@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { applyMiddleware, configureStore } from '@reduxjs/toolkit';
 import MonthReducer from '../features/MonthSlice';
 import YearSlice from '../features/YearSlice';
 import CurrentDaySlice from '../features/CurrentDaySlice'

@@ -16,7 +16,7 @@ router.get('/:user_id/:cal_id',getSingleCallendar)
 
 router.post('/', createUser)
 
-router.post('/:user_id/:cal_id/:month_id/:day_id/:event_id', addEvent)
+router.post('/:user_id/:cal_id/:month_id/:day_id/', addEvent)
 
 router.delete('/:user_id/:cal_id/:month_id/:day_id/:event_id',deleteEvent)
 
