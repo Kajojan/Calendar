@@ -47,7 +47,7 @@ function SingUp() {
           user_id: user_id,
           name: values.firstName,
           lastName: values.lastName,
-          emial: values.email,
+          email: values.email,
           password: values.password,
         })
       );

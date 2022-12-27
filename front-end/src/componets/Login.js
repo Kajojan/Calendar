@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik, Formik } from "formik";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux"
-import acions from '../features/UserSlice'
-
-
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { Add } from "../features/UserSlice";
+import { action } from "../features/CalSlice";
 function Login() {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
+  const check = async (email, password) => {
+    const response = await axios
+      .post(`http://localhost:4000/api/cal/login`, {
+        email: email,
+        password: password,
+      })
+      const data =  response;
+      return data
+    
+  };
 
   const formik = useFormik({
     validationSchema: Yup.object({
@@ -19,11 +30,17 @@ function Login() {
       email: "",
       password: "",
     },
-    onSubmit: (values) => {
-      formik.handleReset();
-      navigate("/mainpage");
-      console.log("login in ", values);
-    },
+
+    onSubmit:  async (values) => {
+      try{
+      const data = await check(values.email, values.password)
+      navigate('/mianpage')
+      }catch(error){
+        console.log("wrong data")
+      }
+        
+      }
+    
   });
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -47,7 +64,7 @@ function Login() {
         onChange={formik.handleChange}
         value={formik.values.password}
       />
-       {formik.errors.password && formik.touched.password ? (
+      {formik.errors.password && formik.touched.password ? (
         <div>{formik.errors.password}</div>
       ) : null}{" "}
       <button type="submit">Submit</button>

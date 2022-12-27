@@ -5,6 +5,7 @@ import CurrentDaySlice from '../features/CurrentDaySlice'
 import CalSlice from '../features/CalSlice';
 import UserSlice from '../features/UserSlice'
 import AllcalSlice from '../features/AllcallSlice';
+import thunk from 'redux-thunk';
 
  const store = configureStore({
   reducer:{
@@ -16,5 +17,5 @@ import AllcalSlice from '../features/AllcallSlice';
     allcal: AllcalSlice
 
   }
-});
+},applyMiddleware(thunk));
 export default store
