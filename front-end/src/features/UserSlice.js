@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState = {
   user_id: "",
-  user_firstName: "",
-  user_lastName: "",
-  user_email: "",
-  user_password: ""
+  name: "",
+  lastname: "",
+  email: "",
+  password: ""
 };
 
 const UserSlice = createSlice({
@@ -14,13 +15,27 @@ const UserSlice = createSlice({
   reducers: {
     Add: (state, action) => {
       state.user_id = action.payload.id
-      state.user_firstName = action.payload.firstName
-      state.user_lastName = action.payload.lastName
-      state.user_email = action.payload.email
-      state.user_password = action.payload.password
+      state.name = action.payload.firstName
+      state.lastname = action.payload.lastName
+      state.email = action.payload.email
+      state.password = action.payload.password
     }
   },
 });
+
+
+export const postData=(data) =>{
+  return (dispatch) => {
+    axios
+      .post(`http://localhost:4000/api/cal/`, {...data, 'callendars': []})
+      .then((response) => {
+        dispatch({ type: "POST_SUCCESS", data: response.data });
+      })
+      .catch((error) => {
+        dispatch({ type: "POST_ERROR", error });
+      });
+  };
+}
 
 export const {Add} = UserSlice.actions;
 

@@ -4,10 +4,11 @@ const getCallendars = async (req, res) => {
   const { user_id } = req.params;
   const cals = await User.find(
     { user_id: user_id },
-    { callendars: 1, _id: 0, name: 1 }
+    { callendars: 1, _id: 0 }
   );
 
   res.status(200).json(cals);
+  console.log(cals)
 };
 
 const getSingleCallendar = async (req, res) => {
@@ -22,7 +23,7 @@ const getSingleCallendar = async (req, res) => {
 
 const createUser = async (req, res) => {
   const { user_id, name, lastname, email, password } = req.body;
-
+  console.log(req.body)
   //add to db
   try {
     const user = await User.create({
@@ -51,7 +52,7 @@ const deleteEvent = async (req, res) => {
 };
 
 const addEvent = async (req, res) => {
-  const { user_id, cal_id, month_id, day_id, event_id } = req.params;
+  const { user_id, cal_id, month_id, day_id } = req.params;
   const event = req.body
  
   const cal = await User.updateOne(
