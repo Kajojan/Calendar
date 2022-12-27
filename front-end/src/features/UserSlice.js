@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { action } from "./CalSlice";
 
 const initialState = {
   user_id: "",
   name: "",
   lastname: "",
   email: "",
-  password: ""
+  password: "",
 };
 
 const UserSlice = createSlice({
@@ -19,6 +20,10 @@ const UserSlice = createSlice({
       state.lastname = action.payload.lastName
       state.email = action.payload.email
       state.password = action.payload.password
+      state.check = true
+    },
+    checkUser: (state, action) =>{
+      state.check = action.payload
     }
   },
 });
@@ -36,6 +41,8 @@ export const postData=(data) =>{
       });
   };
 }
+
+
 
 export const {Add} = UserSlice.actions;
 
