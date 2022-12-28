@@ -1,14 +1,12 @@
+
 const User = require("../models/user");
 
 const getCallendars = async (req, res) => {
   const { user_id } = req.params;
-  const cals = await User.find(
-    { user_id: user_id },
-    { callendars: 1, _id: 0 }
-  );
+  const cals = await User.find({ user_id: user_id }, { callendars: 1, _id: 0 });
 
   res.status(200).json(cals);
-  console.log(cals)
+  console.log(cals);
 };
 
 const getSingleCallendar = async (req, res) => {
@@ -23,7 +21,7 @@ const getSingleCallendar = async (req, res) => {
 
 const createUser = async (req, res) => {
   const { user_id, name, lastname, email, password } = req.body;
-  console.log(req.body)
+  console.log(req.body);
   //add to db
   try {
     const user = await User.create({
@@ -41,30 +39,54 @@ const createUser = async (req, res) => {
 
 const deleteEvent = async (req, res) => {
   const { user_id, cal_id, month_id, day_id, event_id } = req.params;
- 
+
   const cal = await User.updateOne(
     { user_id: user_id, "callendars.cal_id": cal_id },
     {
-      $unset: { ["callendars.$.cal."+ month_id+"." + day_id+".event."+ event_id]: "" },
+      $unset: {
+        ["callendars.$.cal." + month_id + "." + day_id + ".event." + event_id]:
+          "",
+      },
     }
   );
-    res.status(200)
+  res.status(200);
 };
 
 const addEvent = async (req, res) => {
   const { user_id, cal_id, month_id, day_id } = req.params;
-  const event = req.body
- 
+  const event = req.body;
+
   const cal = await User.updateOne(
     { user_id: user_id, "callendars.cal_id": cal_id },
     {
-      $push: { ["callendars.$.cal."+ month_id+"." + day_id+".event"]: event },
+      $push: {
+        ["callendars.$.cal." + month_id + "." + day_id + ".event"]: event,
+      },
     }
   );
-const cal2 = await User.find({},{"callendars.cal.event":1})
-console.log(cal2)
-res.status(200).json(cal2)
+  const cal2 = await User.find({}, { "callendars.cal.event": 1 });
+  console.log(cal2);
+  res.status(200).json(cal2);
 };
+
+const checkLogin = async (req, res) => {
+  const { email, password } = req.body;
+try{
+  const check = await User.find(
+    { $and: [{ email: email }, {password: password}] }
+  );
+  
+    res.status(200).json(check);
+}catch{
+  res.status(400).json({error})
+}
+ 
+};
+
+const addCal = async (req,res) =>{
+
+  const cal = 1
+}
 
 module.exports = {
   createUser,
@@ -72,4 +94,6 @@ module.exports = {
   getSingleCallendar,
   deleteEvent,
   addEvent,
+  checkLogin,
+  addCal,
 };
