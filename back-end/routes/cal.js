@@ -13,7 +13,7 @@ const {
 
 const router = express.Router()
 
-router.post('/:user_id',addCal)
+// router.post('/:user_id',addCal)
 
 router.get('/:user_id',getCallendars)
 
@@ -21,7 +21,7 @@ router.get('/:user_id/:cal_id',getSingleCallendar)
 
 router.post('/', createUser)
 
-router.post('/', checkLogin)
+router.post('/:login', checkLogin)
 
 router.put('/:user_id/:cal_id/:month_id/:day_id/', addEvent)
 

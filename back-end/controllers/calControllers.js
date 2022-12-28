@@ -1,4 +1,3 @@
-
 const User = require("../models/user");
 
 const getCallendars = async (req, res) => {
@@ -70,23 +69,22 @@ const addEvent = async (req, res) => {
 };
 
 const checkLogin = async (req, res) => {
+  console.log("dasdas")
   const { email, password } = req.body;
-try{
-  const check = await User.find(
-    { $and: [{ email: email }, {password: password}] }
-  );
-  
+  try {
+    const check = await User.find({
+      $and: [{ email: email }, { password: password }],
+    });
+    console.log(check);
     res.status(200).json(check);
-}catch{
-  res.status(400).json({error})
-}
- 
+  } catch {
+    res.status(400).json({ error });
+  }
 };
 
-const addCal = async (req,res) =>{
-
-  const cal = 1
-}
+const addCal = async (req, res) => {
+  const cal = 1;
+};
 
 module.exports = {
   createUser,

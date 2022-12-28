@@ -1,8 +1,9 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+
+
 import { actions } from '../features/AllcallSlice';
-import { postData } from '../features/CalSlice';
 
 
 
@@ -18,8 +19,7 @@ function MainPage() {
         dispatch(actions.add(cal))
         navigate(`/callander/${user}/${currentYear}/${currentMonth}`)
     }
-    dispatch(postData())
-
+ 
 
   return (
     <div className='mainpage'>

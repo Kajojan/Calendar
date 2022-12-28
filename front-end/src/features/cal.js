@@ -94,7 +94,8 @@
     return days;
   };
 
-export   const calendar = (currentYear) => {
+export   const calendar = () => {
+  const currentYear = new Date().getFullYear();
     const list=[]
      for (let i = 1; i <= 12; i++) {
        const months=month(i-1)
