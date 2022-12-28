@@ -16,6 +16,9 @@ function Login() {
       .post(`http://localhost:4000/api/cal/1`, {
         email: email,
         password: password,
+      }).then((res)=>{
+        const {user_id, name, lastname, email,password, callendars} = res.data[0]
+        dispatch(Add({user_id, name, lastname, email,password,check: true}))
       })
       const data =  response;
       return data

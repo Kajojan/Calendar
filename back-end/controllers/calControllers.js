@@ -69,13 +69,12 @@ const addEvent = async (req, res) => {
 };
 
 const checkLogin = async (req, res) => {
-  console.log("dasdas")
+
   const { email, password } = req.body;
   try {
     const check = await User.find({
       $and: [{ email: email }, { password: password }],
     });
-    console.log(check);
     res.status(200).json(check);
   } catch {
     res.status(400).json({ error });
@@ -83,7 +82,17 @@ const checkLogin = async (req, res) => {
 };
 
 const addCal = async (req, res) => {
-  const cal = 1;
+  const {user_id} = req.params
+  const {cal} = req.body
+  console.log(req.body)
+  try {
+    const user = await User.updateOne({user_id: user_id},{$push:{'callendars': cal}})
+    console.log(user)
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+
 };
 
 module.exports = {

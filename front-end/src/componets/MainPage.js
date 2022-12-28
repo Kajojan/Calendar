@@ -1,9 +1,8 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-
-
 import { actions } from '../features/AllcallSlice';
+import { postData } from '../features/CalSlice';
 
 
 
@@ -16,7 +15,8 @@ function MainPage() {
     const callanders = useSelector((state) => state.allcal.Allcall);
     const dispatch = useDispatch()
     const clickHandler=()=>{
-        dispatch(actions.add(cal))
+        dispatch(postData(user))
+        
         navigate(`/callander/${user}/${currentYear}/${currentMonth}`)
     }
  

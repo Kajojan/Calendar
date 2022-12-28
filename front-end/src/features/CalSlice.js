@@ -26,9 +26,11 @@ export const fetchData = (user_id) => async (dispatch, getState) => {
 };
 
 export const postData=(user_id) =>{
+  const data = calendar()
+  console.log(data)
   return (dispatch) => {
     axios
-      .post(`http://localhost:4000/api/cal/${user_id}`, calendar())
+      .put(`http://localhost:4000/api/cal/${user_id}`, {"cal":data})
       .then((response) => {
         dispatch({ type: "POST_SUCCESS", data: response.data });
       })
