@@ -46,7 +46,7 @@ function SingUp() {
         postData({
           user_id: user_id,
           name: values.firstName,
-          lastName: values.lastName,
+          lastname: values.lastName,
           email: values.email,
           password: values.password,
         })

@@ -13,7 +13,7 @@ const {
 
 const router = express.Router()
 
-// router.post('/:user_id',addCal)
+router.put('/:user_id',addCal)
 
 router.get('/:user_id',getCallendars)
 
