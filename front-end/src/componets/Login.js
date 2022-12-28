@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { Add } from "../features/UserSlice";
+
 import { action } from "../features/CalSlice";
 function Login() {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ function Login() {
 
   const check = async (email, password) => {
     const response = await axios
-      .post(`http://localhost:4000/api/cal/login`, {
+      .post(`http://localhost:4000/api/cal/1`, {
         email: email,
         password: password,
       })
@@ -34,7 +35,7 @@ function Login() {
     onSubmit:  async (values) => {
       try{
       const data = await check(values.email, values.password)
-      navigate('/mianpage')
+      navigate('/mainpage')
       }catch(error){
         console.log("wrong data")
       }

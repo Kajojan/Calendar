@@ -12,16 +12,16 @@ import Callendars from "./componets/Navi/Callendars";
 import Notice from "./componets/Navi/Notice";
 import Settings from "./componets/Navi/Settings";
 import SingUp from "./componets/SingUp";
-import {fetchData} from '../src/features/CalSlice'
 
 function App() {
   const dispatch = useDispatch()
   const currentMonth = useSelector((state) => state.month.currentMonth);
   const currentYear = useSelector((state) => state.year.currentYear);
   const user = useSelector((state) => state.user.user_id);
-  useEffect(() => {
-      dispatch(fetchData("2"))
-  }, []);
+
+  
+  
+ 
  
   return (
     <div className="App">
