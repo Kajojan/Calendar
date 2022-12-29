@@ -1,13 +1,10 @@
 import {React,useState} from "react";
-import EventForm from "../Form/EventForm";
 import { useSelector } from "react-redux";
-import TimePicker from 'react-time-picker';
+import EventForm from "../Form/EventForm";
 
 
 function CurrentDay() {
-  const [value, onChange] = useState('10:00');
   const day = useSelector((state) => state.day.dayData);
- 
   return (
     <div>
       {day.event.length != 0  ? day.event.map((ele, index) => {
@@ -15,6 +12,7 @@ function CurrentDay() {
       :  <a key={index}>{ele.name}: {ele.start}-{ele.end}  {"   "}</a>;
 
       }): <a>None Of Event</a>}
+      {console.log(day)}
       <EventForm />
 
     </div>

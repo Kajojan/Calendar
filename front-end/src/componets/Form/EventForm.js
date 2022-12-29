@@ -2,18 +2,15 @@ import { React, useState } from "react";
 import { useFormik } from "formik";
 import validate from "./validate";
 import { useSelector, useDispatch } from "react-redux";
-import  {postData, postEvent}  from "../../features/CalSlice";
+import {  postEvent } from "../../features/CalSlice";
 import { actions } from "../../features/CurrentDaySlice";
 
 const EventForm = () => {
   const currentMonth = useSelector((state) => state.month.currentMonth);
-  const user = useSelector((state)=> state.user.user_id)
-  const cal = useSelector((state) => state.cal.cal);
+  const user = useSelector((state) => state.user.user_id);
   const day = useSelector((state) => state.day.dayData);
   const day_id = useSelector((state) => state.day.currentDay);
-
-  const allcal = useSelector((state)=>state.allcal.Allcall)
-  const cal_id = useSelector((state)=> state.cal.cal_id)
+  const cal_id = useSelector((state) => state.cal.cal_id);
   const dispatch = useDispatch();
   const [allday, setAllday] = useState(false);
   const formik = useFormik({
@@ -28,32 +25,8 @@ const EventForm = () => {
     onSubmit: (values) => {
       values.time = allday;
       formik.handleReset();
-      //zmiana data dnia
-      // const changeMoonth = cal
-      //   .filter((el, index) => index == day.month_Id)[0]
-      //   .map((ele) => {
-      //     if (ele.id === day.id) {
-      //       const { id, month_Id, event } = ele;
-      //       const event2 = [];
-      //       for (let i = 0; i < event.length; i++) {
-      //         event2.push(event[i]);
-      //       }
-      //       //nie można zmieniać event nie wiem dlaczego , musiałem utworzyć nowa tablice
-      //       event2.push(values);
-      //       dispatch(actions.changeData({ month_Id, id, event: event2 }));
-      //       return { month_Id, id, event: event2 };
-      //     }
-
-      //     return ele;
-      //   });
-      // //zmiana dnia w cal
-      // dispatch(
-      //   action.change(
-      //     cal.map((ele, index) => (index == currentMonth ? changeMoonth : ele))
-      //   )
-      // );
-      console.log(user,cal_id,currentMonth,day_id,values)
-      dispatch(postEvent(user,cal_id,currentMonth,day_id-1,values))
+      dispatch(actions.changeData({ ...day, event: [...day.event, values] }));
+      dispatch(postEvent(user, cal_id, currentMonth, day_id - 1, values));
     },
   });
   return (
