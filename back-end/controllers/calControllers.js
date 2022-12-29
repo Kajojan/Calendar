@@ -56,10 +56,10 @@ const addEvent = async (req, res) => {
   const event = req.body;
 
   const cal = await User.updateOne(
-    { user_id: user_id, "callendars.cal_id": cal_id },
+    { user_id: user_id },
     {
       $push: {
-        ["callendars.$.cal." + month_id + "." + day_id + ".event"]: event,
+        ["callendars."+cal_id+"." + month_id + "." + day_id + ".event"]: event,
       },
     }
   );

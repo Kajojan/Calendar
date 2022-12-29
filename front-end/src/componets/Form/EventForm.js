@@ -2,7 +2,7 @@ import { React, useState } from "react";
 import { useFormik } from "formik";
 import validate from "./validate";
 import { useSelector, useDispatch } from "react-redux";
-import  {postData}  from "../../features/CalSlice";
+import  {postData, postEvent}  from "../../features/CalSlice";
 import { actions } from "../../features/CurrentDaySlice";
 
 const EventForm = () => {
@@ -13,7 +13,7 @@ const EventForm = () => {
   const day_id = useSelector((state) => state.day.currentDay);
 
   const allcal = useSelector((state)=>state.allcal.Allcall)
-  const cal_id = allcal.length
+  const cal_id = useSelector((state)=> state.cal.cal_id)
   const dispatch = useDispatch();
   const [allday, setAllday] = useState(false);
   const formik = useFormik({
@@ -52,7 +52,8 @@ const EventForm = () => {
       //     cal.map((ele, index) => (index == currentMonth ? changeMoonth : ele))
       //   )
       // );
-      dispatch(postData(user,cal_id,currentMonth,day_id,values))
+      console.log(user,cal_id,currentMonth,day_id,values)
+      dispatch(postEvent(user,cal_id,currentMonth,day_id-1,values))
     },
   });
   return (
