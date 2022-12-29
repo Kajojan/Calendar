@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 function SingUp() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state)=> state.user.user_id)
   const formik = useFormik({
     validationSchema: Yup.object({
       firstName: Yup.string()
@@ -51,7 +52,7 @@ function SingUp() {
           password: values.password,
         })
       );
-      navigate("/mainpage");
+      navigate(`/mainpage`);
     },
   });
   return (
