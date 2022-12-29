@@ -4,6 +4,7 @@ import { calendar } from "./cal";
 
 const initialState = {
   cal: [],
+  cal_id:0,
 };
 
 const CalSlice = createSlice({
@@ -11,7 +12,8 @@ const CalSlice = createSlice({
   initialState,
   reducers: {
     change: (state, action) => {
-      state.cal = action.payload;
+      state.cal = action.payload.cal;
+      state.cal_id = action.payload.cal_id
     },
     fetchCal: (state, action) => {
       state.cal = action.payload;
@@ -27,10 +29,22 @@ export const fetchData = (user_id) => async (dispatch, getState) => {
 
 export const postData=(user_id) =>{
   const data = calendar()
-  console.log(data)
   return (dispatch) => {
     axios
       .put(`http://localhost:4000/api/cal/${user_id}`, {"cal":data})
+      .then((response) => {
+        dispatch({ type: "POST_SUCCESS", data: response.data });
+      })
+      .catch((error) => {
+        dispatch({ type: "POST_ERROR", error });
+      });
+  };
+}
+
+export const postEvent=(user_id,cal_id, month_id, day_id, data) =>{
+  return (dispatch) => {
+    axios
+      .put(`http://localhost:4000/api/cal/${user_id}/${cal_id}/${month_id}/${day_id}`, data)
       .then((response) => {
         dispatch({ type: "POST_SUCCESS", data: response.data });
       })

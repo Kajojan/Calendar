@@ -20,7 +20,7 @@ function MainPage() {
         navigate(`/callander/${user}/${currentYear}/${currentMonth}`)
     }
     const clickHandlerCal=(index)=>{
-      dispatch(action.change(callanders[index]))
+      dispatch(action.change({cal: callanders[index], cal_id:index}))
       navigate(`/callander/${user}/${currentYear}/${currentMonth}`)
     }
   return (
