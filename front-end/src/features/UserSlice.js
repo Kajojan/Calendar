@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { action } from "./CalSlice";
 
 const initialState = {
   user_id: "",

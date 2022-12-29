@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { action } from "./CalSlice";
 
 const AllcalSlice = createSlice({
   name: "AllcalSlice",
@@ -9,9 +10,12 @@ const AllcalSlice = createSlice({
     add: (state, action) => {
       state.Allcall.push(action.payload)
     },
+    upload: (state, action) =>{
+      state.Allcall = action.payload
+    }
   },
 });
 
-export const actions = AllcalSlice.actions;
+export const  {add, upload} = AllcalSlice.actions;
 
 export default AllcalSlice.reducer;

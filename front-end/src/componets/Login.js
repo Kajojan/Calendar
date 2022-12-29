@@ -6,23 +6,28 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { Add } from "../features/UserSlice";
 
-import { action } from "../features/CalSlice";
+import { upload } from "../features/AllcallSlice";
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.user_id);
 
   const check = async (email, password) => {
     const response = await axios
       .post(`http://localhost:4000/api/cal/1`, {
         email: email,
         password: password,
-      }).then((res)=>{
-        const {user_id, name, lastname, email,password, callendars} = res.data[0]
-        dispatch(Add({user_id, name, lastname, email,password,check: true}))
       })
-      const data =  response;
-      return data
-    
+      .then((res) => {
+        const { user_id, name, lastname, email, password, callendars } =
+          res.data[0];
+        dispatch(
+          Add({ user_id, name, lastname, email, password, check: true })
+        );
+        dispatch(upload(callendars));
+      });
+    const data = response;
+    return data;
   };
 
   const formik = useFormik({
@@ -35,16 +40,15 @@ function Login() {
       password: "",
     },
 
-    onSubmit:  async (values) => {
-      try{
-      const data = await check(values.email, values.password)
-      navigate('/mainpage')
-      }catch(error){
-        console.log("wrong data")
+    onSubmit: async (values) => {
+      try {
+        const data = await check(values.email, values.password)
+        console.log(data);
+        navigate(`/mainpage`);
+      } catch (error) {
+        console.log("wrong data");
       }
-        
-      }
-    
+    },
   });
   return (
     <form onSubmit={formik.handleSubmit}>

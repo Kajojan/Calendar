@@ -28,7 +28,7 @@ function App() {
       <Navi />
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/mainpage" element={<MainPage />} />
+        <Route path={`/mainpage`} element={<MainPage />} />
         <Route path={`/profile${user}`} element={<Profile />} />
         <Route path="/Callendars" element={<Callendars />} />
         <Route path="/Notice" element={<Notice />} />
