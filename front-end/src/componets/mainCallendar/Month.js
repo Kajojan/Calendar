@@ -33,6 +33,7 @@ function Month() {
   };
   return (
     <div>
+      {currentYear}
       {currentMonth > 0 ? (
         <button onClick={() => handleSubmit(Prev)}>prev month</button>
       ) : (

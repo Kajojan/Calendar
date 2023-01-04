@@ -11,7 +11,7 @@ const CalSlice = createSlice({
   name: "Cal",
   initialState,
   reducers: {
-    change: (state, action) => {
+    changeCal: (state, action) => {
       state.cal = action.payload.cal;
       state.cal_id = action.payload.cal_id
     },
@@ -24,7 +24,7 @@ const CalSlice = createSlice({
 
 export const fetchData = (user_id) => async (dispatch, getState) => {
   const cals = await axios.get(`http://localhost:4000/api/cal/${user_id}/`);
-  dispatch(action.fetchCal(cals.data[0].callendars[0].cal));
+  dispatch(fetchCal(cals.data[0].callendars[0].cal));
 };
 
 export const postData=(user_id) =>{
@@ -34,6 +34,8 @@ export const postData=(user_id) =>{
       .put(`http://localhost:4000/api/cal/${user_id}`, {"cal":data})
       .then((response) => {
         dispatch({ type: "POST_SUCCESS", data: response.data });
+        dispatch(changeCal({cal: data, cal_id: response.data.cal_id}))
+        
       })
       .catch((error) => {
         dispatch({ type: "POST_ERROR", error });
@@ -54,6 +56,6 @@ export const postEvent=(user_id,cal_id, month_id, day_id, data) =>{
   };
 }
 
-export const action = CalSlice.actions;
+export const {changeCal, fetchCal} = CalSlice.actions;
 
 export default CalSlice.reducer;

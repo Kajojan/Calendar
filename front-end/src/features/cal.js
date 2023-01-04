@@ -102,5 +102,5 @@ export   const calendar = () => {
        const days = daysInMonth(i, currentYear);
       list.push(months.slice(0,days))
      }
-     return list
+     return [{year: currentYear, cal:list}]
    };
