@@ -1,9 +1,10 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { actions } from '../features/AllcallSlice';
-import { action, postData } from '../features/CalSlice';
+import { upload } from '../features/AllcallSlice';
+import { changeCal, postData } from '../features/CalSlice';
 import Callendars from './Navi/Callendars';
+import { change } from '../features/YearSlice';
 
 
 
@@ -17,15 +18,18 @@ function MainPage() {
     const dispatch = useDispatch()
     const clickHandler=()=>{
         dispatch(postData(user))
-        navigate(`/callander/${user}/${currentYear}/${currentMonth}`)
+        dispatch(upload([...callanders,cal]))
+
     }
-    const clickHandlerCal=(index)=>{
-      dispatch(action.change({cal: callanders[index], cal_id:index}))
-      navigate(`/callander/${user}/${currentYear}/${currentMonth}`)
+    const clickHandlerCal=async (index)=> {
+      dispatch(changeCal({cal: callanders[index], cal_id:index}))
+      dispatch(change(callanders[index][0].year))
+      navigate(`/callander/${user}/${callanders[index][0].year}/${currentMonth}`)
     }
   return (
     <div className='mainpage'>
-        {  callanders.length > 0 ? callanders.map((el,index)=>{return <button key={index} onClick={()=>clickHandlerCal(index)}>{index}</button>}) : <button onClick={clickHandler}>Add Callander</button> }
+        { callanders.map((el,index)=>{return <button key={index} onClick={()=>clickHandlerCal(index)}>{index}</button>}) }
+        <button onClick={clickHandler}>Add Callander</button> 
     </div>
   )
 }

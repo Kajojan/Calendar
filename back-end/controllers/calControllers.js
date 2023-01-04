@@ -75,20 +75,25 @@ const checkLogin = async (req, res) => {
     const check = await User.find({
       $and: [{ email: email }, { password: password }],
     });
-    res.status(200).json(check);
+    console.log(check[0])
+    if(check.length > 0){
+      res.status(200).json(check);
+    }else{
+      res.status(200).json({ message:"empty data" });
+    }
   } catch {
     res.status(400).json({ error });
   }
-};
+}
 
 const addCal = async (req, res) => {
   const {user_id} = req.params
   const {cal} = req.body
-  console.log(req.body)
   try {
     const user = await User.updateOne({user_id: user_id},{$push:{'callendars': cal}})
-    console.log(user)
-    res.status(200).json(user);
+    const cal_id = await User.findOne({user_id: user_id},{callendars:1})
+    console.log(cal_id.callendars.length )
+    res.status(200).json({user:user, cal_id:cal_id.callendars.length});
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

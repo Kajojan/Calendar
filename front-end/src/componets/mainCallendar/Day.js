@@ -15,21 +15,19 @@ function Day() {
 
   const handleSubmit = (id) => {
     dispatch(actions.change(id));
-    dispatch(actions.changeData(cal[month][id-1]))
+    dispatch(actions.changeData(cal[0].cal[month][id-1]))
     navigate(`/callander/${user}/${currentYear}/${month}/${id}`);
   };
 
   return (
     <div>
-      {" "}
-
+      {console.log(cal)}
       {cal.map((el) => {
-        
-        return el
-          .filter((ele) => ele.month_Id == month)
+        return el.cal[month]
           .map((element) => {
             const key = `${element.month_Id}_${element.id}`;
             return (
+              
               <button key={key} onClick={() => handleSubmit(element.id)}>
                 {element.id}
                 

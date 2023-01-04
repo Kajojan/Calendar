@@ -14,24 +14,23 @@ const UserSlice = createSlice({
   initialState,
   reducers: {
     Add: (state, action) => {
-      state.user_id = action.payload.user_id
-      state.name = action.payload.firstName
-      state.lastname = action.payload.lastName
-      state.email = action.payload.email
-      state.password = action.payload.password
-      state.check = true
+      state.user_id = action.payload.user_id;
+      state.name = action.payload.firstName;
+      state.lastname = action.payload.lastName;
+      state.email = action.payload.email;
+      state.password = action.payload.password;
+      state.check = true;
     },
-    checkUser: (state, action) =>{
-      state.check = action.payload
-    }
+    checkUser: (state, action) => {
+      state.check = action.payload;
+    },
   },
 });
 
-
-export const postData=(data) =>{
+export const postData = (data) => {
   return (dispatch) => {
     axios
-      .post(`http://localhost:4000/api/cal/`, {...data, 'callendars': []})
+      .post(`http://localhost:4000/api/cal/`, { ...data, callendars: [] })
       .then((response) => {
         dispatch({ type: "POST_SUCCESS", data: response.data });
       })
@@ -39,10 +38,8 @@ export const postData=(data) =>{
         dispatch({ type: "POST_ERROR", error });
       });
   };
-}
+};
 
-
-
-export const {Add} = UserSlice.actions;
+export const { Add } = UserSlice.actions;
 
 export default UserSlice.reducer;

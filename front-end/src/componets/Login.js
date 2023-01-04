@@ -25,9 +25,9 @@ function Login() {
           Add({ user_id, name, lastname, email, password, check: true })
         );
         dispatch(upload(callendars));
+        return res.data[0]
       });
-    const data = response;
-    return data;
+    return  response
   };
 
   const formik = useFormik({
@@ -46,7 +46,7 @@ function Login() {
         console.log(data);
         navigate(`/mainpage`);
       } catch (error) {
-        console.log("wrong data");
+        console.log(error);
       }
     },
   });

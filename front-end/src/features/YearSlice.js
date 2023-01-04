@@ -7,7 +7,7 @@ export const YearSlice = createSlice({
   },
   reducers: {
     change: (state,action) => {
-      state.currentYear =action.payload
+      state.currentYear = action.payload
     },
     
   },

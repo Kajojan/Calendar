@@ -9,6 +9,7 @@ const AllcalSlice = createSlice({
   reducers: {
     add: (state, action) => {
       state.Allcall.push(action.payload)
+      console.log(state.Allcall, action.payload)
     },
     upload: (state, action) =>{
       state.Allcall = action.payload
