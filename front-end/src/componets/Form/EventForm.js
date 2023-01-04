@@ -26,7 +26,7 @@ const EventForm = () => {
       values.time = allday;
       formik.handleReset();
       dispatch(actions.changeData({ ...day, event: [...day.event, values] }));
-      dispatch(postEvent(user, cal_id, currentMonth, day_id - 1, values));
+      dispatch(postEvent(user, cal_id, currentMonth, day_id , values));
     },
   });
   return (

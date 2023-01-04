@@ -54,17 +54,16 @@ const deleteEvent = async (req, res) => {
 const addEvent = async (req, res) => {
   const { user_id, cal_id, month_id, day_id } = req.params;
   const event = req.body;
-
   const cal = await User.updateOne(
     { user_id: user_id },
     {
       $push: {
-        ["callendars."+cal_id+"." + month_id + "." + day_id + ".event"]: event,
+        ["callendars."+cal_id+".0.cal." + month_id + "." + day_id + ".event"]: event,
       },
     }
   );
-  const cal2 = await User.find({}, { "callendars.cal.event": 1 });
-  console.log(cal2);
+  const cal2 = await User.find({}, {user_id:1, "callendars.cal.event": 1 });
+  console.log(cal);
   res.status(200).json(cal2);
 };
 
