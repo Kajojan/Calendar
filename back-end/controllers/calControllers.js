@@ -20,8 +20,6 @@ const getSingleCallendar = async (req, res) => {
 
 const createUser = async (req, res) => {
   const { user_id, name, lastname, email, password } = req.body;
-  console.log(req.body);
-  //add to db
   try {
     const user = await User.create({
       user_id,
@@ -30,10 +28,12 @@ const createUser = async (req, res) => {
       email,
       password,
     });
-    res.status(200).json(user);
+    res.json(user);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.json({ status: "error", error: "Duplicate email" });
+    console.log(error);
   }
+
 };
 
 const deleteEvent = async (req, res) => {

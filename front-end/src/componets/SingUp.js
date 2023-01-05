@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik, Formik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { Add, postData } from "../features/UserSlice";
+import { Add, postData , error} from "../features/UserSlice";
 import { v4 as uuidv4 } from "uuid";
 
 function SingUp() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state)=> state.user.user_id)
+  const user = useSelector((state)=> state.user.check)
+  const errorMsg = useSelector((state)=> state.user.error)
+
 
   function setCookie(cname, cvalue, exdays) {
       const d = new Date();
@@ -17,6 +19,17 @@ function SingUp() {
       let expires = "expires="+ d.toUTCString();
       document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
     }
+
+  useEffect(()=>{
+    console.log("user",user)
+    if(user==true){
+      formik.handleReset()
+      navigate('/mainpage')
+    }
+    console.log("error", errorMsg)
+
+   
+  },[user,error])
 
   const formik = useFormik({
     validationSchema: Yup.object({
@@ -48,7 +61,6 @@ function SingUp() {
     },
     onSubmit: (values) => {
       const user_id = uuidv4();
-      dispatch(Add({ ...values, id: user_id }));
       dispatch(
         postData({
           user_id: user_id,
@@ -58,11 +70,10 @@ function SingUp() {
           password: values.password,
         })
       );
-      formik.handleReset();
 
       setCookie("username", values.lastName, 30)
 
-      navigate(`/mainpage`);
+      
     },
   });
   return (
@@ -125,7 +136,7 @@ function SingUp() {
         <div>{formik.errors.ConPassword}</div>
       ) : null}{" "}
       <button type="submit">Submit</button>
-      <Link to="/singup"> Sing Up</Link>
+      {!user ? <a>{errorMsg}</a> :<a></a>}
     </form>
   );
 }

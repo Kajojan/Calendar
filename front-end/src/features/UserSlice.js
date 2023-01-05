@@ -7,6 +7,8 @@ const initialState = {
   lastname: "",
   email: "",
   password: "",
+  check: false,
+  error: ""
 };
 
 const UserSlice = createSlice({
@@ -19,11 +21,15 @@ const UserSlice = createSlice({
       state.lastname = action.payload.lastName;
       state.email = action.payload.email;
       state.password = action.payload.password;
-      state.check = true;
     },
     checkUser: (state, action) => {
       state.check = action.payload;
+      // console.log(state.check)
     },
+    error:(state,action)=>{
+      state.error = action.payload
+    }
+
   },
 });
 
@@ -32,15 +38,22 @@ export const postData = (data) => {
     axios
       .post(`http://localhost:4000/api/cal/`, { ...data, callendars: [] })
       .then((response) => {
-        dispatch({ type: "POST_SUCCESS", data: response.data });
-        dispatch(Add(response.data))
+        console.log(response.data.status)
+        if(response.data.status != "error"){
+          dispatch(error(""))
+          dispatch(Add(data))
+          dispatch(checkUser(true));
+        }else{
+          dispatch(error(response.data.error))
+          dispatch(checkUser(false));
+        }
       })
       .catch((error) => {
-        dispatch({ type: "POST_ERROR", error });
+        dispatch(checkUser(false));
       });
   };
 };
 
-export const { Add } = UserSlice.actions;
+export const { Add , checkUser, error} = UserSlice.actions;
 
 export default UserSlice.reducer;
