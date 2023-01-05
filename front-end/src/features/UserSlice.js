@@ -33,6 +33,7 @@ export const postData = (data) => {
       .post(`http://localhost:4000/api/cal/`, { ...data, callendars: [] })
       .then((response) => {
         dispatch({ type: "POST_SUCCESS", data: response.data });
+        dispatch(Add(response.data))
       })
       .catch((error) => {
         dispatch({ type: "POST_ERROR", error });

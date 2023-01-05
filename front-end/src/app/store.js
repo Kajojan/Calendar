@@ -14,7 +14,6 @@ import thunk from 'redux-thunk';
     day: CurrentDaySlice,
     cal: CalSlice,
     user: UserSlice,
-    allcal: AllcalSlice
 
   }
 },applyMiddleware(thunk));

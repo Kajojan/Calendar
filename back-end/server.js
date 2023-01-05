@@ -2,9 +2,14 @@ require("dotenv").config();
 const express = require("express");
 const calRoutes = require("./routes/cal");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const app = express();
-
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+  })
+);
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "*");
