@@ -77,6 +77,7 @@ const checkLogin = async (req, res) => {
     console.log(check[0])
     if(check.length > 0){
       res.status(200).json(check);
+      
     }else{
       res.status(200).json({ message:"empty data" });
     }

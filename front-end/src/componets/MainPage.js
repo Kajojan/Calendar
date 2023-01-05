@@ -14,14 +14,14 @@ function MainPage() {
     const currentYear = useSelector((state) => state.year.currentYear);
     const user = useSelector((state)=> state.user.user_id)
     const cal = useSelector((state) => state.cal.cal);
-    const callanders = useSelector((state) => state.allcal.Allcall);
+    const callanders = useSelector((state) => state.cal.Allcall);
     const dispatch = useDispatch()
     const clickHandler=()=>{
         dispatch(postData(user))
-        dispatch(upload([...callanders,cal]))
 
     }
     const clickHandlerCal=async (index)=> {
+     
       dispatch(changeCal({cal: callanders[index], cal_id:index}))
       dispatch(change(callanders[index][0].year))
       navigate(`/callander/${user}/${callanders[index][0].year}/${currentMonth}`)

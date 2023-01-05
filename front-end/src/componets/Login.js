@@ -6,11 +6,33 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { Add } from "../features/UserSlice";
 
-import { upload } from "../features/AllcallSlice";
+import { upload } from "../features/CalSlice";
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user_id);
+
+  function getCookie(cname) {
+      let name = cname + "=";
+      let ca = document.cookie.split(';');
+      for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    }
+
+    function checkCookie() {
+      let user = getCookie("username");
+      if (user != "") {
+        alert("Welcome again " + user);
+      } 
+    } 
 
   const check = async (email, password) => {
     const response = await axios
@@ -44,9 +66,10 @@ function Login() {
       try {
         const data = await check(values.email, values.password)
         console.log(data);
+        checkCookie()
         navigate(`/mainpage`);
       } catch (error) {
-        console.log(error);
+        alert("wrong emaial or password");
       }
     },
   });

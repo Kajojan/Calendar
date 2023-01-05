@@ -10,6 +10,14 @@ function SingUp() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state)=> state.user.user_id)
+
+  function setCookie(cname, cvalue, exdays) {
+      const d = new Date();
+      d.setTime(d.getTime() + (exdays*24*60*60*1000));
+      let expires = "expires="+ d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
   const formik = useFormik({
     validationSchema: Yup.object({
       firstName: Yup.string()
@@ -41,8 +49,6 @@ function SingUp() {
     onSubmit: (values) => {
       const user_id = uuidv4();
       dispatch(Add({ ...values, id: user_id }));
-
-      formik.handleReset();
       dispatch(
         postData({
           user_id: user_id,
@@ -52,6 +58,10 @@ function SingUp() {
           password: values.password,
         })
       );
+      formik.handleReset();
+
+      setCookie("username", values.lastName, 30)
+
       navigate(`/mainpage`);
     },
   });

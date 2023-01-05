@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { calendar } from "./cal";
+import { Add } from "./UserSlice";
 
 const initialState = {
   cal: [],
-  cal_id:0,
+  cal_id: 0,
+  Allcall: [],
 };
 
 const CalSlice = createSlice({
@@ -13,12 +15,18 @@ const CalSlice = createSlice({
   reducers: {
     changeCal: (state, action) => {
       state.cal = action.payload.cal;
-      state.cal_id = action.payload.cal_id
+      state.cal_id = action.payload.cal_id;
     },
     fetchCal: (state, action) => {
       state.cal = action.payload;
     },
-
+    add: (state, action) => {
+      state.Allcall.push(action.payload);
+      console.log(state.Allcall, action.payload);
+    },
+    upload: (state, action) => {
+      state.Allcall = action.payload;
+    },
   },
 });
 
@@ -27,26 +35,29 @@ export const fetchData = (user_id) => async (dispatch, getState) => {
   dispatch(fetchCal(cals.data[0].callendars[0].cal));
 };
 
-export const postData=(user_id) =>{
-  const data = calendar()
+export const postData = (user_id) => {
+  const data = calendar();
   return (dispatch) => {
     axios
-      .put(`http://localhost:4000/api/cal/${user_id}`, {"cal":data})
+      .put(`http://localhost:4000/api/cal/${user_id}`, { cal: data })
       .then((response) => {
         dispatch({ type: "POST_SUCCESS", data: response.data });
-        dispatch(changeCal({cal: data, cal_id: response.data.cal_id}))
-        
+        dispatch(changeCal({ cal: data, cal_id: response.data.cal_id }));
+        dispatch(add(data));
       })
       .catch((error) => {
         dispatch({ type: "POST_ERROR", error });
       });
   };
-}
+};
 
-export const postEvent=(user_id,cal_id, month_id, day_id, data) =>{
+export const postEvent = (user_id, cal_id, month_id, day_id, data) => {
   return (dispatch) => {
     axios
-      .put(`http://localhost:4000/api/cal/${user_id}/${cal_id}/${month_id}/${day_id}`, data)
+      .put(
+        `http://localhost:4000/api/cal/${user_id}/${cal_id}/${month_id}/${day_id}`,
+        data
+      )
       .then((response) => {
         dispatch({ type: "POST_SUCCESS", data: response.data });
       })
@@ -54,8 +65,8 @@ export const postEvent=(user_id,cal_id, month_id, day_id, data) =>{
         dispatch({ type: "POST_ERROR", error });
       });
   };
-}
+};
 
-export const {changeCal, fetchCal} = CalSlice.actions;
+export const { changeCal, fetchCal, add, upload } = CalSlice.actions;
 
 export default CalSlice.reducer;
