@@ -30,11 +30,11 @@ function Day() {
               
               <button key={key} onClick={() => handleSubmit(element.id)}>
                 {element.id}
-                
+               
                 {
                   <ul>
                     {element.event.map((ele, index) => {
-                      return <a key={index}>{ele.name}</a>;
+                      return ele == null ? null : <a key={index}>{ele.name}</a>;
                     })}
                   </ul>
                 }

@@ -2,8 +2,7 @@ import { React, useState } from "react";
 import { useFormik } from "formik";
 import validate from "./validate";
 import { useSelector, useDispatch } from "react-redux";
-import {  postEvent } from "../../features/CalSlice";
-import { actions } from "../../features/CurrentDaySlice";
+import { actions , postEvent} from "../../features/CurrentDaySlice";
 
 const EventForm = () => {
   const currentMonth = useSelector((state) => state.month.currentMonth);
@@ -25,7 +24,6 @@ const EventForm = () => {
     onSubmit: (values) => {
       values.time = allday;
       formik.handleReset();
-      dispatch(actions.changeData({ ...day, event: [...day.event, values] }));
       dispatch(postEvent(user, cal_id, currentMonth, day_id - 1, values));
     },
   });
