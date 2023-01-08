@@ -67,6 +67,21 @@ export const postEvent = (user_id, cal_id, month_id, day_id, data) => {
   };
 };
 
+export const dellevent = (user_id, cal_id, month_id, day_id, event_id) =>{
+  return (dispatch) =>{
+    axios
+    .delete(
+      `http://localhost:4000/api/cal/${user_id}/${cal_id}/${month_id}/${day_id}/${event_id}`,
+    )
+    .then((response) => {
+      dispatch({ type: "POST_SUCCESS", data: response.data });
+    })
+    .catch((error) => {
+      dispatch({ type: "POST_ERROR", error });
+    });
+  }
+}
+
 export const { changeCal, fetchCal, add, upload } = CalSlice.actions;
 
 export default CalSlice.reducer;

@@ -33,71 +33,98 @@ const createUser = async (req, res) => {
     res.json({ status: "error", error: "Duplicate email" });
     console.log(error);
   }
-
 };
 
 const deleteEvent = async (req, res) => {
   const { user_id, cal_id, month_id, day_id, event_id } = req.params;
+  const num = parseInt(month_id, 10);
+  const num2= parseInt(day_id, 10);
 
   const cal = await User.updateOne(
-    { user_id: user_id, "callendars.cal_id": cal_id },
+    { user_id: user_id },
     {
       $unset: {
-        ["callendars.$.cal." + month_id + "." + day_id + ".event." + event_id]:
-          "",
+        ["callendars." +
+        cal_id +
+        ".0.cal." +
+        month_id +
+        "." +
+        day_id +
+        ".event." +
+        event_id]: "",
       },
     }
   );
-  res.status(200);
+  const dayData = await User.aggregate([
+    { $project: { _id: 0, cal: { $arrayElemAt: ["$callendars", 0] }, }, },
+    { $project: {_id: 0,calElement: { $arrayElemAt: ["$cal", 0] },},},
+    {$project: { _id: 0,calElement2: { $arrayElemAt: ["$calElement.cal", num] },},},
+    {$project: {_id: 0,calElement3: { $arrayElemAt: ["$calElement2", num2] },},}
+  ]);
+
+  res.status(200).json(dayData);
 };
 
 const addEvent = async (req, res) => {
   const { user_id, cal_id, month_id, day_id } = req.params;
   const event = req.body;
+  const num = parseInt(month_id, 10);
+  const num2= parseInt(day_id, 10);
   const cal = await User.updateOne(
     { user_id: user_id },
     {
       $push: {
-        ["callendars."+cal_id+".0.cal." + month_id + "." + day_id + ".event"]: event,
+        ["callendars." +
+        cal_id +
+        ".0.cal." +
+        month_id +
+        "." +
+        day_id +
+        ".event"]: event,
       },
     }
   );
-  const cal2 = await User.find({}, {user_id:1, "callendars.cal.event": 1 });
-  console.log(cal);
-  res.status(200).json(cal2);
+  const dayData = await User.aggregate([
+    { $project: { _id: 0, cal: { $arrayElemAt: ["$callendars", 0] }, }, },
+    { $project: {_id: 0,calElement: { $arrayElemAt: ["$cal", 0] },},},
+    {$project: { _id: 0,calElement2: { $arrayElemAt: ["$calElement.cal", num] },},},
+    {$project: {_id: 0,calElement3: { $arrayElemAt: ["$calElement2", num2] },},}
+  ]);
+  
+  res.status(200).json(dayData);
 };
 
 const checkLogin = async (req, res) => {
-
   const { email, password } = req.body;
   try {
     const check = await User.find({
       $and: [{ email: email }, { password: password }],
     });
-    console.log(check[0])
-    if(check.length > 0){
+    console.log(check[0]);
+    if (check.length > 0) {
       res.status(200).json(check);
-      
-    }else{
-      res.status(200).json({ message:"empty data" });
+    } else {
+      res.status(200).json({ message: "empty data" });
     }
   } catch {
     res.status(400).json({ error });
   }
-}
+};
 
 const addCal = async (req, res) => {
-  const {user_id} = req.params
-  const {cal} = req.body
+  const { user_id } = req.params;
+  const { cal } = req.body;
   try {
-    const user = await User.updateOne({user_id: user_id},{$push:{'callendars': cal}})
-    const cal_id = await User.findOne({user_id: user_id},{callendars:1})
-    console.log(cal_id.callendars.length )
-    res.status(200).json({user:user, cal_id:cal_id.callendars.length});
+    const user = await User.updateOne(
+      { user_id: user_id },
+      { $push: { callendars: cal } }
+    );
+    const cal_id = await User.findOne({ user_id: user_id }, { callendars: 1 });
+    console.log(cal_id.callendars.length);
+    res.status(200).json({ user: user, cal_id: cal_id.callendars.length });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-
 };
 
 module.exports = {
