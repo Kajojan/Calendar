@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Next, Prev } from "../../features/MonthSlice";
 import { useNavigate } from "react-router-dom";
+import CalSettings from "./CalSettings";
 
 function Month() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [pop,setpop]=useState(false)
   const currentMonth = useSelector((state) => state.month.currentMonth);
   const currentYear = useSelector((state) => state.year.currentYear);
   const user = useSelector((state) => state.user.user_id);
@@ -33,6 +35,8 @@ function Month() {
   };
   return (
     <div>
+      <button onClick={()=>setpop(true)}>Cal Settings</button>
+      {pop ? <CalSettings setpop={setpop}/> : null}
       {currentYear}
       {currentMonth > 0 ? (
         <button onClick={() => handleSubmit(Prev)}>prev month</button>

@@ -1,3 +1,4 @@
+const user = require("../models/user");
 const User = require("../models/user");
 
 const getCallendars = async (req, res) => {
@@ -114,6 +115,9 @@ const checkLogin = async (req, res) => {
 const addCal = async (req, res) => {
   const { user_id } = req.params;
   const { cal } = req.body;
+  const check = await User.findOne({ user_id: user_id });
+  if(check != null)
+  {
   try {
     const user = await User.updateOne(
       { user_id: user_id },
@@ -123,9 +127,14 @@ const addCal = async (req, res) => {
     console.log(cal_id.callendars.length);
     res.status(200).json({ user: user, cal_id: cal_id.callendars.length });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.log(user)
+    res.status(400).json({ error: "nie ma użytkownika" });
   }
+}else{
+  res.json({ status: "error", error: "User not find" });
+}
 };
+
 
 module.exports = {
   createUser,

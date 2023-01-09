@@ -7,6 +7,7 @@ const initialState = {
   cal: [],
   cal_id: 0,
   Allcall: [],
+  error: false
 };
 
 const CalSlice = createSlice({
@@ -27,6 +28,9 @@ const CalSlice = createSlice({
     upload: (state, action) => {
       state.Allcall = action.payload;
     },
+    error:(state, action)=>{
+      state.error = action.payload
+    }
   },
 });
 
@@ -35,15 +39,21 @@ export const fetchData = (user_id) => async (dispatch, getState) => {
   dispatch(fetchCal(cals.data[0].callendars[0].cal));
 };
 
-export const postData = (user_id) => {
-  const data = calendar();
+export const postData = (user_id,data=calendar(user_id)) => {
   return (dispatch) => {
     axios
       .put(`http://localhost:4000/api/cal/${user_id}`, { cal: data })
       .then((response) => {
-        dispatch({ type: "POST_SUCCESS", data: response.data });
-        dispatch(changeCal({ cal: data, cal_id: response.data.cal_id }));
-        dispatch(add(data));
+        if(response.data.status != "error"){
+          console.log(response)
+          dispatch(changeCal({ cal: data, cal_id: response.data.cal_id }));
+          dispatch(add(data));
+          dispatch(error(false))
+
+        }else{
+          dispatch(error(response.data.error))
+
+        }
       })
       .catch((error) => {
         dispatch({ type: "POST_ERROR", error });
@@ -51,37 +61,8 @@ export const postData = (user_id) => {
   };
 };
 
-export const postEvent = (user_id, cal_id, month_id, day_id, data) => {
-  return (dispatch) => {
-    axios
-      .put(
-        `http://localhost:4000/api/cal/${user_id}/${cal_id}/${month_id}/${day_id}`,
-        data
-      )
-      .then((response) => {
-        dispatch({ type: "POST_SUCCESS", data: response.data });
-      })
-      .catch((error) => {
-        dispatch({ type: "POST_ERROR", error });
-      });
-  };
-};
 
-export const dellevent = (user_id, cal_id, month_id, day_id, event_id) =>{
-  return (dispatch) =>{
-    axios
-    .delete(
-      `http://localhost:4000/api/cal/${user_id}/${cal_id}/${month_id}/${day_id}/${event_id}`,
-    )
-    .then((response) => {
-      dispatch({ type: "POST_SUCCESS", data: response.data });
-    })
-    .catch((error) => {
-      dispatch({ type: "POST_ERROR", error });
-    });
-  }
-}
 
-export const { changeCal, fetchCal, add, upload } = CalSlice.actions;
+export const { changeCal, fetchCal, add, upload, error } = CalSlice.actions;
 
 export default CalSlice.reducer;

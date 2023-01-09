@@ -94,7 +94,7 @@
     return days;
   };
 
-export   const calendar = () => {
+export   const calendar = (user_id) => {
   const currentYear = new Date().getFullYear();
     const list=[]
      for (let i = 1; i <= 12; i++) {
@@ -102,5 +102,5 @@ export   const calendar = () => {
        const days = daysInMonth(i, currentYear);
       list.push(months.slice(0,days))
      }
-     return [{year: currentYear, cal:list, users: []}]
+     return [{year: currentYear, cal:list, users: [user_id]}]
    };
