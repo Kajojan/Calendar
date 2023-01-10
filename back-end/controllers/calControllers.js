@@ -114,8 +114,10 @@ const checkLogin = async (req, res) => {
 
 const addCal = async (req, res) => {
   const { user_id } = req.params;
-  const { cal } = req.body;
+  const { cal , seUser_id,seUsersCal_id} = req.body;
+  console.log(req.body)
   const check = await User.findOne({ user_id: user_id });
+  console.log(check)
   if(check != null)
   {
   try {
@@ -123,9 +125,17 @@ const addCal = async (req, res) => {
       { user_id: user_id },
       { $push: { callendars: cal } }
     );
+    console.log(user)
+    if (seUser_id != null || seUser_id != null) {
+      console.log(seUser_id, user_id)
+      const updateUsers = await User.updateOne({user_id: seUser_id},{$push: {
+        ["callendars." +
+        seUsersCal_id +
+        ".0.users"]: user_id,},})
+    }
     const cal_id = await User.findOne({ user_id: user_id }, { callendars: 1 });
     console.log(cal_id.callendars.length);
-    res.status(200).json({ user: user, cal_id: cal_id.callendars.length });
+    res.status(200).json({ cal_id: cal_id.callendars.length });
   } catch (error) {
     console.log(user)
     res.status(400).json({ error: "nie ma użytkownika" });

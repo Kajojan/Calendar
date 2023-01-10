@@ -18,7 +18,6 @@ function App() {
   const currentMonth = useSelector((state) => state.month.currentMonth);
   const currentYear = useSelector((state) => state.year.currentYear);
   const user = useSelector((state) => state.user.user_id);
-  console.log(currentMonth, currentYear, user)
   return (
     <div className="App">
       <Navi />

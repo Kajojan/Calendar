@@ -24,7 +24,6 @@ const UserSlice = createSlice({
     },
     checkUser: (state, action) => {
       state.check = action.payload;
-      // console.log(state.check)
     },
     error:(state,action)=>{
       state.error = action.payload
@@ -38,7 +37,6 @@ export const postData = (data) => {
     axios
       .post(`http://localhost:4000/api/cal/`, { ...data, callendars: [] })
       .then((response) => {
-        console.log(response.data.status)
         if(response.data.status != "error"){
           dispatch(error(""))
           dispatch(Add(data))

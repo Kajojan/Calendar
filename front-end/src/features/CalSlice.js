@@ -7,7 +7,7 @@ const initialState = {
   cal: [],
   cal_id: 0,
   Allcall: [],
-  error: false
+  error: {status: true , data: ""}
 };
 
 const CalSlice = createSlice({
@@ -23,13 +23,15 @@ const CalSlice = createSlice({
     },
     add: (state, action) => {
       state.Allcall.push(action.payload);
-      console.log(state.Allcall, action.payload);
     },
     upload: (state, action) => {
       state.Allcall = action.payload;
     },
     error:(state, action)=>{
       state.error = action.payload
+    },
+    addUser:(state,action)=>{
+      state.cal[0].users = (action.payload)
     }
   },
 });
@@ -39,19 +41,20 @@ export const fetchData = (user_id) => async (dispatch, getState) => {
   dispatch(fetchCal(cals.data[0].callendars[0].cal));
 };
 
-export const postData = (user_id,data=calendar(user_id)) => {
+export const postData = (user_id,data=calendar(user_id),seUser_id=null, cal_id = null) => {
   return (dispatch) => {
     axios
-      .put(`http://localhost:4000/api/cal/${user_id}`, { cal: data })
+      .put(`http://localhost:4000/api/cal/${user_id}`, { seUser_id:seUser_id, seUsersCal_id: cal_id , cal: data })
       .then((response) => {
         if(response.data.status != "error"){
-          console.log(response)
-          dispatch(changeCal({ cal: data, cal_id: response.data.cal_id }));
-          dispatch(add(data));
-          dispatch(error(false))
-
+          if(seUser_id == null){
+            dispatch(changeCal({ cal: data, cal_id: response.data.cal_id }));
+            dispatch(add(data));
+          }
+          dispatch(addUser(data[0].users))
+          dispatch(error({status: false, data:""}))
         }else{
-          dispatch(error(response.data.error))
+          dispatch(error({status: true, data: response.data.error}))
 
         }
       })
@@ -63,6 +66,6 @@ export const postData = (user_id,data=calendar(user_id)) => {
 
 
 
-export const { changeCal, fetchCal, add, upload, error } = CalSlice.actions;
+export const { changeCal, fetchCal, add, upload, error,addUser } = CalSlice.actions;
 
 export default CalSlice.reducer;

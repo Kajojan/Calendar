@@ -21,7 +21,6 @@ function Day() {
 
   return (
     <div>
-      {console.log(cal)}
       {cal.map((el) => {
         return el.cal[month]
           .map((element) => {
