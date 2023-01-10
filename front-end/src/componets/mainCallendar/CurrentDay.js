@@ -6,7 +6,6 @@ import PopUp from "./PopUp";
 function CurrentDay() {
   const [pop, setPop]=useState([false,"",0])
   const day = useSelector((state) => state.day.dayData);
-  console.log(day.event)
   return (
     <div>
       {day.event.length != 0 ? (
@@ -27,9 +26,7 @@ function CurrentDay() {
       ) : (
         <a>None Of Event</a>
       )}
-      {console.log(pop)}
       {pop[0] ? <PopUp setPop={setPop} pop={pop}/> : null }
-      {console.log(day)}
       <EventForm />
     </div>
   );

@@ -10,10 +10,8 @@ function PopUp({setPop,pop}) {
     const day_id = useSelector((state)=>state.day.currentDay)
     const event_id = pop[2]
     const day = useSelector((state) => state.day.dayData);
-    console.log(month_id,day_id,event_id)
 
     const clickHandler=()=>{
-        console.log("usun")
         setPop([false,pop[1], pop[2]])
         dispatch(dellevent(user_id,cal_id,month_id,day_id,event_id))
     }

@@ -65,7 +65,6 @@ function Login() {
     onSubmit: async (values) => {
       try {
         const data = await check(values.email, values.password)
-        console.log(data);
         checkCookie()
         navigate(`/mainpage`);
       } catch (error) {

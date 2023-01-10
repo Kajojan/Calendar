@@ -44,7 +44,7 @@ function Month() {
         <></>
       )}
       {
-        <button onClick={() => console.log(currentMonth)}>
+        <button >
           {monthNames[currentMonth]}
         </button>
       }

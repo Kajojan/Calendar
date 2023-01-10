@@ -21,14 +21,10 @@ function SingUp() {
     }
 
   useEffect(()=>{
-    console.log("user",user)
     if(user==true){
       formik.handleReset()
       navigate('/mainpage')
     }
-    console.log("error", errorMsg)
-
-   
   },[user,error])
 
   const formik = useFormik({

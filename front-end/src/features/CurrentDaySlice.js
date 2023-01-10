@@ -14,7 +14,6 @@ const CurrentDaySlice = createSlice({
     },
     changeData: (state, action) => {
       state.dayData = action.payload;
-      console.log(action.payload)
     }
   },
 });
