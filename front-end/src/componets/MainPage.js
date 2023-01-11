@@ -1,37 +1,55 @@
-import React from 'react'
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { upload } from '../features/AllcallSlice';
-import { changeCal, postData } from '../features/CalSlice';
-import Callendars from './Navi/Callendars';
-import { change } from '../features/YearSlice';
-
-
+import { upload } from "../features/AllcallSlice";
+import { changeCal, postData } from "../features/CalSlice";
+import Callendars from "./Navi/Callendars";
+import { change } from "../features/YearSlice";
 
 function MainPage() {
-    const navigate = useNavigate();
-    const currentMonth = useSelector((state) => state.month.currentMonth);
-    const currentYear = useSelector((state) => state.year.currentYear);
-    const user = useSelector((state)=> state.user.user_id)
-    const cal = useSelector((state) => state.cal.cal);
-    const callanders = useSelector((state) => state.cal.Allcall);
-    const dispatch = useDispatch()
-    const clickHandler=()=>{
-        dispatch(postData(user))
+  const navigate = useNavigate();
+  const currentMonth = useSelector((state) => state.month.currentMonth);
+  const currentYear = useSelector((state) => state.year.currentYear);
+  const user = useSelector((state) => state.user.user_id);
+  const cal = useSelector((state) => state.cal.cal);
+  const callanders = useSelector((state) => state.cal.Allcall);
+  const dispatch = useDispatch();
+  const [pop, setPop] = useState(false);
+  const [name, setName] = useState("");
 
-    }
-    const clickHandlerCal=async (index)=> {
-     
-      dispatch(changeCal({cal: callanders[index], cal_id:index}))
-      dispatch(change(callanders[index][0].year))
-      navigate(`/callander/${user}/${callanders[index][0].year}/${currentMonth}`)
-    }
+  const clickHandler = () => {
+    dispatch(postData(user,name));
+    setPop(false)
+    setName("")
+  };
+  const clickHandlerCal = async (index) => {
+    dispatch(changeCal({ cal: callanders[index]}));
+    dispatch(change(callanders[index].year));
+    navigate(`/callander/${user}/${callanders[index].year}/${currentMonth}`);
+  };
+
+  const handleChange = (event) => {
+    setName(event.target.value);
+  };
   return (
-    <div className='mainpage'>
-        { callanders.map((el,index)=>{return <button key={index} onClick={()=>clickHandlerCal(index)}>{index}</button>}) }
-        <button onClick={clickHandler}>Add Callander</button> 
+    <div className="mainpage">
+      {callanders.map((el, index) => {
+        return el ? (
+          <button key={index} onClick={() => clickHandlerCal(index)}>
+            {el.name}
+          </button>
+        ) : null;
+      })}
+      <button onClick={()=>setPop(true)}>Add Callander</button>
+      {pop ? (
+        <div className="namePurpose">
+          <label>Name/Purpose of calendar</label>
+          <input onChange={handleChange} value={name}></input>
+          <button onClick={clickHandler}>Add</button>
+        </div>
+      ) : null}
     </div>
-  )
+  );
 }
 
-export default MainPage
+export default MainPage;

@@ -9,6 +9,7 @@ const {
     addEvent,
     checkLogin,
     addCal,
+    deleteCal,
 } = require('../controllers/calControllers')
 
 const router = express.Router()
@@ -26,6 +27,8 @@ router.post('/:login', checkLogin)
 router.put('/:user_id/:cal_id/:month_id/:day_id/', addEvent)
 
 router.delete('/:user_id/:cal_id/:month_id/:day_id/:event_id',deleteEvent)
+
+router.delete('/:user_id/:cal_id', deleteCal)
 
 router.patch('/:id', (req,res)=>{
     res.json({mssg: 'update single'})

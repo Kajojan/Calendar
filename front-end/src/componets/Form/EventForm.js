@@ -8,8 +8,10 @@ const EventForm = () => {
   const currentMonth = useSelector((state) => state.month.currentMonth);
   const user = useSelector((state) => state.user.user_id);
   const day = useSelector((state) => state.day.dayData);
+  const cal = useSelector((state)=>state.cal.cal)
   const day_id = useSelector((state) => state.day.currentDay);
-  const cal_id = useSelector((state) => state.cal.cal_id);
+  const cal_id = cal.cal_id
+  console.log(cal_id)
   const dispatch = useDispatch();
   const [allday, setAllday] = useState(false);
   const formik = useFormik({
