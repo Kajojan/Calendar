@@ -37,6 +37,7 @@ export const postData = (data) => {
     axios
       .post(`http://localhost:4000/api/cal/`, { ...data, callendars: [] })
       .then((response) => {
+        console.log(response)
         if(response.data.status != "error"){
           dispatch(error(""))
           dispatch(Add(data))

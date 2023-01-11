@@ -15,31 +15,27 @@ function Day() {
 
   const handleSubmit = (id) => {
     dispatch(actions.change(id));
-    dispatch(actions.changeData(cal[0].cal[month][id-1]))
+    dispatch(actions.changeData(cal.cal[month][id-1]))
     navigate(`/callander/${user}/${currentYear}/${month}/${id}`);
   };
 
   return (
     <div>
-      {cal.map((el) => {
-        return el.cal[month]
-          .map((element) => {
-            const key = `${element.month_Id}_${element.id}`;
+      {cal.cal[month].map((el) => {
+            const key = `${el.month_Id}_${el.id}`;
             return (
-              
-              <button key={key} onClick={() => handleSubmit(element.id)}>
-                {element.id}
-               
+              <button key={key} onClick={() => handleSubmit(el.id)}>
+                {el.id}
                 {
                   <ul>
-                    {element.event.map((ele, index) => {
+                    {el.event.map((ele, index) => {
                       return ele == null ? null : <a key={index}>{ele.name}</a>;
                     })}
                   </ul>
                 }
               </button>
             );
-          });
+        
       })}
     </div>
   );

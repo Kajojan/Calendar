@@ -26,7 +26,7 @@ export const postEvent = (user_id, cal_id, month_id, day_id, data) => {
         data
       )
       .then((response) => {
-        dispatch(actions.changeData(response.data[0].calElement3));
+        dispatch(actions.changeData(response.data.cal3));
         
       })
       .catch((error) => {

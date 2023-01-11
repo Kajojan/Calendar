@@ -1,13 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { Navigate, useNavigate } from "react-router-dom";
 import { calendar } from "./cal";
-import { Add } from "./UserSlice";
 
 const initialState = {
   cal: [],
-  cal_id: 0,
   Allcall: [],
-  error: {status: true , data: ""}
+  error: { status: true, data: "" },
 };
 
 const CalSlice = createSlice({
@@ -16,46 +15,58 @@ const CalSlice = createSlice({
   reducers: {
     changeCal: (state, action) => {
       state.cal = action.payload.cal;
-      state.cal_id = action.payload.cal_id;
+      console.log(action.payload.cal)
+      
     },
-    fetchCal: (state, action) => {
-      state.cal = action.payload;
-    },
+    // fetchCal: (state, action) => {
+    //   state.cal = action.payload;
+    // },
     add: (state, action) => {
       state.Allcall.push(action.payload);
     },
     upload: (state, action) => {
       state.Allcall = action.payload;
     },
-    error:(state, action)=>{
-      state.error = action.payload
+    error: (state, action) => {
+      state.error = action.payload;
     },
-    addUser:(state,action)=>{
-      state.cal[0].users = (action.payload)
-    }
+    addUser: (state, action) => {
+      state.cal.users = action.payload;
+    },
   },
 });
 
-export const fetchData = (user_id) => async (dispatch, getState) => {
-  const cals = await axios.get(`http://localhost:4000/api/cal/${user_id}/`);
-  dispatch(fetchCal(cals.data[0].callendars[0].cal));
-};
+// export const fetchData = (user_id) => async (dispatch, getState) => {
+//   const cals = await axios.get(`http://localhost:4000/api/cal/${user_id}/`);
+//   dispatch(fetchCal(cals.data.callendars.cal));
+// };
 
-export const postData = (user_id,data=calendar(user_id),seUser_id=null, cal_id = null) => {
+export const postData = (
+  user_id,
+  name ,
+  data = calendar(user_id,name),
+  seUser_id = null,
+  cal_id = null,
+  role = null
+) => {
   return (dispatch) => {
     axios
-      .put(`http://localhost:4000/api/cal/${user_id}`, { seUser_id:seUser_id, seUsersCal_id: cal_id , cal: data })
+      .put(`http://localhost:4000/api/cal/${user_id}`, {
+        seUser_id: seUser_id,
+        seUsersCal_id: cal_id,
+        role: role,
+        data: data,
+      })
       .then((response) => {
-        if(response.data.status != "error"){
-          if(seUser_id == null){
-            dispatch(changeCal({ cal: data, cal_id: response.data.cal_id }));
+        if (response.data.status != "error") {
+          if (seUser_id == null) {
+            dispatch(changeCal({ cal: data }));
             dispatch(add(data));
           }
-          dispatch(addUser(data[0].users))
-          dispatch(error({status: false, data:""}))
-        }else{
-          dispatch(error({status: true, data: response.data.error}))
-
+          dispatch(addUser(data.users));
+          dispatch(error({ status: false, data: "" }));
+        } else {
+          dispatch(error({ status: true, data: response.data.error }));
         }
       })
       .catch((error) => {
@@ -64,8 +75,20 @@ export const postData = (user_id,data=calendar(user_id),seUser_id=null, cal_id =
   };
 };
 
+export const delCal = (user_id, cal_id) => {
+  return (dispatch) => {
+    axios
+      .delete(`http://localhost:4000/api/cal/${user_id}/${cal_id}`)
+      .then((response) => {
+        dispatch(upload(response.data[0].callendars))
+      })
+      .catch((error) => {
+        dispatch({ type: "POST_ERROR", error });
+      });
+  };
+};
 
-
-export const { changeCal, fetchCal, add, upload, error,addUser } = CalSlice.actions;
+export const { changeCal, fetchCal, add, upload, error, addUser } =
+  CalSlice.actions;
 
 export default CalSlice.reducer;

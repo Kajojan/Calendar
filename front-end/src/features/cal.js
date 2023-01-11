@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "uuid";
+ 
  const month = (i) => {
     return [
       { month_Id: i, id: 1, event: [] },
@@ -94,7 +96,7 @@
     return days;
   };
 
-export   const calendar = (user_id) => {
+export   const calendar = (user_id, name) => {
   const currentYear = new Date().getFullYear();
     const list=[]
      for (let i = 1; i <= 12; i++) {
@@ -102,5 +104,6 @@ export   const calendar = (user_id) => {
        const days = daysInMonth(i, currentYear);
       list.push(months.slice(0,days))
      }
-     return [{year: currentYear, cal:list, users: [user_id]}]
+     const id = uuidv4()
+     return {name: name, cal_id: id ,year: currentYear, cal:list, users: {admin: user_id, reader:[], spec:[]}}
    };
