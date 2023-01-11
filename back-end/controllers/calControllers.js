@@ -109,41 +109,42 @@ const addCal = async (req, res) => {
   const { data, seUser_id, seUsersCal_id, role } = req.body;
   console.log("req:   ", req.body);
   const check = await User.findOne({ user_id: user_id }, { lastname: 1 });
-  console.log(check);
   if (check != null) {
     try {
       const user = await User.updateOne(
         { user_id: user_id },
         { $push: { callendars: data } }
       );
-      console.log(user);
+      console.log("user", user);
       if (seUser_id != null || seUsersCal_id != null) {
         console.log("lastname:", check.lastname);
-        console.log(seUser_id, user_id);
+        console.log("callendars.$[].users." + role)
 
         // db.users.updateMany(
         //   { "callendars.cal_id": "ba7983a3-8cff-4bcd-8557-2cf040591fdc" },
         //   { $push: { "callendars.0.users.reader": ["12", "check.lastname"] } }
         // );
 
+        // db.users.updateMany(
+        //   { "callendars.cal_id": "ce89c179-bb4a-4061-9f7b-cb77f646856c" },
+        //   { $push: { "callendars.$[].users.reader": ["12", "check.lastname"] } }
+        // );
+
         const updateUsers = await User.updateMany(
-          { "callendars.cal_id": cal_id },
+          { "callendars.cal_id": seUsersCal_id },
           {
             $push: {
-              "callendars.0.users.reader": [user_id, check.lastname],
+              ["callendars.$[].users." + role]: [user_id, check.lastname],
             },
           }
         );
         console.log("updated", updateUsers);
       }
-      const cal_id = await User.findOne(
-        { user_id: user_id },
-        { callendars: 1 }
-      );
+      
       // console.log(cal_id.callendars.length);
-      res.status(200).json({ cal_id: cal_id.callendars.length });
+      res.status(200).json({ cal_id: seUser_id});
     } catch (error) {
-      // console.log(user);
+      console.log(seUser_id);
       res.json({ status: "error", error: "User not find" });
     }
   } else {
