@@ -11,14 +11,14 @@ function MainPage() {
   const currentMonth = useSelector((state) => state.month.currentMonth);
   const currentYear = useSelector((state) => state.year.currentYear);
   const user = useSelector((state) => state.user.user_id);
-  const cal = useSelector((state) => state.cal.cal);
+  const lastname = useSelector((state) => state.user.lastname);
   const callanders = useSelector((state) => state.cal.Allcall);
   const dispatch = useDispatch();
   const [pop, setPop] = useState(false);
   const [name, setName] = useState("");
 
   const clickHandler = () => {
-    dispatch(postData(user,name));
+    dispatch(postData(user,name,lastname));
     setPop(false)
     setName("")
   };

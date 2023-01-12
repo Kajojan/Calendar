@@ -96,7 +96,7 @@ import { v4 as uuidv4 } from "uuid";
     return days;
   };
 
-export   const calendar = (user_id, name) => {
+export   const calendar = (user_id, name,admin_name) => {
   const currentYear = new Date().getFullYear();
     const list=[]
      for (let i = 1; i <= 12; i++) {
@@ -105,5 +105,5 @@ export   const calendar = (user_id, name) => {
       list.push(months.slice(0,days))
      }
      const id = uuidv4()
-     return {name: name, cal_id: id ,year: currentYear, cal:list, users: {admin: user_id, reader:[], spec:[]}}
+     return {name: name, cal_id: id ,year: currentYear, cal:list, users: {admin: [user_id,admin_name], reader:[], spec:[]}}
    };

@@ -8,6 +8,7 @@ function CalSettings({ setpop }) {
   const dispatch = useDispatch();
   const cal = useSelector((state) => state.cal.cal);
   const user_id = useSelector((state) => state.user.user_id);
+  const lastname = useSelector((state)=> state.user.lastname)
   const cal_id = cal.cal_id
   const errorMsg = useSelector((state) => state.cal.error);
   const [input, setinput] = useState("");
@@ -39,7 +40,7 @@ function CalSettings({ setpop }) {
     } else if (input == "") {
       dispatch(error({ status: true, data: "Input user_id" }));
     } else {
-      dispatch(postData(input,cal.name, cal, user_id, cal_id, role));
+      dispatch(postData(input,cal.name, lastname, cal, user_id, cal_id, role));
     }
   };
 
@@ -50,17 +51,17 @@ function CalSettings({ setpop }) {
 
   return (
     <div className="CalSettings">
-      {/* <div className="users">
+      <div className="users">
         <a>Users list: </a>
-        <button>admin: {cal.users.admin} </button>
-
-        {cal.users.reder.map((el, index) => {
+        {console.log(cal)}
+        <button>admin: {cal.users.admin[1]} </button>
+        {cal.users.reader.map((el, index) => {
           return <button key={index}>reader {el[1]}</button>;
         })}
         {cal.users.spec.map((el, index) => {
           return <button key={index}>spectaitor {el[1]}</button>;
         })}
-      </div> */}
+      </div>
       <div className="add_users">
         <label>Enter user ID:</label>
         <input onChange={handleChange} value={input}></input>

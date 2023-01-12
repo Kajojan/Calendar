@@ -44,10 +44,12 @@ const CalSlice = createSlice({
 export const postData = (
   user_id,
   name ,
-  data = calendar(user_id,name),
+  admin_name = null,
+  data = calendar(user_id,name,admin_name),
   seUser_id = null,
   cal_id = null,
-  role = null
+  role = null,
+  
 ) => {
   return (dispatch) => {
     axios
@@ -58,12 +60,13 @@ export const postData = (
         data: data,
       })
       .then((response) => {
+        console.log(response.data.cal[0])
         if (response.data.status != "error") {
           if (seUser_id == null) {
-            dispatch(changeCal({ cal: data }));
-            dispatch(add(data));
+            dispatch(changeCal(response.data.cal[0]));
+            dispatch(add(response.data.cal[0]));
           }
-          dispatch(addUser(data.users));
+          dispatch(addUser(response.data.cal[0].users));
           dispatch(error({ status: false, data: "" }));
         } else {
           dispatch(error({ status: true, data: response.data.error }));
