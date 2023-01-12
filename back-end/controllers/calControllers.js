@@ -133,9 +133,7 @@ const addCal = async (req, res) => {
         { $match: { user_id: seUser_id } },
         { $project: { _id: 0, cal: { $filter: { input: "$callendars", as: "cal", cond: { $eq: [ "$$cal.cal_id", seUsersCal_id ] } } } } }
     ]);
-    
-      console.log(dayData[0])
-      res.status(200).json(dayData[0]);
+          res.status(200).json(dayData[0]);
     } catch (error) {
       console.log(seUser_id);
       res.json({ status: "error", error: "User not find" });
