@@ -60,14 +60,16 @@ export const postData = (
         data: data,
       })
       .then((response) => {
-        console.log(response.data.cal[0])
+        console.log("respone : ",response.data)
         if (response.data.status != "error") {
           if (seUser_id == null) {
-            dispatch(changeCal(response.data.cal[0]));
-            dispatch(add(response.data.cal[0]));
+            dispatch(changeCal(data));
+            dispatch(add(data));
+          }else{
+            dispatch(addUser(response.data.cal[0].users));
+            dispatch(error({ status: false, data: "" }));
           }
-          dispatch(addUser(response.data.cal[0].users));
-          dispatch(error({ status: false, data: "" }));
+          
         } else {
           dispatch(error({ status: true, data: response.data.error }));
         }
