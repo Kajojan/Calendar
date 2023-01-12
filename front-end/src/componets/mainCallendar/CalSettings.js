@@ -8,8 +8,8 @@ function CalSettings({ setpop }) {
   const dispatch = useDispatch();
   const cal = useSelector((state) => state.cal.cal);
   const user_id = useSelector((state) => state.user.user_id);
-  const lastname = useSelector((state)=> state.user.lastname)
-  const cal_id = cal.cal_id
+  const lastname = useSelector((state) => state.user.lastname);
+  const cal_id = cal.cal_id;
   const errorMsg = useSelector((state) => state.cal.error);
   const [input, setinput] = useState("");
   const [sure, setSure] = useState(false);
@@ -23,12 +23,11 @@ function CalSettings({ setpop }) {
 
   const handleChange = (event) => {
     setinput(event.target.value);
-    
   };
-  const selectHandler=(event)=>{
-    setRole(event.target.value)
-    console.log(event.target.value)
-  }
+  const selectHandler = (event) => {
+    setRole(event.target.value);
+    console.log(event.target.value);
+  };
   const clickHandler = () => {
     setpop(false);
   };
@@ -40,7 +39,7 @@ function CalSettings({ setpop }) {
     } else if (input == "") {
       dispatch(error({ status: true, data: "Input user_id" }));
     } else {
-      dispatch(postData(input,cal.name, lastname, cal, user_id, cal_id, role));
+      dispatch(postData(input, cal.name, lastname, cal, user_id, cal_id, role));
     }
   };
 
@@ -62,24 +61,29 @@ function CalSettings({ setpop }) {
           return <button key={index}>spectaitor {el[1]}</button>;
         })}
       </div>
+      {user_id == cal.users.admin[0] ? (
       <div className="add_users">
         <label>Enter user ID:</label>
         <input onChange={handleChange} value={input}></input>
-        <select  onChange={selectHandler}>
+        <select onChange={selectHandler}>
           <option value="admin">Admin</option>
           <option value="reader">Reader</option>
           <option value="spec">Spectator</option>
         </select>
         <button onClick={DataHandler}>Add User</button>
         {errorMsg.status ? <a>{errorMsg.data}</a> : null}
-      </div>
+      </div>) : null }
 
-      <button onClick={() => setSure(true)}>Delete this calendar</button>
-      {sure ? (
-        <div className="sure">
-          <a>Are you sure to delete this calendar?</a>
-          <button onClick={sureHandler}>Yes</button>
-          <button onClick={() => setSure(false)}>No</button>
+      {user_id == cal.users.admin[0] ? (
+        <div className="Delete">
+          <button onClick={() => setSure(true)}>Delete this calendar</button>
+          {sure ? (
+            <div className="sure">
+              <a>Are you sure to delete this calendar?</a>
+              <button onClick={sureHandler}>Yes</button>
+              <button onClick={() => setSure(false)}>No</button>
+            </div>
+          ) : null}{" "}
         </div>
       ) : null}
 
