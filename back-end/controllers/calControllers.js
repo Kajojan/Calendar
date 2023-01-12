@@ -117,32 +117,30 @@ const addCal = async (req, res) => {
       );
       console.log("user", user);
       if (seUser_id != null || seUsersCal_id != null) {
-        console.log("lastname:", check.lastname);
-        console.log("callendars.$[].users." + role)
-
-        // db.users.updateMany(
-        //   { "callendars.cal_id": "ba7983a3-8cff-4bcd-8557-2cf040591fdc" },
-        //   { $push: { "callendars.0.users.reader": ["12", "check.lastname"] } }
-        // );
-
-        // db.users.updateMany(
-        //   { "callendars.cal_id": "ce89c179-bb4a-4061-9f7b-cb77f646856c" },
-        //   { $push: { "callendars.$[].users.reader": ["12", "check.lastname"] } }
-        // );
-
+       
         const updateUsers = await User.updateMany(
-          { "callendars.cal_id": seUsersCal_id },
+          {},
           {
             $push: {
-              ["callendars.$[].users." + role]: [user_id, check.lastname],
-            },
-          }
+              ["callendars.$[element].users." + role]: [user_id, check.lastname],
+            },},
+            { arrayFilters: [ { "element.cal_id": seUsersCal_id } ] }
         );
-        console.log("updated", updateUsers);
+        
       }
-      
-      // console.log(cal_id.callendars.length);
-      res.status(200).json({ cal_id: seUser_id});
+      //daje pierwszy cal od dodanego user a nie konkretny 
+      //powinno dawać konkretny cal 
+      //   const dayData = await User.aggregate([
+      //   { $match: { user_id: seUser_id, "callendars.cal_id": seUsersCal_id } },
+      //   { $project: { _id: 0, cal: { $arrayElemAt: ["$callendars", 0] } } },
+      // ]);
+      const dayData = await User.aggregate([
+        { $match: { user_id: seUser_id } },
+        { $project: { _id: 0, cal: { $filter: { input: "$callendars", as: "cal", cond: { $eq: [ "$$cal.cal_id", seUsersCal_id ] } } } } }
+    ]);
+    
+      console.log(dayData[0])
+      res.status(200).json(dayData[0]);
     } catch (error) {
       console.log(seUser_id);
       res.json({ status: "error", error: "User not find" });
