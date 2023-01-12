@@ -128,12 +128,7 @@ const addCal = async (req, res) => {
         );
         
       }
-      //daje pierwszy cal od dodanego user a nie konkretny 
-      //powinno dawać konkretny cal 
-      //   const dayData = await User.aggregate([
-      //   { $match: { user_id: seUser_id, "callendars.cal_id": seUsersCal_id } },
-      //   { $project: { _id: 0, cal: { $arrayElemAt: ["$callendars", 0] } } },
-      // ]);
+      
       const dayData = await User.aggregate([
         { $match: { user_id: seUser_id } },
         { $project: { _id: 0, cal: { $filter: { input: "$callendars", as: "cal", cond: { $eq: [ "$$cal.cal_id", seUsersCal_id ] } } } } }
@@ -152,14 +147,19 @@ const addCal = async (req, res) => {
 
 const deleteCal = async (req, res) => {
   const { user_id, cal_id } = req.params;
-  const cal = await User.updateOne(
-    { user_id: user_id },
-    {
-      $unset: {
-        ["callendars." + cal_id]: "",
-      },
-    }
-  );
+  // const cal = await User.updateOne(
+  //   { "callendars.cal_id": cal_id},
+  //   {
+  //     $unset: {
+  //       ["callendars." ]: "",
+  //     },
+  //   }
+  // );
+  const cal = await User.updateMany(
+    {},
+    { $pull: { callendars: { cal_id: cal_id } } }
+ )
+ 
   const dayData = await User.find(
     { user_id: user_id },
     { callendars: 1, _id: 0 }
