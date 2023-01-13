@@ -59,6 +59,28 @@ export const dellevent = (user_id, cal_id, month_id, day_id, event_id) =>{
     });
   }
 }
+
+
+export const editEvent = (user_id, cal_id, month_id, day_id, event_id, value) =>{
+  console.log(cal_id)
+  return (dispatch) =>{
+    axios
+    .put(
+      `http://localhost:4000/api/cal/${user_id}/${cal_id}/${month_id}/${day_id-1}/${event_id}`,value
+    )
+    .then((response) => {
+    console.log(response.data)
+    dispatch(actions.changeData(response.data.event.cal[month_id][day_id-1]));
+    dispatch(changeCal({cal: response.data.event}))
+    dispatch(upload(response.data.allcal[0].callendars))
+    
+  })
+    .catch((error) => {
+      dispatch({ type: "POST_ERROR", error });
+    });
+  }
+}
+
 export const actions = CurrentDaySlice.actions;
 
 export default CurrentDaySlice.reducer;

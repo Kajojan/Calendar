@@ -2,10 +2,9 @@ import { React, useState } from "react";
 import { useFormik } from "formik";
 import validate from "./validate";
 import { useSelector, useDispatch } from "react-redux";
-import { actions, postEvent } from "../../features/CurrentDaySlice";
-import { changeCal } from "../../features/CalSlice";
+import {  editEvent, postEvent } from "../../features/CurrentDaySlice";
 
-const EventForm = ({ name }) => {
+const EventForm = ({ name,pop}) => {
   const currentMonth = useSelector((state) => state.month.currentMonth);
   const user = useSelector((state) => state.user.user_id);
   const day = useSelector((state) => state.day.dayData);
@@ -28,9 +27,13 @@ const EventForm = ({ name }) => {
       values.time = allday;
       formik.handleReset();
       if (name == "Add Event") {
-        const num = parseInt(currentMonth, 10);
-        const num2 = parseInt(day_id, 10);
+
         dispatch(postEvent(user, cal.cal_id, currentMonth, day_id - 1, values));
+
+      }else{
+          console.log(pop)
+          dispatch(editEvent(user,cal.cal_id, currentMonth,day_id, pop[2],values))
+        
         // console.log({ cal: {...cal, cal: {...cal.cal, [num]: [...cal.cal[num], cal.cal[num][num2]{...cal.cal[num][num2], event: [...cal.cal[num][num2].event, values] }] } } });
       };
         // dispatch(changeCal({cal:{...cal,   cal.cal[num][num2].event = [...cal.cal[num][num2].event, values] }}))

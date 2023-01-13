@@ -43,7 +43,7 @@ const createUser = async (req, res) => {
 
 const deleteEvent = async (req, res) => {
   const { user_id, cal_id, month_id, day_id, event_id } = req.params;
-  console.log(req.params)
+  console.log(req.params);
   const num = parseInt(month_id, 10);
   const num2 = parseInt(day_id, 10);
 
@@ -77,10 +77,12 @@ const deleteEvent = async (req, res) => {
     },
   ]);
 
-  const allcall = await User.find({user_id : user_id},{callendars:1, _id:0})
-  console.log( dayData)
-  res.status(200).json({event:  dayData[0].cal[0], allcal: allcall });
-
+  const allcall = await User.find(
+    { user_id: user_id },
+    { callendars: 1, _id: 0 }
+  );
+  console.log(dayData);
+  res.status(200).json({ event: dayData[0].cal[0], allcal: allcall });
 };
 
 const addEvent = async (req, res) => {
@@ -115,9 +117,12 @@ const addEvent = async (req, res) => {
     },
   ]);
 
-  const allcall = await User.find({user_id : user_id},{callendars:1, _id:0})
+  const allcall = await User.find(
+    { user_id: user_id },
+    { callendars: 1, _id: 0 }
+  );
 
-  res.status(200).json({event: dayData[0].cal[0], allcal: allcall });
+  res.status(200).json({ event: dayData[0].cal[0], allcal: allcall });
 };
 
 const checkLogin = async (req, res) => {
@@ -212,26 +217,48 @@ const deleteCal = async (req, res) => {
 };
 
 const editevent = async (req, res) => {
-  const { user_id, cal_id, month_id, day_id } = req.params;
+  const { user_id, cal_id, month_id, day_id, event_id } = req.params;
   const event = req.body;
-  const num = parseInt(month_id, 10);
-  const num2 = parseInt(day_id, 10);
-  const cal = await User.updateOne(
-    { "callendars.cal_id": cal_id },
+
+  const cal = await User.updateMany(
+    {},
     {
       $set: {
-        ["callendars.0.cal." + month_id + "." + day_id + ".event"]: event,
+        ["callendars.$[element].cal." +
+        month_id +
+        "." +
+        day_id +
+        ".event." +
+        event_id]: event,
       },
+    },
+    {
+      arrayFilters: [
+        { "element.cal_id": "29876962-9263-469e-8f4c-9dfc6625957f" },
+      ],
     }
   );
 
   const dayData = await User.aggregate([
-    { $match: { "callendars.cal_id": cal_id } },
-    { $project: { _id: 0, cal: { $arrayElemAt: ["$callendars.cal", 0] } } },
-    { $project: { _id: 0, cal2: { $arrayElemAt: ["$cal", num] } } },
-    { $project: { _id: 0, cal3: { $arrayElemAt: ["$cal2", num2] } } },
+    { $match: { user_id: user_id } },
+    {
+      $project: {
+        _id: 0,
+        cal: {
+          $filter: {
+            input: "$callendars",
+            as: "cal",
+            cond: { $eq: ["$$cal.cal_id", cal_id] },
+          },
+        },
+      },
+    },
   ]);
-  res.status(200).json(dayData[0]);
+  const allcall = await User.find(
+    { user_id: user_id },
+    { callendars: 1, _id: 0 }
+  );
+  res.status(200).json({ event: dayData[0].cal[0], allcal: allcall });
 };
 
 module.exports = {
@@ -243,4 +270,5 @@ module.exports = {
   checkLogin,
   addCal,
   deleteCal,
+  editevent,
 };
