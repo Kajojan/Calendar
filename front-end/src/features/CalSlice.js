@@ -15,7 +15,6 @@ const CalSlice = createSlice({
   reducers: {
     changeCal: (state, action) => {
       state.cal = action.payload.cal;
-      console.log(action.payload.cal)
       
     },
     // fetchCal: (state, action) => {
