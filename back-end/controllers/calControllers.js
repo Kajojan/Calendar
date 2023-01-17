@@ -2,6 +2,7 @@ const User = require("../models/user");
 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { options } = require("../routes/cal");
 
 const getCallendars = async (req, res) => {
   const { user_id } = req.params;
@@ -144,15 +145,16 @@ const login = async (req, res) => {
 
   try {
     const check = await User.find({ email: email });
-    console.log(check[0].password)
+    console.log(check[0])
     if (check) {
       const paswordCorret = await bcrypt.compare(password, check[0].password)
       if (!paswordCorret){
         return res.status(401).json({ message: "Wrong  password" });
       }
       const token = jwt.sign({
-        user: check.user_id
+        user: check[0].user_id
       },process.env.JWT_SECRET)
+
       res.cookie("token", token,{
         httpOnly: true
       }).status(200).json(check)
@@ -170,7 +172,10 @@ const loggedIn = async ( req, res)=>{
     if (!token) return res.json(false);
 
     jwt.verify(token, process.env.JWT_SECRET);
-    res.send(true)
+    console.log(jwt.decode(token).user)
+    const data = await User.find({user_id: jwt.decode(token).user})    
+    console.log("data", data[0])
+    res.send({status: true, data: data[0]})
   } catch (err) {
     console.log(err)
     res.json(false);

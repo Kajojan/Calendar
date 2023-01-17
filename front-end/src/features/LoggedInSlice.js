@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios"
-
+import { upload } from "./CalSlice";
+import { Add } from "./UserSlice";
 export const LoggedinSlice = createSlice({
   name: 'logged',
   initialState:{
@@ -19,7 +20,11 @@ export const loggedIn = () => {
       axios
         .get(`http://localhost:4000/api/cal/if/logged/in`)
         .then((response) => {
-          dispatch(change(response.data))
+            console.log(response.data.data)
+            dispatch(upload(response.data.data.callendars))
+            dispatch(change(response.data.status))
+            dispatch(Add(response.data.data))
+
         })
         .catch((error) => {
           dispatch({ type: "POST_ERROR", error });
