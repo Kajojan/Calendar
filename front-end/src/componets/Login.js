@@ -12,27 +12,27 @@ function Login() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user_id);
 
-  function getCookie(cname) {
-      let name = cname + "=";
-      let ca = document.cookie.split(';');
-      for(let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) == ' ') {
-          c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-          return c.substring(name.length, c.length);
-        }
-      }
-      return "";
-    }
+  // function getCookie(cname) {
+  //     let name = cname + "=";
+  //     let ca = document.cookie.split(';');
+  //     for(let i = 0; i < ca.length; i++) {
+  //       let c = ca[i];
+  //       while (c.charAt(0) == ' ') {
+  //         c = c.substring(1);
+  //       }
+  //       if (c.indexOf(name) == 0) {
+  //         return c.substring(name.length, c.length);
+  //       }
+  //     }
+  //     return "";
+  //   }
 
-    function checkCookie() {
-      let user = getCookie("username");
-      if (user != "") {
-        alert("Welcome again " + user);
-      } 
-    } 
+  //   function checkCookie() {
+  //     let user = getCookie("username");
+  //     if (user != "") {
+  //       alert("Welcome again " + user);
+  //     } 
+  //   } 
 
   const check = async (email, password) => {
     const response = await axios
@@ -65,7 +65,7 @@ function Login() {
     onSubmit: async (values) => {
       try {
         const data = await check(values.email, values.password)
-        checkCookie()
+        // checkCookie()
         navigate(`/mainpage`);
       } catch (error) {
         alert("wrong emaial or password");

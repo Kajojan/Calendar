@@ -6,6 +6,7 @@ import { changeCal, postData } from "../features/CalSlice";
 import Callendars from "./Navi/Callendars";
 import { change } from "../features/YearSlice";
 
+
 function MainPage() {
   const navigate = useNavigate();
   const currentMonth = useSelector((state) => state.month.currentMonth);
@@ -17,13 +18,17 @@ function MainPage() {
   const [pop, setPop] = useState(false);
   const [name, setName] = useState("");
 
+
+
+
   const clickHandler = () => {
-    dispatch(postData(user,name,lastname));
-    setPop(false)
-    setName("")
+    dispatch(postData(user, name, lastname));
+
+    setPop(false);
+    setName("");
   };
   const clickHandlerCal = async (index) => {
-    dispatch(changeCal({ cal: callanders[index]}));
+    dispatch(changeCal({ cal: callanders[index] }));
     dispatch(change(callanders[index].year));
     navigate(`/callander/${user}/${callanders[index].year}/${currentMonth}`);
   };
@@ -31,6 +36,8 @@ function MainPage() {
   const handleChange = (event) => {
     setName(event.target.value);
   };
+
+
   return (
     <div className="mainpage">
       {callanders.map((el, index) => {
@@ -40,7 +47,7 @@ function MainPage() {
           </button>
         ) : null;
       })}
-      <button onClick={()=>setPop(true)}>Add Callander</button>
+      <button onClick={() => setPop(true)}>Add Callander</button>
       {pop ? (
         <div className="namePurpose">
           <label>Name/Purpose of calendar</label>

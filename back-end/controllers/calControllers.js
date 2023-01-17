@@ -1,5 +1,7 @@
-const user = require("../models/user");
 const User = require("../models/user");
+
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const getCallendars = async (req, res) => {
   const { user_id } = req.params;
@@ -21,6 +23,16 @@ const getSingleCallendar = async (req, res) => {
 
 const createUser = async (req, res) => {
   const { user_id, name, lastname, email, password } = req.body;
+  const salt = await bcrypt.genSalt();
+  const passwordHash = await bcrypt.hash(password, salt);
+
+  const token = jwt.sign(
+    {
+      user: user_id,
+    },
+    process.env.JWT_SECRET
+  );
+
   const userCkeck = await User.find({ email: email });
   if (userCkeck.length == 0) {
     try {
@@ -29,9 +41,11 @@ const createUser = async (req, res) => {
         name,
         lastname,
         email,
-        password,
+        password: passwordHash,
       });
-      res.json(user);
+      res.cookie("token", token, {
+        httpOnly: true,
+      }).send()
     } catch (error) {
       res.json({ status: "error", error: "Duplicate email" });
       console.log(error);
@@ -125,22 +139,54 @@ const addEvent = async (req, res) => {
   res.status(200).json({ event: dayData[0].cal[0], allcal: allcall });
 };
 
-const checkLogin = async (req, res) => {
+const login = async (req, res) => {
   const { email, password } = req.body;
+
   try {
-    const check = await User.find({
-      $and: [{ email: email }, { password: password }],
-    });
-    console.log(check[0]);
-    if (check.length > 0) {
-      res.status(200).json(check);
+    const check = await User.find({ email: email });
+    console.log(check[0].password)
+    if (check) {
+      const paswordCorret = await bcrypt.compare(password, check[0].password)
+      if (!paswordCorret){
+        return res.status(401).json({ message: "Wrong  password" });
+      }
+      const token = jwt.sign({
+        user: check.user_id
+      },process.env.JWT_SECRET)
+      res.cookie("token", token,{
+        httpOnly: true
+      }).status(200).json(check)
     } else {
-      res.status(200).json({ message: "empty data" });
+      res.status(401).json({ message: "Wrong Email od password" });
     }
   } catch {
-    res.status(400).json({ error });
+    res.status(400).json({ error: "Wrong" });
   }
 };
+
+const loggedIn = async ( req, res)=>{
+  try {
+    const token = req.cookies.token;
+    if (!token) return res.json(false);
+
+    jwt.verify(token, process.env.JWT_SECRET);
+    res.send(true)
+  } catch (err) {
+    console.log(err)
+    res.json(false);
+  }
+}
+
+const logout = async (req, res) => {
+  res
+    .cookie("token", "", {
+      httpOnly: true,
+      expires: new Date(0),
+      secure: true,
+      sameSite: "none",
+    })
+    .send();
+}
 
 const addCal = async (req, res) => {
   const { user_id } = req.params;
@@ -267,8 +313,10 @@ module.exports = {
   getSingleCallendar,
   deleteEvent,
   addEvent,
-  checkLogin,
+  login,
   addCal,
   deleteCal,
   editevent,
+  logout,
+  loggedIn,
 };
