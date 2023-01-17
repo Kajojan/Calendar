@@ -12,23 +12,31 @@ import Callendars from "./componets/Navi/Callendars";
 import Notice from "./componets/Navi/Notice";
 import Settings from "./componets/Navi/Settings";
 import SingUp from "./componets/SingUp";
+import axios from "axios"
+import { loggedIn } from "./features/LoggedInSlice";
+axios.defaults.withCredentials = true
 
 function App() {
   const dispatch = useDispatch()
   const currentMonth = useSelector((state) => state.month.currentMonth);
   const currentYear = useSelector((state) => state.year.currentYear);
   const user = useSelector((state) => state.user.user_id);
+  const logged = useSelector((state)=> state.loggedin.loggedin)
+ useEffect(()=>{
+  dispatch(loggedIn())
+ })
+
   return (
     <div className="App">
+      {logged == true ? (
+      <>
       <Navi />
       <Routes>
-        <Route path="/" element={<Login />} />
         <Route path={`/mainpage`} element={<MainPage />} />
-        <Route path={`/profile${user}`} element={<Profile />} />
+        <Route path={`/profile`} element={<Profile />} />
         <Route path="/Callendars" element={<Callendars />} />
         <Route path="/Notice" element={<Notice />} />
         <Route path="/Settings" element={<Settings />} />
-        <Route path="/singup" element={<SingUp />} />
         <Route
           path={`/callander/${user}/${currentYear}/${currentMonth}/:currentday`}
           element={<CurrentDay />}
@@ -38,6 +46,16 @@ function App() {
           element={<Calendar />}
         />
       </Routes>
+      </> ):
+      
+      <Routes>
+      <Route path="/" element={<Login />} />
+
+      <Route path="/singup" element={<SingUp />} />
+      </Routes>
+}
+
+
     </div>
   );
 }

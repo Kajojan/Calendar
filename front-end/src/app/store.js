@@ -4,7 +4,7 @@ import YearSlice from '../features/YearSlice';
 import CurrentDaySlice from '../features/CurrentDaySlice'
 import CalSlice from '../features/CalSlice';
 import UserSlice from '../features/UserSlice'
-import AllcalSlice from '../features/AllcallSlice';
+import LoggedInSlice from '../features/LoggedInSlice';
 import thunk from 'redux-thunk';
 
  const store = configureStore({
@@ -14,6 +14,7 @@ import thunk from 'redux-thunk';
     day: CurrentDaySlice,
     cal: CalSlice,
     user: UserSlice,
+    loggedin : LoggedInSlice,
 
   }
 },applyMiddleware(thunk));
