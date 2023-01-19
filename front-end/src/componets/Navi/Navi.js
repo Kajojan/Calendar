@@ -7,7 +7,6 @@ function Navi() {
     <div className="Navi">
       <Link to="/mainpage"> Home</Link>
       <Link to="/profile"> Profile</Link>
-      <Link to="/Callendars"> Callendars</Link>
       <Link to="/Notice"> Notice</Link>
       <Link to="/Settings"> Settings</Link>
 

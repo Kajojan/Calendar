@@ -8,12 +8,12 @@ import Navi from "./componets/Navi/Navi";
 import MainPage from "./componets/MainPage";
 import Login from "./componets/Login";
 import Profile from "./componets/Navi/Profile";
-import Callendars from "./componets/Navi/Callendars";
 import Notice from "./componets/Navi/Notice";
 import Settings from "./componets/Navi/Settings";
 import SingUp from "./componets/SingUp";
 import axios from "axios"
 import { loggedIn } from "./features/LoggedInSlice";
+import AllEventCAl from "./componets/AllEventCAl";
 axios.defaults.withCredentials = true
 
 function App() {
@@ -22,6 +22,7 @@ function App() {
   const currentYear = useSelector((state) => state.year.currentYear);
   const user = useSelector((state) => state.user.user_id);
   const logged = useSelector((state)=> state.loggedin.loggedin)
+
  useEffect(()=>{
   dispatch(loggedIn())
  })
@@ -32,9 +33,9 @@ function App() {
       <>
       <Navi />
       <Routes>
+        <Route path={`/callander/${user}/allCal`} element={<AllEventCAl/>}></Route>
         <Route path={`/mainpage`} element={<MainPage />} />
         <Route path={`/profile`} element={<Profile />} />
-        <Route path="/Callendars" element={<Callendars />} />
         <Route path="/Notice" element={<Notice />} />
         <Route path="/Settings" element={<Settings />} />
         <Route
