@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 function CloseEvent() {
   const allCal = useSelector((state) => state.cal.Allcall);
-  const month = useSelector((state) => state.month.currentMonth);
   const currentday = new Date().getDate();
+  const month = new Date().getMonth();
+
 
   const connectArrays = allCal.reduce((acc, ele, index) => {
     ele.cal.map((ele2, index2) => {
@@ -31,7 +32,7 @@ function CloseEvent() {
     .reduce((acc, ele) => {
       ele.map((ele2, index) => {
         if (
-          acc.length < 5 &&
+          acc.length < 3 &&
           ele2.event.length > 0 &&
           (ele2.month_Id > month || ele2.id >= currentday)
         ) {
@@ -59,24 +60,26 @@ function CloseEvent() {
 
   return (
     <div className="CloseEvent">
-      <a>Your next Events </a>
+      <p className="title">Your next Events: </p>
       {event.map((ele, index) => {
         if (ele.event.length == 1) {
           return (
             <a key={index}>
+                name: {ele.event[0].name},  
               date: {monthNames[ele.month_Id]}-{ele.id} , time:{" "}
               {ele.event[0].time
                 ? "AllDay"
                 : (ele.event[0].start, ":", ele.event[0].end)}{" "},
-              name: {ele.event[0].name} | 
+              
             </a>
           );
         } else {
           return ele.event.map((ele2, index2) => {
             return (
               <a key={index2}>
-                date: {monthNames[ele.month_Id]}: {ele.id} , time:{" "}
-                {ele2.time ? "AllDay" : (ele2.start, ":", ele2.end)} |
+                name: {ele2.name} , 
+                date: {monthNames[ele.month_Id]}: {ele.id} , time:{" "} 
+                {ele2.time ? "AllDay " : (ele2.start, ":", ele2.end, " ")} 
               </a>
             );
           });
