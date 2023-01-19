@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { upload } from "../features/AllcallSlice";
 import { changeCal, postData } from "../features/CalSlice";
-import Callendars from "./Navi/Callendars";
 import { change } from "../features/YearSlice";
 
 
@@ -38,6 +37,7 @@ function MainPage() {
   };
 
 
+
   return (
     <div className="mainpage">
       {callanders.map((el, index) => {
@@ -55,6 +55,8 @@ function MainPage() {
           <button onClick={clickHandler}>Add</button>
         </div>
       ) : null}
+
+      <button onClick={()=>navigate(`/callander/${user}/allCal`)}>All Event In One Calendar</button>
     </div>
   );
 }
