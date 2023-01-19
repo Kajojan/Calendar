@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { upload } from "../features/AllcallSlice";
 import { changeCal, postData } from "../features/CalSlice";
 import { change } from "../features/YearSlice";
+import CloseEvent from "./CloseEvent";
 
 
 function MainPage() {
@@ -57,6 +58,9 @@ function MainPage() {
       ) : null}
 
       <button onClick={()=>navigate(`/callander/${user}/allCal`)}>All Event In One Calendar</button>
+
+
+      <CloseEvent></CloseEvent>
     </div>
   );
 }
