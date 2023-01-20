@@ -6,7 +6,6 @@ import { changeCal, postData } from "../features/CalSlice";
 import { change } from "../features/YearSlice";
 import CloseEvent from "./CloseEvent";
 
-
 function MainPage() {
   const navigate = useNavigate();
   const currentMonth = useSelector((state) => state.month.currentMonth);
@@ -17,9 +16,6 @@ function MainPage() {
   const dispatch = useDispatch();
   const [pop, setPop] = useState(false);
   const [name, setName] = useState("");
-
-
-
 
   const clickHandler = () => {
     dispatch(postData(user, name, lastname));
@@ -57,8 +53,9 @@ function MainPage() {
         </div>
       ) : null}
 
-      <button onClick={()=>navigate(`/callander/${user}/allCal`)}>All Event In One Calendar</button>
-
+      <button onClick={() => navigate(`/callander/${user}/allCal`)}>
+        All Event In One Calendar
+      </button>
 
       <CloseEvent></CloseEvent>
     </div>
