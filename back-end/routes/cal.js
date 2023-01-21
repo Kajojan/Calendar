@@ -12,6 +12,8 @@ const {
     editevent,
     logout,
     loggedIn,
+    deluser,
+    changerole,
 } = require('../controllers/calControllers')
 
 const router = express.Router()
@@ -38,8 +40,10 @@ router.delete('/:user_id/:cal_id',auth , deleteCal)
 
 router.put('/:user_id/:cal_id/:month_id/:day_id/:event_id',auth ,editevent)
 
-router.patch('/:id', (req,res)=>{
-    res.json({mssg: 'update single'})
-})
+router.delete(`/:user_id/:cal_id/:role/:index`,auth , deluser)
+
+router.put(`/change/role/:user_id/:cal_id/:role/:index` , changerole)
+
+
 
 module.exports = router
