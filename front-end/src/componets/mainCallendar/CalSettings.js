@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { postData, error, delCal } from "../../features/CalSlice";
+import { postData, error, delCal, deleteUser, editRole } from "../../features/CalSlice";
 
 function CalSettings({ setpop }) {
   const navigate = useNavigate();
@@ -14,6 +14,14 @@ function CalSettings({ setpop }) {
   const [input, setinput] = useState("");
   const [sure, setSure] = useState(false);
   const [role, setRole] = useState("");
+  const [change, setChange] = useState({
+    status: false,
+    role: "",
+    id: "",
+    name: "",
+    index:0,
+  });
+  const [changeYes, setChangeYes] = useState(false);
 
   useEffect(() => {
     if (errorMsg.status == false) {
@@ -48,31 +56,102 @@ function CalSettings({ setpop }) {
     navigate("/mainpage");
   };
 
+  const delHandler = () => {
+    dispatch(deleteUser(change.id, cal_id, change.role, change.index))
+    setChange({...change, status:false})
+  };
+  const changeHandler = () => {
+    dispatch(editRole(change.id, cal_id, change.role, change.index, role, change.id, change.name))
+    setChange({...change, status:false})
+
+  };
+
   return (
     <div className="CalSettings">
+      {console.log(cal)}
       <div className="users">
         <a>Users list: </a>
-        {console.log(cal)}
         <button>admin: {cal.users.admin[1]} </button>
         {cal.users.reader.map((el, index) => {
-          return <button key={index}>reader {el[1]}</button>;
+           return el != null ? (
+            <button
+              key={index}
+              onClick={() =>
+                setChange({
+                  status: true,
+                  role: "reader",
+                  id: el[0],
+                  name: el[1],
+                  index: index
+                })
+              }
+            >
+              reader {el[1]}
+            </button>
+          ): null
         })}
         {cal.users.spec.map((el, index) => {
-          return <button key={index}>spectaitor {el[1]}</button>;
+           return el != null ?  (
+            <button
+              key={index}
+              onClick={() =>
+                setChange({
+                  status: true,
+                  role: "spec",
+                  id: el[0],
+                  name: el[1],
+                  index: index
+                })
+              }
+            >
+              spectaitor {el[1]}
+            </button>
+          ): null 
         })}
+        {change.status && user_id == cal.users.admin[0] ? (
+          <div className="Del/change">
+            <div className="Del">
+              <a>Do you want delete this user ({change.name}) ?</a>
+              <button onClick={() => setChange({ status: false, ...change })}>
+                No
+              </button>
+              <button onClick={delHandler}>Yes</button>
+            </div>
+            <div className="Change">
+              <a>Do you want change role to this user ({change.name}) ?</a>
+              <button onClick={() => setChange({ status: false, ...change })}>
+                No
+              </button>
+              <button onClick={() => setChangeYes(true)}>Yes</button>
+              {changeYes ? (
+                <div className="ChangeYes">
+                  
+                  <select onChange={selectHandler}>
+                    <option value="admin">Admin</option>
+                    <option value="reader">Reader</option>
+                    <option value="spec">Spectator</option>
+                  </select>
+                  <button onClick={changeHandler}>change</button>
+
+                </div>
+              ) : null}
+            </div>
+          </div>
+        ) : null}
       </div>
       {user_id == cal.users.admin[0] ? (
-      <div className="add_users">
-        <label>Enter user ID:</label>
-        <input onChange={handleChange} value={input}></input>
-        <select onChange={selectHandler}>
-          <option value="admin">Admin</option>
-          <option value="reader">Reader</option>
-          <option value="spec">Spectator</option>
-        </select>
-        <button onClick={DataHandler}>Add User</button>
-        {errorMsg.status ? <a>{errorMsg.data}</a> : null}
-      </div>) : null }
+        <div className="add_users">
+          <label>Enter user ID:</label>
+          <input onChange={handleChange} value={input}></input>
+          <select onChange={selectHandler}>
+            <option value="admin">Admin</option>
+            <option value="reader">Reader</option>
+            <option value="spec">Spectator</option>
+          </select>
+          <button onClick={DataHandler}>Add User</button>
+          {errorMsg.status ? <a>{errorMsg.data}</a> : null}
+        </div>
+      ) : null}
 
       {user_id == cal.users.admin[0] ? (
         <div className="Delete">

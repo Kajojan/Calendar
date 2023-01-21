@@ -44,9 +44,11 @@ const createUser = async (req, res) => {
         email,
         password: passwordHash,
       });
-      res.cookie("token", token, {
-        httpOnly: true,
-      }).send()
+      res
+        .cookie("token", token, {
+          httpOnly: true,
+        })
+        .send();
     } catch (error) {
       res.json({ status: "error", error: "Duplicate email" });
       console.log(error);
@@ -145,19 +147,25 @@ const login = async (req, res) => {
 
   try {
     const check = await User.find({ email: email });
-    console.log(check[0])
+    console.log(check[0]);
     if (check) {
-      const paswordCorret = await bcrypt.compare(password, check[0].password)
-      if (!paswordCorret){
+      const paswordCorret = await bcrypt.compare(password, check[0].password);
+      if (!paswordCorret) {
         return res.status(401).json({ message: "Wrong  password" });
       }
-      const token = jwt.sign({
-        user: check[0].user_id
-      },process.env.JWT_SECRET)
+      const token = jwt.sign(
+        {
+          user: check[0].user_id,
+        },
+        process.env.JWT_SECRET
+      );
 
-      res.cookie("token", token,{
-        httpOnly: true
-      }).status(200).json(check)
+      res
+        .cookie("token", token, {
+          httpOnly: true,
+        })
+        .status(200)
+        .json(check);
     } else {
       res.status(401).json({ message: "Wrong Email od password" });
     }
@@ -166,21 +174,21 @@ const login = async (req, res) => {
   }
 };
 
-const loggedIn = async ( req, res)=>{
+const loggedIn = async (req, res) => {
   try {
     const token = req.cookies.token;
     if (!token) return res.json(false);
 
     jwt.verify(token, process.env.JWT_SECRET);
-    console.log(jwt.decode(token).user)
-    const data = await User.find({user_id: jwt.decode(token).user})    
-    console.log("data", data[0])
-    res.send({status: true, data: data[0]})
+    console.log(jwt.decode(token).user);
+    const data = await User.find({ user_id: jwt.decode(token).user });
+    console.log("data", data[0]);
+    res.send({ status: true, data: data[0] });
   } catch (err) {
-    console.log(err)
-    res.json(false);
+    console.log(err);
+    res.json({ status: false });
   }
-}
+};
 
 const logout = async (req, res) => {
   res
@@ -191,7 +199,7 @@ const logout = async (req, res) => {
       sameSite: "none",
     })
     .send();
-}
+};
 
 const addCal = async (req, res) => {
   const { user_id } = req.params;
@@ -284,9 +292,7 @@ const editevent = async (req, res) => {
       },
     },
     {
-      arrayFilters: [
-        { "element.cal_id": "29876962-9263-469e-8f4c-9dfc6625957f" },
-      ],
+      arrayFilters: [{ "element.cal_id": cal_id }],
     }
   );
 
@@ -312,6 +318,65 @@ const editevent = async (req, res) => {
   res.status(200).json({ event: dayData[0].cal[0], allcal: allcall });
 };
 
+const deluser = async (req, res) => {
+  const { user_id, cal_id, role, index } = req.params;
+
+  const deletcal = await User.updateOne(
+    { user_id: user_id },
+    { $pull: { callendars: { cal_id: cal_id } } }
+  );
+
+  const cal = await User.updateMany(
+    {},
+    {
+      $unset: {
+        ["callendars.$[element].users." + role + "." + index]: "",
+      },
+    },
+    { arrayFilters: [{ "element.cal_id": cal_id }] }
+  );
+
+  const allcall = await User.find(
+    { "callendars.cal_id": cal_id },
+    { callendars: 1, _id: 0 }
+  );
+  console.log(allcall);
+  res.status(200).json(allcall[0].callendars[0]);
+};
+
+const changerole = async (req, res) => {
+  const { user_id, cal_id, role, index } = req.params;
+  const newRole = req.body.role;
+  const user = req.body.user;
+  console.log(req.body);
+try{
+  console.log(newRole);
+
+  const cal = await User.updateMany(
+    {},
+    {
+      $pull: {
+        ["callendars.$[element].users." + role]: user,
+      },
+     $push: { ["callendars.$[element].users." + newRole]: user }
+    },
+    { arrayFilters: [{ "element.cal_id": cal_id }] }
+  );
+
+  console.log(cal);
+
+  const allcall = await User.findOne(
+    {"callendars.cal_id": cal_id },
+    { callendars: 1, _id: 0 }
+  );
+
+  console.log(allcall);
+  res.status(200).json(allcall.callendars[0]);
+}catch(error){
+  res.status(400).json(error)
+}
+};
+
 module.exports = {
   createUser,
   getCallendars,
@@ -324,4 +389,6 @@ module.exports = {
   editevent,
   logout,
   loggedIn,
+  deluser,
+  changerole,
 };

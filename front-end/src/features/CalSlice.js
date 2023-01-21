@@ -92,6 +92,35 @@ export const delCal = (user_id, cal_id) => {
   };
 };
 
+export const deleteUser = (user_id, cal_id,role,index) => {
+  return (dispatch) => {
+    axios
+      .delete(`http://localhost:4000/api/cal/${user_id}/${cal_id}/${role}/${index}`)
+      .then((response) => {
+        console.log(response.data)
+        dispatch(changeCal({cal:response.data}))
+      })
+      .catch((error) => {
+        dispatch({ type: "POST_ERROR", error });
+      });
+  };
+};
+
+
+export const editRole = (user_id, cal_id,role,index, newRole, id,name) => {
+  return (dispatch) => {
+    axios
+      .put(`http://localhost:4000/api/cal/change/role/${user_id}/${cal_id}/${role}/${index}`, {role: newRole, user:[id, name]})
+      .then((response) => {
+        console.log(response.data)
+        dispatch(changeCal({cal:response.data}))
+      })
+      .catch((error) => {
+        dispatch({ type: "POST_ERROR", error });
+      });
+  };
+};
+
 export const { changeCal, fetchCal, add, upload, error, addUser } =
   CalSlice.actions;
 
