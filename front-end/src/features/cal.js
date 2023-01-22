@@ -105,5 +105,5 @@ export   const calendar = (user_id, name,admin_name) => {
       list.push(months.slice(0,days))
      }
      const id = uuidv4()
-     return {name: name, cal_id: id ,year: currentYear, cal:list, users: {admin: [user_id,admin_name], reader:[], spec:[]}}
+     return {name: name, cal_id: id ,year: currentYear, cal:list, users: {admin: [[user_id,admin_name]], reader:[], spec:[]}}
    };

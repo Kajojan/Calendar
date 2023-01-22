@@ -9,7 +9,7 @@ const initialState = {
   password: "",
   check: false,
   error: "",
-  raportChange:{},
+  raportChange:undefined
 };
 
 const UserSlice = createSlice({
@@ -31,6 +31,7 @@ const UserSlice = createSlice({
       state.error = action.payload
     },
     raportChange:(state, action)=>{
+      console.log(action.payload)
       state.raportChange = action.payload
     }
 

@@ -1,8 +1,8 @@
 const User = require("../models/user");
-
+const fs = require('fs');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { options } = require("../routes/cal");
+const { options, use } = require("../routes/cal");
 const user = require("../models/user");
 
 const getCallendars = async (req, res) => {
@@ -432,6 +432,7 @@ const raport = async (req, res) => {
         },
       },
     ]);
+    console.log(users)
     const event = await User.aggregate([
       { $match: { user_id: user_id } },
       { $unwind: "$callendars" },
