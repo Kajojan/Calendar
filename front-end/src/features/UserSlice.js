@@ -8,7 +8,8 @@ const initialState = {
   email: "",
   password: "",
   check: false,
-  error: ""
+  error: "",
+  raportChange:{},
 };
 
 const UserSlice = createSlice({
@@ -16,9 +17,10 @@ const UserSlice = createSlice({
   initialState,
   reducers: {
     Add: (state, action) => {
+      console.log(action.payload)
       state.user_id = action.payload.user_id;
-      state.name = action.payload.firstName;
-      state.lastname = action.payload.lastName;
+      state.name = action.payload.name;
+      state.lastname = action.payload.lastname;
       state.email = action.payload.email;
       state.password = action.payload.password;
     },
@@ -27,6 +29,9 @@ const UserSlice = createSlice({
     },
     error:(state,action)=>{
       state.error = action.payload
+    },
+    raportChange:(state, action)=>{
+      state.raportChange = action.payload
     }
 
   },
@@ -53,6 +58,24 @@ export const postData = (data) => {
   };
 };
 
-export const { Add , checkUser, error} = UserSlice.actions;
+export const raport = (user_id) => {
+  return (dispatch) => {
+    axios
+      .get(`http://localhost:4000/api/cal/do/a/raport/${user_id}`)
+      .then((response) => {
+        console.log(response.data)
+        dispatch(raportChange(response.data))
+      
+      })
+      .catch((error) => {
+        dispatch(checkUser(false));
+      });
+  };
+};
+
+
+
+
+export const { Add , checkUser, error, raportChange} = UserSlice.actions;
 
 export default UserSlice.reducer;

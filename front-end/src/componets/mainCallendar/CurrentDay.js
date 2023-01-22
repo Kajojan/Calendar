@@ -52,7 +52,6 @@ function CurrentDay() {
       {pop[0] && [cal.users.admin[0] ==user_id || cal.users.reader[0] == user_id ]  ? <PopUp setPop={setPop} pop={pop}/> : null }
       {cal.users.admin[0] ==user_id || cal.users.reader[0] == user_id ?  <EventForm name={"Add Event"} pop={pop} /> : null }</> : null}
       {cal.users.admin[0] ==user_id ? <div className="import_file">
-        <a>Import event file shuold look like this "name:</a>
      <input type="file" onChange={handleFileChange} />
       {file ? <button onClick={handleFileUpload}>Upload</button> : null}
       {fileContent ? <p>{fileContent}</p> : null}

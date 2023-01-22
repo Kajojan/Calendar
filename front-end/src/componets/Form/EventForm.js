@@ -41,6 +41,7 @@ const EventForm = ({ name,pop}) => {
     },
   });
   return (
+    
     <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
       <h1>{name}</h1>
       {formik.values.time}
