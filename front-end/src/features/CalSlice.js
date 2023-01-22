@@ -121,6 +121,7 @@ export const editRole = (user_id, cal_id,role,index, newRole, id,name) => {
   };
 };
 
+
 export const { changeCal, fetchCal, add, upload, error, addUser } =
   CalSlice.actions;
 

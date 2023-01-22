@@ -14,6 +14,7 @@ const {
     loggedIn,
     deluser,
     changerole,
+    raport,
 } = require('../controllers/calControllers')
 
 const router = express.Router()
@@ -43,6 +44,8 @@ router.put('/:user_id/:cal_id/:month_id/:day_id/:event_id',auth ,editevent)
 router.delete(`/:user_id/:cal_id/:role/:index`,auth , deluser)
 
 router.put(`/change/role/:user_id/:cal_id/:role/:index` , changerole)
+
+router.get('/do/a/raport/:user_id', raport)
 
 
 

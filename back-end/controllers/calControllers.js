@@ -3,6 +3,7 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { options } = require("../routes/cal");
+const user = require("../models/user");
 
 const getCallendars = async (req, res) => {
   const { user_id } = req.params;
@@ -349,35 +350,120 @@ const changerole = async (req, res) => {
   const newRole = req.body.role;
   const user = req.body.user;
   console.log(req.body);
-try{
-  console.log(newRole);
+  try {
+    console.log(newRole);
 
-  const cal = await User.updateMany(
-    {},
-    {
-      $pull: {
-        ["callendars.$[element].users." + role]: user,
+    const cal = await User.updateMany(
+      {},
+      {
+        $pull: {
+          ["callendars.$[element].users." + role]: user,
+        },
+        $push: { ["callendars.$[element].users." + newRole]: user },
       },
-     $push: { ["callendars.$[element].users." + newRole]: user }
-    },
-    { arrayFilters: [{ "element.cal_id": cal_id }] }
-  );
+      { arrayFilters: [{ "element.cal_id": cal_id }] }
+    );
 
-  console.log(cal);
+    console.log(cal);
 
-  const allcall = await User.findOne(
-    {"callendars.cal_id": cal_id },
-    { callendars: 1, _id: 0 }
-  );
+    const allcall = await User.findOne(
+      { "callendars.cal_id": cal_id },
+      { callendars: 1, _id: 0 }
+    );
 
-  console.log(allcall);
-  res.status(200).json(allcall.callendars[0]);
-}catch(error){
-  res.status(400).json(error)
-}
+    console.log(allcall);
+    res.status(200).json(allcall.callendars[0]);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
+const raport = async (req, res) => {
+  const { user_id } = req.params;
+  try {
+    const users = await User.aggregate([
+      { $match: { user_id: user_id } },
+      { $unwind: "$callendars" },
+      {
+        $group: {
+          _id: "$callendars.cal_id",
+          count_admin: {
+            $sum: {
+              $size: {
+                $filter: {
+                  input: "$callendars.users.admin",
+                  as: "user",
+                  cond: { $ne: ["$$user", null] },
+                },
+              },
+            },
+          },
+          count_reader: {
+            $sum: {
+              $size: {
+                $filter: {
+                  input: "$callendars.users.reader",
+                  as: "user",
+                  cond: { $ne: ["$$user", null] },
+                },
+              },
+            },
+          },
+          count_spec: {
+            $sum: {
+              $size: {
+                $filter: {
+                  input: "$callendars.users.spec",
+                  as: "user",
+                  cond: { $ne: ["$$user", null] },
+                },
+              },
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          cal_id: "$_id",
+          count_admin: 1,
+          count_reader: 1,
+          count_spec: 1,
+        },
+      },
+    ]);
+    const event = await User.aggregate([
+      { $match: { user_id: user_id } },
+      { $unwind: "$callendars" },
+      { $unwind: "$callendars.cal" },
+      {
+        $group: {
+          _id: "$callendars.cal_id",
+          eventCount: {
+            $sum: {
+              $reduce: {
+                input: {
+                  $filter: {
+                    input: "$callendars.cal.event",
+                    cond: { $ne: ["$$this", null] },
+                  },
+                },
+                initialValue: 0,
+                in: { $add: ["$$value", { $size: "$$this" }] },
+              },
+            },
+          },
+        },
+      },
+    ]);
+    res.status(200).json({ event: event, user: users });
+  } catch {
+    res.status(400);
+  }
 };
 
 module.exports = {
+  raport,
   createUser,
   getCallendars,
   getSingleCallendar,
