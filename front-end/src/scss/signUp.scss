@@ -1,26 +1,6 @@
-$primary-color: rgb(93, 177, 247);
 $font: Verdana, Geneva, Tahoma, sans-serif; 
 
-body {
-    font-family: $font;
-  background-color: $primary-color;
-  letter-spacing: .01em;
-}
-h2{
-    color: white;
-    font-family:$font;
-}
-p{
-    font-family:$font;
-
-}
-a{
-    font-family: $font;
-
-}
-
-
-form.Login{
+form.Sign{
     a{
         margin: 20px;
     }
@@ -50,10 +30,9 @@ form.Login{
         border-radius: 3px;
         font-size: 15px;
     }
-    a {
-        font-family:$font;
-        text-decoration: none;
-        color: black;
+    .Error{
+        font-size: x-large;
+        font-weight: 550;
+        color: Red;
     }
-
 }

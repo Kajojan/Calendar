@@ -4,19 +4,30 @@
     background-color: white;
     height: 40px;
     border-radius: 7px;
-    // width: 200px;
     display: flex;
     gap: 10px;
-    justify-content: flex-start;
+    align-items: center;
+    justify-content: space-between;
 
     a{
+        justify-content: flex-start;
         font-size: larger;
         text-decoration: none;
-        background-color: rgb(133, 255, 133);
+        // background-color: rgb(133, 255, 133);
         margin: 5px;
         margin-left: 10px;
         padding: 6px;
         color: black;
         border-radius: 7px;
     }
+    
+    p{
+        font-size: larger;
+        margin: 5px;
+        margin-right: 10px;
+        padding: 6px;
+        justify-content: flex-end ;
+        
+    }
+    
 }

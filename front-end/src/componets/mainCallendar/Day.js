@@ -117,13 +117,13 @@ function Day() {
       </div>
       <div className="cal">
         <div className="weekDays">
-          <div class="weekday">M</div>
-          <div class="weekday">T</div>
-          <div class="weekday">W</div>
-          <div class="weekday">T</div>
-          <div class="weekday">F</div>
-          <div class="weekday isSaturday">S</div>
-          <div class="weekday isSunday">S</div>
+          <div className="weekday">M</div>
+          <div className="weekday">T</div>
+          <div className="weekday">W</div>
+          <div className="weekday">T</div>
+          <div className="weekday">F</div>
+          <div className="weekday isSaturday">S</div>
+          <div className="weekday isSunday">S</div>
         </div>
 
         <div className="Month">
@@ -137,7 +137,7 @@ function Day() {
                     <ul>
                       {el.event.map((ele, index) => {
                         return ele == null ? null : (
-                          <a key={index}>{ele.name}</a>
+                          <a key={index}>{ele.name}</a> 
                         );
                       })}
                     </ul>
