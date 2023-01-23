@@ -29,7 +29,7 @@ function AllEventCAl() {
     return acc;
   }, []);
   
-  dispatch(changeCal({cal:{ cal: connectArrays}}));
+  dispatch(changeCal({cal:{ cal: connectArrays, users:[]}}));
   
   return <div>
     <Calendar></Calendar>

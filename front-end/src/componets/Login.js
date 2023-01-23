@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik, Formik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { Add } from "../features/UserSlice";
+import '../scss/loginPage.scss'
+
 
 import { upload } from "../features/CalSlice";
 function Login() {
@@ -73,19 +75,19 @@ function Login() {
     },
   });
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <label htmlFor="email">Email Address</label>
+    <form classname="Login" onSubmit={formik.handleSubmit}>
+      <h2>Welcome to Calendar</h2>
       <input
         id="email"
         name="email"
         type="email"
         onChange={formik.handleChange}
         value={formik.values.email}
+        placeholder={"Email Address"}
       />
       {formik.errors.email && formik.touched.email ? (
         <div>{formik.errors.email}</div>
       ) : null}{" "}
-      <label htmlFor="Password">Password</label>
       <input
         id="password"
         type="password"
@@ -93,12 +95,14 @@ function Login() {
         onBlur={Formik.handleBlur}
         onChange={formik.handleChange}
         value={formik.values.password}
+        placeholder={"Password"}
+
       />
       {formik.errors.password && formik.touched.password ? (
         <div>{formik.errors.password}</div>
       ) : null}{" "}
-      <button type="submit">Submit</button>
-      <Link to="/singup"> Sing Up</Link>
+      <button type="submit">Login</button>
+      <Link to="/singup"> Sign Up</Link>
     </form>
   );
 }

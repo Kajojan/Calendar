@@ -9,8 +9,7 @@ export const LoggedinSlice = createSlice({
   },
   reducers: {
     change: (state, action) => {
-      state.loggedin = action.payload
-      
+      state.loggedin = action.payload      
     },
  
   },
