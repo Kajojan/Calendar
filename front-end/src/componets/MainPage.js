@@ -52,9 +52,9 @@ function MainPage() {
         </div>
       ) : null}
 
-      <button onClick={() => navigate(`/callander/${user}/allCal`)}>
+      {callanders.length > 0 ? <button onClick={() => navigate(`/callander/${user}/allCal`)}>
         All Event In One Calendar
-      </button>
+      </button> : null }
 
       <CloseEvent></CloseEvent>
     </div>

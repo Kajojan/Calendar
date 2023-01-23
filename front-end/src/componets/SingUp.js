@@ -5,6 +5,8 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { Add, postData , error} from "../features/UserSlice";
 import { v4 as uuidv4 } from "uuid";
+import "../scss/signUp.scss";
+
 
 function SingUp() {
   const dispatch = useDispatch();
@@ -73,41 +75,44 @@ function SingUp() {
     },
   });
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <label htmlFor="firstName">First Name</label>
+    <form className="Sign" onSubmit={formik.handleSubmit}>
+      <h2>Welcome to Calendar</h2>
+
       <input
         id="firstName"
         name="firstName"
         type="text"
         onChange={formik.handleChange}
         value={formik.values.firstName}
+        placeholder={"First Name"}
       />
       {formik.errors.firstName && formik.touched.firstName ? (
-        <div>{formik.errors.firstName}</div>
+        <div  className="Error">{formik.errors.firstName}</div>
       ) : null}{" "}
-      <label htmlFor="lastName">Last Name</label>
       <input
         id="lastName"
         name="lastName"
         type="text"
         onChange={formik.handleChange}
         value={formik.values.lastName}
+        placeholder={"Last Name"}
+
       />
       {formik.errors.lastName && formik.touched.lastName ? (
-        <div>{formik.errors.lastName}</div>
+        <div className="Error">{formik.errors.lastName}</div>
       ) : null}{" "}
-      <label htmlFor="email">Email Address</label>
       <input
         id="email"
         name="email"
         type="email"
         onChange={formik.handleChange}
         value={formik.values.email}
+        placeholder={"Email Adress"}
+
       />
       {formik.errors.email && formik.touched.email ? (
-        <div>{formik.errors.email}</div>
+        <div  className="Error">{formik.errors.email}</div>
       ) : null}{" "}
-      <label htmlFor="Password">Password</label>
       <input
         id="password"
         type="password"
@@ -115,11 +120,12 @@ function SingUp() {
         onBlur={Formik.handleBlur}
         onChange={formik.handleChange}
         value={formik.values.password}
+        placeholder={"Password"}
+
       />
       {formik.errors.password && formik.touched.password ? (
-        <div>{formik.errors.password}</div>
+        <div  className="Error"> {formik.errors.password}</div>
       ) : null}{" "}
-      <label htmlFor="conPassword">Confirm Password</label>
       <input
         id="ConPassword"
         type="password"
@@ -127,12 +133,15 @@ function SingUp() {
         onBlur={Formik.handleBlur}
         onChange={formik.handleChange}
         value={formik.values.ConPassword}
+        placeholder={"Confirm Password"}
+
       />
       {formik.errors.ConPassword && formik.touched.ConPassword ? (
         <div>{formik.errors.ConPassword}</div>
       ) : null}{" "}
-      <button type="submit">Submit</button>
-      {!user ? <a>{errorMsg}</a> :<a></a>}
+      {!user ? <div  className="Error">{errorMsg} !!!</div > :<a></a>}
+
+      <button type="submit">Sign Up</button>
     </form>
   );
 }

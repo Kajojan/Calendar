@@ -73,7 +73,7 @@ function CalSettings({ setpop }) {
       {console.log(cal)}
       <div className="users">
         <a>Users list: </a>
-        <button>admin: {cal.users.admin[1]} </button>
+        <button>admin: {cal.users.admin[0][1]} </button>
         {cal.users.reader.map((el, index) => {
            return el != null ? (
             <button
@@ -110,7 +110,7 @@ function CalSettings({ setpop }) {
             </button>
           ): null 
         })}
-        {change.status && user_id == cal.users.admin[0] ? (
+        {change.status && user_id == cal.users.admin[0][0] ? (
           <div className="Del_change">
             <div className="Del">
               <a>Do you want delete this user ({change.name}) ?</a>
@@ -141,7 +141,7 @@ function CalSettings({ setpop }) {
           </div>
         ) : null}
       </div>
-      {user_id == cal.users.admin[0] ? (
+      {user_id == cal.users.admin[0][0] ? (
         <div className="add_users">
           <label>Enter user ID:</label>
           <input onChange={handleChange} value={input}></input>
@@ -155,7 +155,7 @@ function CalSettings({ setpop }) {
         </div>
       ) : null}
 
-      {user_id == cal.users.admin[0] ? (
+      {user_id == cal.users.admin[0][0] ? (
         <div className="Delete">
           <button onClick={() => setSure(true)}>Delete this calendar</button>
           {sure ? (
