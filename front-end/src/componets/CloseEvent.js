@@ -1,11 +1,11 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import "../scss/closeEvent.scss";
 
 function CloseEvent() {
   const allCal = useSelector((state) => state.cal.Allcall);
   const currentday = new Date().getDate();
   const month = new Date().getMonth();
-
 
   const connectArrays = allCal.reduce((acc, ele, index) => {
     ele.cal.map((ele2, index2) => {
@@ -43,20 +43,20 @@ function CloseEvent() {
       return acc;
     }, []);
 
-    const monthNames = [
-        "Styczeń",
-        "Luty",
-        "Marzec",
-        "Kwiecie",
-        "Maj",
-        "Czerwiec",
-        "Lipiec",
-        "Sierpień",
-        "Wrzesień",
-        "Październik",
-        "Listopad",
-        "Grudzień",
-      ];
+  const monthNames = [
+    "Styczeń",
+    "Luty",
+    "Marzec",
+    "Kwiecie",
+    "Maj",
+    "Czerwiec",
+    "Lipiec",
+    "Sierpień",
+    "Wrzesień",
+    "Październik",
+    "Listopad",
+    "Grudzień",
+  ];
 
   return (
     <div className="CloseEvent">
@@ -65,21 +65,20 @@ function CloseEvent() {
         if (ele.event.length == 1) {
           return (
             <a key={index}>
-                name: {ele.event[0].name},  
-              date: {monthNames[ele.month_Id]}-{ele.id} , time:{" "}
+              name: {ele.event[0].name} <br /> 
+              date: {ele.id}  {monthNames[ele.month_Id]}<br /> 
+              time:{" "}
               {ele.event[0].time
                 ? "AllDay"
-                : (ele.event[0].start, ":", ele.event[0].end)}{" "},
-              
+                : (ele.event[0].start, ":", ele.event[0].end)}{" "}
             </a>
           );
         } else {
           return ele.event.map((ele2, index2) => {
             return (
               <a key={index2}>
-                name: {ele2.name} , 
-                date: {monthNames[ele.month_Id]}: {ele.id} , time:{" "} 
-                {ele2.time ? "AllDay " : (ele2.start, ":", ele2.end, " ")} 
+                name: {ele2.name} , date: {monthNames[ele.month_Id]}: {ele.id} ,
+                time: {ele2.time ? "AllDay " : (ele2.start, ":", ele2.end, " ")}
               </a>
             );
           });

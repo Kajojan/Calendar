@@ -1,4 +1,5 @@
 import React from "react";
+import "../../scss/navi.scss";
 
 import {Link} from "react-router-dom"
 

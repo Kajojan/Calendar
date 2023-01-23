@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { upload } from "../features/AllcallSlice";
+import '../scss/mainPage.scss'
 import { changeCal, postData } from "../features/CalSlice";
 import { change } from "../features/YearSlice";
 import CloseEvent from "./CloseEvent";
@@ -47,8 +47,7 @@ function MainPage() {
       <button onClick={() => setPop(true)}>Add Callander</button>
       {pop ? (
         <div className="namePurpose">
-          <label>Name/Purpose of calendar</label>
-          <input onChange={handleChange} value={name}></input>
+          <input onChange={handleChange} value={name} placeholder={"Name/Purpose of calendar"}></input>
           <button onClick={clickHandler}>Add</button>
         </div>
       ) : null}

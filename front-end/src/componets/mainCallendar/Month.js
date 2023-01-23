@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { Next, Prev } from "../../features/MonthSlice";
 import { useNavigate } from "react-router-dom";
 import CalSettings from "./CalSettings";
+import '../../scss/month.scss'
+
 
 function Month() {
   const navigate = useNavigate();
@@ -11,6 +13,7 @@ function Month() {
   const currentMonth = useSelector((state) => state.month.currentMonth);
   const currentYear = useSelector((state) => state.year.currentYear);
   const user = useSelector((state) => state.user.user_id);
+  const cal = useSelector((state)=> state.cal.cal )
 
   const monthNames = [
     "Styczeń",
@@ -34,10 +37,10 @@ function Month() {
     );
   };
   return (
-    <div>
-      <button onClick={()=>setpop(true)}>Cal Settings</button>
-      {pop ? <CalSettings setpop={setpop}/> : null}
-      {currentYear}
+    <div className="Monthnavi">
+      {!Array.isArray(cal.users)?  <button onClick={()=>setpop(true)}>Cal Settings</button> : null }
+      {pop   ? <CalSettings setpop={setpop}/> : null}
+     
       {currentMonth > 0 ? (
         <button onClick={() => handleSubmit(Prev)}>prev month</button>
       ) : (
@@ -45,7 +48,7 @@ function Month() {
       )}
       {
         <button >
-          {monthNames[currentMonth]}
+          {monthNames[currentMonth]} {currentYear}
         </button>
       }
       {currentMonth < 11 ? (

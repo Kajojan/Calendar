@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loggedIn, logout } from "../../features/LoggedInSlice";
 import { raport, raportChange } from "../../features/UserSlice";
-import { saveAs } from "react-file-download";
+import "../../scss/profile.scss";
 import FileSaver from "file-saver";
 
 function Profile() {
@@ -75,7 +75,7 @@ function Profile() {
         <button onClick={handleDownload}>Downloand you Raport </button>
       </div>
 
-      <button onClick={ClickHandler}>Log Out</button>
+      <button  className="LogOut" onClick={ClickHandler}>Log Out</button>
     </div>
   );
 }

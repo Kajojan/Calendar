@@ -24,8 +24,8 @@ function PopUp({setPop,pop}) {
           </div>
       <div className='deletePopUp'>
         <a>Do you want delete this event: {pop[1]} ? </a>
-        <button key={"yes"} onClick={clickHandler}>yes</button>
-        <button key={"no"} onClick={()=>setPop(false)}>no</button>
+        <button className="yes" onClick={clickHandler}>yes</button>
+        <button className='no' onClick={()=>setPop(false)}>no</button>
         </div>
         
     </div>

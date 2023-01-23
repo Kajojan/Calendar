@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import '../../scss/calSettings.scss'
+
 import { postData, error, delCal, deleteUser, editRole } from "../../features/CalSlice";
 
 function CalSettings({ setpop }) {
@@ -109,20 +111,20 @@ function CalSettings({ setpop }) {
           ): null 
         })}
         {change.status && user_id == cal.users.admin[0] ? (
-          <div className="Del/change">
+          <div className="Del_change">
             <div className="Del">
               <a>Do you want delete this user ({change.name}) ?</a>
-              <button onClick={() => setChange({ status: false, ...change })}>
+              <button className="no" onClick={() => setChange({ ...change ,status: false})}>
                 No
               </button>
-              <button onClick={delHandler}>Yes</button>
+              <button className="yes" onClick={delHandler}>Yes</button>
             </div>
             <div className="Change">
               <a>Do you want change role to this user ({change.name}) ?</a>
-              <button onClick={() => setChange({ status: false, ...change })}>
+              <button className="no" onClick={() => setChange({  ...change,status: false })}>
                 No
               </button>
-              <button onClick={() => setChangeYes(true)}>Yes</button>
+              <button className="yes" onClick={() => setChangeYes(true)}>Yes</button>
               {changeYes ? (
                 <div className="ChangeYes">
                   
@@ -148,7 +150,7 @@ function CalSettings({ setpop }) {
             <option value="reader">Reader</option>
             <option value="spec">Spectator</option>
           </select>
-          <button onClick={DataHandler}>Add User</button>
+          <button className="user" onClick={DataHandler}>Add User</button>
           {errorMsg.status ? <a>{errorMsg.data}</a> : null}
         </div>
       ) : null}
@@ -159,8 +161,8 @@ function CalSettings({ setpop }) {
           {sure ? (
             <div className="sure">
               <a>Are you sure to delete this calendar?</a>
-              <button onClick={sureHandler}>Yes</button>
-              <button onClick={() => setSure(false)}>No</button>
+              <button className="yes" onClick={sureHandler}>Yes</button>
+              <button className="no" onClick={() => setSure(false)}>No</button>
             </div>
           ) : null}{" "}
         </div>
