@@ -1,8 +1,6 @@
 import React from "react";
 import "../../scss/navi.scss";
 import { useSelector, useDispatch } from "react-redux";
-
-
 import {Link} from "react-router-dom"
 
 
@@ -18,6 +16,7 @@ function Navi() {
       <div className="Welcome">
       <p>Welcome: {usersName}</p>
       </div>
+    
       {/* <Link to="/Notice"> Notice</Link> */}
       {/* <Link to="/Settings"> Settings</Link> */}
 

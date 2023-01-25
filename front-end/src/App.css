@@ -37,3 +37,17 @@
     transform: translateY(0px);
   }
 }
+
+div.BackButton button {
+        position: relative;
+        top: 15%;
+        right: 45%;
+        cursor: pointer;        
+        padding: 0 10px;
+        width: 100px;
+        height: 40px;
+        color: black;
+        font-weight: bold;
+        border-radius: 3px;
+        font-size: 15px;
+}

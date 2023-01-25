@@ -1,5 +1,5 @@
 const User = require("../models/user");
-const fs = require('fs');
+const fs = require("fs");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { options, use } = require("../routes/cal");
@@ -380,6 +380,19 @@ const changerole = async (req, res) => {
 
 const raport = async (req, res) => {
   const { user_id } = req.params;
+
+  const merge =(a,b)=>{
+    const mergedArray = [];
+
+    for (let i = 0; i < a.length; i++) {
+      for (let j = 0; j < b.length; j++) {
+        if (a[i].cal_id === b[j]._id) {
+          mergedArray.push({ ...a[i], ...b[j] });
+        }
+      }
+    }
+return mergedArray
+  }
   try {
     const users = await User.aggregate([
       { $match: { user_id: user_id } },
@@ -432,7 +445,7 @@ const raport = async (req, res) => {
         },
       },
     ]);
-    console.log(users)
+    // console.log(users);
     const event = await User.aggregate([
       { $match: { user_id: user_id } },
       { $unwind: "$callendars" },
@@ -457,7 +470,9 @@ const raport = async (req, res) => {
         },
       },
     ]);
-    res.status(200).json({ event: event, user: users });
+    // 
+   
+    res.status(200).json(merge(users,event));
   } catch {
     res.status(400);
   }
