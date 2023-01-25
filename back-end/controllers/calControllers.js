@@ -10,7 +10,6 @@ const getCallendars = async (req, res) => {
   const cals = await User.find({ user_id: user_id }, { callendars: 1, _id: 0 });
 
   res.status(200).json(cals);
-  console.log(cals);
 };
 
 const getSingleCallendar = async (req, res) => {
@@ -52,7 +51,6 @@ const createUser = async (req, res) => {
         .send();
     } catch (error) {
       res.json({ status: "error", error: "Duplicate email" });
-      console.log(error);
     }
   } else {
     res.json({ status: "error", error: "Duplicate email" });
@@ -61,7 +59,6 @@ const createUser = async (req, res) => {
 
 const deleteEvent = async (req, res) => {
   const { user_id, cal_id, month_id, day_id, event_id } = req.params;
-  console.log(req.params);
   const num = parseInt(month_id, 10);
   const num2 = parseInt(day_id, 10);
 
@@ -99,7 +96,6 @@ const deleteEvent = async (req, res) => {
     { user_id: user_id },
     { callendars: 1, _id: 0 }
   );
-  console.log(dayData);
   res.status(200).json({ event: dayData[0].cal[0], allcal: allcall });
 };
 
@@ -148,7 +144,6 @@ const login = async (req, res) => {
 
   try {
     const check = await User.find({ email: email });
-    console.log(check[0]);
     if (check) {
       const paswordCorret = await bcrypt.compare(password, check[0].password);
       if (!paswordCorret) {
@@ -181,12 +176,9 @@ const loggedIn = async (req, res) => {
     if (!token) return res.json(false);
 
     jwt.verify(token, process.env.JWT_SECRET);
-    console.log(jwt.decode(token).user);
     const data = await User.find({ user_id: jwt.decode(token).user });
-    console.log("data", data[0]);
     res.send({ status: true, data: data[0] });
   } catch (err) {
-    console.log(err);
     res.json({ status: false });
   }
 };
@@ -205,7 +197,6 @@ const logout = async (req, res) => {
 const addCal = async (req, res) => {
   const { user_id } = req.params;
   const { data, seUser_id, seUsersCal_id, role } = req.body;
-  console.log("req:   ", req.body);
   const check = await User.findOne({ user_id: user_id }, { lastname: 1 });
   if (check != null) {
     try {
@@ -213,7 +204,6 @@ const addCal = async (req, res) => {
         { user_id: user_id },
         { $push: { callendars: data } }
       );
-      console.log("user", user);
       if (seUser_id != null || seUsersCal_id != null) {
         const updateUsers = await User.updateMany(
           {},
@@ -246,7 +236,6 @@ const addCal = async (req, res) => {
       ]);
       res.status(200).json(dayData[0]);
     } catch (error) {
-      console.log(seUser_id);
       res.json({ status: "error", error: "User not find" });
     }
   } else {
@@ -337,21 +326,17 @@ const deluser = async (req, res) => {
     { arrayFilters: [{ "element.cal_id": cal_id }] }
   );
 
-  const allcall = await User.find(
-    { "callendars.cal_id": cal_id },
-    { callendars: 1, _id: 0 }
+  const allcall = await User.findOne(
+    { "callendars.cal_id": cal_id }
   );
-  console.log(allcall);
-  res.status(200).json(allcall[0].callendars[0]);
+  res.status(200).json(allcall.callendars.filter(a=>a.cal_id == cal_id));
 };
 
 const changerole = async (req, res) => {
   const { user_id, cal_id, role, index } = req.params;
   const newRole = req.body.role;
   const user = req.body.user;
-  console.log(req.body);
   try {
-    console.log(newRole);
 
     const cal = await User.updateMany(
       {},
@@ -364,15 +349,13 @@ const changerole = async (req, res) => {
       { arrayFilters: [{ "element.cal_id": cal_id }] }
     );
 
-    console.log(cal);
 
     const allcall = await User.findOne(
       { "callendars.cal_id": cal_id },
-      { callendars: 1, _id: 0 }
+    
     );
 
-    console.log(allcall);
-    res.status(200).json(allcall.callendars[0]);
+    res.status(200).json(allcall.callendars.filter(a=>a.cal_id == cal_id));
   } catch (error) {
     res.status(400).json(error);
   }
@@ -445,7 +428,6 @@ return mergedArray
         },
       },
     ]);
-    // console.log(users);
     const event = await User.aggregate([
       { $match: { user_id: user_id } },
       { $unwind: "$callendars" },

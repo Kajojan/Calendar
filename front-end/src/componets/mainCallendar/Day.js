@@ -53,7 +53,7 @@ function Day() {
     cal.cal.map((ele, index) => {
       ele.map((ele2, index2) => {
         if (ele2.event.length > 0) {
-          ele2.event.forEach((element) => {
+          ele2.event.filter(a=>a!=null).forEach((element) => {
             if (element.name.toLowerCase() == search.toLowerCase()) {
               events.push([element, ele2]);
             }
@@ -91,7 +91,7 @@ function Day() {
               return (
                 <a key={index}>
                   name: {ele[0].name}, 
-                  time: {ele[0].time ? "AllDay" : ele[0].start - ele[0].end}, date:{" "}
+                  time: {ele[0].time ? "AllDay" : `${ele[0].start} - ${ele[0].end}`}, date:{" "}
                   {monthNames[ele[1].month_Id]}, {ele[1].id}{" "}
                 </a>
               );

@@ -21,7 +21,6 @@ export const loggedIn = () => {
         .get(`http://localhost:4000/api/cal/if/logged/in`)
         .then((response) => {
           if(response.data.status==true){
-            console.log(response.data.data)
             dispatch(upload(response.data.data.callendars))
             dispatch(change(response.data.status))
             dispatch(Add(response.data.data))

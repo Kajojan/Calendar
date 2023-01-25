@@ -17,7 +17,6 @@ const UserSlice = createSlice({
   initialState,
   reducers: {
     Add: (state, action) => {
-      console.log(action.payload)
       state.user_id = action.payload.user_id;
       state.name = action.payload.name;
       state.lastname = action.payload.lastname;
@@ -31,7 +30,6 @@ const UserSlice = createSlice({
       state.error = action.payload
     },
     raportChange:(state, action)=>{
-      console.log(action.payload)
       state.raportChange = action.payload
     }
 
@@ -43,7 +41,6 @@ export const postData = (data) => {
     axios
       .post(`http://localhost:4000/api/cal/`, { ...data, callendars: [] })
       .then((response) => {
-        console.log(response)
         if(response.data.status != "error"){
           dispatch(error(""))
           dispatch(Add(data))
@@ -64,7 +61,6 @@ export const raport = (user_id) => {
     axios
       .get(`http://localhost:4000/api/cal/do/a/raport/${user_id}`)
       .then((response) => {
-        console.log(response.data)
         dispatch(raportChange(response.data))
       
       })

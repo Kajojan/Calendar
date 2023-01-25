@@ -59,7 +59,6 @@ export const postData = (
         data: data,
       })
       .then((response) => {
-        console.log("respone : ",response.data)
         if (response.data.status != "error") {
           if (seUser_id == null) {
             dispatch(changeCal(data));
@@ -97,8 +96,7 @@ export const deleteUser = (user_id, cal_id,role,index) => {
     axios
       .delete(`http://localhost:4000/api/cal/${user_id}/${cal_id}/${role}/${index}`)
       .then((response) => {
-        console.log(response.data)
-        dispatch(changeCal({cal:response.data}))
+        dispatch(changeCal({cal:response.data[0]}))
       })
       .catch((error) => {
         dispatch({ type: "POST_ERROR", error });
@@ -112,8 +110,7 @@ export const editRole = (user_id, cal_id,role,index, newRole, id,name) => {
     axios
       .put(`http://localhost:4000/api/cal/change/role/${user_id}/${cal_id}/${role}/${index}`, {role: newRole, user:[id, name]})
       .then((response) => {
-        console.log(response.data)
-        dispatch(changeCal({cal:response.data}))
+        dispatch(changeCal({cal:response.data[0]}))
       })
       .catch((error) => {
         dispatch({ type: "POST_ERROR", error });

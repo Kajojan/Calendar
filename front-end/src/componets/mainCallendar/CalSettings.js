@@ -25,31 +25,38 @@ function CalSettings({ setpop }) {
   });
   const [changeYes, setChangeYes] = useState(false);
 
-  useEffect(() => {
-    if (errorMsg.status == false) {
-      setinput("");
-    }
-  }, [errorMsg]);
+  // useEffect(() => {
+  //   if (errorMsg.status == false) {
+  //     setinput("");
+  //   }
+  // }, [errorMsg]);
 
   const handleChange = (event) => {
     setinput(event.target.value);
+    dispatch(
+      error({ status: false, data: "User is already in this calendar " })
+    );
+   
   };
   const selectHandler = (event) => {
     setRole(event.target.value);
-    console.log(event.target.value);
   };
   const clickHandler = () => {
     setpop(false);
   };
   const DataHandler = () => {
-    if (cal.users[role].includes(input)) {
+    if ([input].some(elem =>
+      Object.values(cal.users).some(array => array.some(subArray => subArray != null && subArray.includes(elem))))) {
+
       dispatch(
         error({ status: true, data: "User is already in this calendar " })
       );
     } else if (input == "") {
       dispatch(error({ status: true, data: "Input user_id" }));
     } else {
+
       dispatch(postData(input, cal.name, lastname, cal, user_id, cal_id, role));
+      setinput("")
     }
   };
 
@@ -70,7 +77,6 @@ function CalSettings({ setpop }) {
 
   return (
     <div className="CalSettings">
-      {console.log(cal)}
       <div className="users">
         <a>Users list: </a>
         <button>admin: {cal.users.admin[0][1]} </button>

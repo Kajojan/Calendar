@@ -64,21 +64,23 @@ function CloseEvent() {
       {event.map((ele, index) => {
         if (ele.event.length == 1) {
           return (
+            
             <a key={index}>
               name: {ele.event[0].name} <br /> 
               date: {ele.id}  {monthNames[ele.month_Id]}<br /> 
               time:{" "}
               {ele.event[0].time
                 ? "AllDay"
-                : (ele.event[0].start, ":", ele.event[0].end)}{" "}
+                : `${ele.event[0].start} : ${ele.event[0].end} `}{" "}
             </a>
           );
         } else {
-          return ele.event.map((ele2, index2) => {
+           return ele.event.filter(a=> a != null).map((ele2, index2) => {
             return (
               <a key={index2}>
-                name: {ele2.name} , date: {monthNames[ele.month_Id]}: {ele.id} ,
-                time: {ele2.time ? "AllDay " : (ele2.start, ":", ele2.end, " ")}
+                name: {ele2.name} <br /> 
+                date: {monthNames[ele.month_Id]}: {ele.id} <br /> 
+                time: {ele2.time ? "AllDay " : `${ele2.start} : ${ele2.end} `}
               </a>
             );
           });
