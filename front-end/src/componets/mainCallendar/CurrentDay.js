@@ -43,20 +43,18 @@ function CurrentDay() {
         <a>None Of Event</a>
       )}
       </div>
-      {console.log(cal)}
-      {cal.users ? (
+      {!Array.isArray(cal.users) ? (
         <>
-          {pop[0] && [
-            cal.users.admin[0][0] == user_id || cal.users.reader[0][0] == user_id,
-          ] ? (
+          {pop[0] && (
+            cal.users.admin[0][0] == user_id || (cal.users.reader.length > 0 && cal.users.reader[0][0] == user_id)) ? (
             <PopUp setPop={setPop} pop={pop} />
           ) : null}
-          {(cal.users.admin[0][0] == user_id || cal.users.reader[0][0] == user_id  ) && !pop[0]? (
+          {(cal.users.admin[0][0] == user_id || (cal.users.reader.length > 0 && cal.users.reader[0][0] == user_id) ) && !pop[0]? (
             <EventForm name={"Add Event"} pop={pop} />
           ) : null}
         </>
       ) : null}
-      {cal.users.admin[0][0] == user_id ? (
+      {!Array.isArray(cal.users) && cal.users.admin[0][0] == user_id ? (
         <div className="import_file">
           <input type="file" onChange={handleFileChange} />
           {file ? <button onClick={handleFileUpload}>Upload</button> : null}

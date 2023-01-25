@@ -15,7 +15,6 @@ const CurrentDaySlice = createSlice({
     },
     changeData: (state, action) => {
       state.dayData = action.payload;
-      console.log(action.payload)
     }
   },
 });
@@ -28,7 +27,6 @@ export const postEvent = (user_id, cal_id, month_id, day_id, data) => {
         data
       )
       .then((response) => {
-          console.log(response.data)
         dispatch(actions.changeData(response.data.event.cal[month_id][day_id]));
         dispatch(changeCal({cal: response.data.event}))
         dispatch(upload(response.data.allcal[0].callendars))
@@ -41,14 +39,12 @@ export const postEvent = (user_id, cal_id, month_id, day_id, data) => {
 };
 
 export const dellevent = (user_id, cal_id, month_id, day_id, event_id) =>{
-  console.log(cal_id)
   return (dispatch) =>{
     axios
     .delete(
       `http://localhost:4000/api/cal/${user_id}/${cal_id}/${month_id}/${day_id-1}/${event_id}`,
     )
     .then((response) => {
-    console.log(response.data)
     dispatch(actions.changeData(response.data.event.cal[month_id][day_id-1]));
     dispatch(changeCal({cal: response.data.event}))
     dispatch(upload(response.data.allcal[0].callendars))
@@ -62,14 +58,12 @@ export const dellevent = (user_id, cal_id, month_id, day_id, event_id) =>{
 
 
 export const editEvent = (user_id, cal_id, month_id, day_id, event_id, value) =>{
-  console.log(cal_id)
   return (dispatch) =>{
     axios
     .put(
       `http://localhost:4000/api/cal/${user_id}/${cal_id}/${month_id}/${day_id-1}/${event_id}`,value
     )
     .then((response) => {
-    console.log(response.data)
     dispatch(actions.changeData(response.data.event.cal[month_id][day_id-1]));
     dispatch(changeCal({cal: response.data.event}))
     dispatch(upload(response.data.allcal[0].callendars))

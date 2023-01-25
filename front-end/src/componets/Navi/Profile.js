@@ -37,7 +37,6 @@ function Profile() {
       acc += `cal_id : ${ele.cal_id} \n users: \n admin: ${ele.count_admin} \n reader: ${ele.count_reader} \n spec: ${ele.count_spec} \n`;
       User_raport.map((ele2, index) => {
         if (ele2._id == ele.cal_id) {
-          console.log(ele2);
           acc += `events: ${ele2.eventCount} \n`;
         }
         return acc;
@@ -51,7 +50,6 @@ function Profile() {
 
   const generateRaport = () => {
     dispatch(raport(id));
-    console.log("done")
   };
 
   const changeRaport =(a)=>{
@@ -89,7 +87,6 @@ function Profile() {
             </select>
           </div>
         ) : null}
-
         {User_raport != undefined
           ? User_raport.map((ele, index) => {
               return (
@@ -100,6 +97,7 @@ function Profile() {
                     <li>admin: {ele.count_admin}</li>
                     <li>reader: {ele.count_reader}</li>
                     <li>spectetor: {ele.count_spec}</li>
+                    events: 
                     <li>events: {ele.eventCount}</li>
                   </ul>
                  

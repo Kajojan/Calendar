@@ -11,7 +11,6 @@ const EventForm = ({ name,pop}) => {
   const cal = useSelector((state) => state.cal.cal);
   const day_id = useSelector((state) => state.day.currentDay);
   const cal_id = cal.cal_id;
-  console.log(cal_id);
   const dispatch = useDispatch();
   const [allday, setAllday] = useState(false);
   const formik = useFormik({
@@ -31,10 +30,8 @@ const EventForm = ({ name,pop}) => {
         dispatch(postEvent(user, cal.cal_id, currentMonth, day_id - 1, values));
 
       }else{
-          console.log(pop)
           dispatch(editEvent(user,cal.cal_id, currentMonth,day_id, pop[2],values))
         
-        // console.log({ cal: {...cal, cal: {...cal.cal, [num]: [...cal.cal[num], cal.cal[num][num2]{...cal.cal[num][num2], event: [...cal.cal[num][num2].event, values] }] } } });
       };
         // dispatch(changeCal({cal:{...cal,   cal.cal[num][num2].event = [...cal.cal[num][num2].event, values] }}))
       // }

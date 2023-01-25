@@ -139,7 +139,7 @@ function SingUp() {
       {formik.errors.ConPassword && formik.touched.ConPassword ? (
         <div>{formik.errors.ConPassword}</div>
       ) : null}{" "}
-      {!user ? <div  className="Error">{errorMsg} !!!</div > :<a></a>}
+      {!user ? <div  className="Error">{errorMsg} </div > :<a></a>}
 
       <button type="submit">Sign Up</button>
     </form>
