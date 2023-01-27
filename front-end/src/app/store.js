@@ -6,6 +6,8 @@ import CalSlice from '../features/CalSlice';
 import UserSlice from '../features/UserSlice'
 import LoggedInSlice from '../features/LoggedInSlice';
 import thunk from 'redux-thunk';
+import  { logger } from "redux-logger"
+
 
  const store = configureStore({
   reducer:{
@@ -16,6 +18,7 @@ import thunk from 'redux-thunk';
     user: UserSlice,
     loggedin : LoggedInSlice,
 
-  }
+  },
+  middleware: (getDefaultMiddleware)=> getDefaultMiddleware().concat(logger)
 },applyMiddleware(thunk));
 export default store

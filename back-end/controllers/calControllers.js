@@ -4,6 +4,25 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { options, use } = require("../routes/cal");
 const user = require("../models/user");
+const multer = require('multer')
+
+const storagee = multer.diskStorage({
+    destination: (req, file, cb)=>{
+      console.log(file)
+      cb(null, './files')
+    },
+    filename: (req, file, cb)=>{
+      console.log(file)
+      cb(null, Date.now()+file.originalname)
+    }
+})
+
+const upload = multer({storage: storagee })
+
+const file =  async (req,res)=>{
+  res.send(req.file.filename)
+};
+
 
 const getCallendars = async (req, res) => {
   const { user_id } = req.params;
@@ -11,6 +30,8 @@ const getCallendars = async (req, res) => {
 
   res.status(200).json(cals);
 };
+
+
 
 const getSingleCallendar = async (req, res) => {
   const { user_id, cal_id } = req.params;
@@ -102,6 +123,8 @@ const deleteEvent = async (req, res) => {
 const addEvent = async (req, res) => {
   const { user_id, cal_id, month_id, day_id, event_id } = req.params;
   const event = req.body;
+  console.log(event.file)
+
   const num = parseInt(month_id, 10);
   const num2 = parseInt(day_id, 10);
   const cal = await User.updateMany(
@@ -268,7 +291,7 @@ const deleteCal = async (req, res) => {
 const editevent = async (req, res) => {
   const { user_id, cal_id, month_id, day_id, event_id } = req.params;
   const event = req.body;
-
+  console.log(event)
   const cal = await User.updateMany(
     {},
     {
@@ -460,6 +483,9 @@ return mergedArray
   }
 };
 
+
+
+
 module.exports = {
   raport,
   createUser,
@@ -475,4 +501,5 @@ module.exports = {
   loggedIn,
   deluser,
   changerole,
+  file,upload,
 };

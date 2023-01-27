@@ -2,9 +2,10 @@ import { React, useState } from "react";
 import { useFormik } from "formik";
 import validate from "./validate";
 import { useSelector, useDispatch } from "react-redux";
-import {  editEvent, postEvent } from "../../features/CurrentDaySlice";
+import { editEvent, postEvent } from "../../features/CurrentDaySlice";
+import axios from "axios";
 
-const EventForm = ({ name,pop}) => {
+const EventForm = ({ name, pop }) => {
   const currentMonth = useSelector((state) => state.month.currentMonth);
   const user = useSelector((state) => state.user.user_id);
   const day = useSelector((state) => state.day.dayData);
@@ -13,32 +14,64 @@ const EventForm = ({ name,pop}) => {
   const cal_id = cal.cal_id;
   const dispatch = useDispatch();
   const [allday, setAllday] = useState(false);
+  const [file, setFile] = useState(null);
+  const handleFileChange = (e) => setFile(e.target.files[0]);
   const formik = useFormik({
     initialValues: {
       name: "",
       start: "",
       end: "",
       time: allday,
+      file: "",
     },
     validate,
 
     onSubmit: (values) => {
       values.time = allday;
+      console.log(values);
       formik.handleReset();
       if (name == "Add Event") {
-
-        dispatch(postEvent(user, cal.cal_id, currentMonth, day_id - 1, values));
-
-      }else{
-          dispatch(editEvent(user,cal.cal_id, currentMonth,day_id, pop[2],values))
-        
-      };
+        const fileData = new FormData();
+        fileData.append("file", file);
+        axios
+          .post(`http://localhost:4000/api/cal/upload/file`, fileData)
+          .then((res) => {
+            values.file = [res.data];
+            dispatch(
+              postEvent(user, cal.cal_id, currentMonth, day_id - 1, values)
+            );
+          });
+      } else {
+        if (file == null) {
+          dispatch(
+            editEvent(user, cal.cal_id, currentMonth, day_id, pop[2], values)
+          );
+        } else {
+          const fileData = new FormData();
+          fileData.append("file", file);
+          axios
+            .post(`http://localhost:4000/api/cal/upload/file`, fileData)
+            .then((res) => {
+              values.file = [...day.event[pop[2]].file, res.data];
+              dispatch(
+                editEvent(
+                  user,
+                  cal.cal_id,
+                  currentMonth,
+                  day_id,
+                  pop[2],
+                  values
+                )
+              );
+            });
+        }
         // dispatch(changeCal({cal:{...cal,   cal.cal[num][num2].event = [...cal.cal[num][num2].event, values] }}))
-      // }
+        // }
+      }
+      
     },
   });
   return (
-    
     <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
       <h1>{name}</h1>
       {formik.values.time}
@@ -75,6 +108,8 @@ const EventForm = ({ name,pop}) => {
       ) : (
         <></>
       )}
+
+      <input id="file" name="file" type="file" onChange={handleFileChange} />
       <button type="button" onClick={() => setAllday(!allday)}>
         AllDay
       </button>
