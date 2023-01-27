@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import EventForm from "../Form/EventForm";
 import PopUp from "./PopUp";
 import "../../scss/currentDay.scss";
+import axios from "axios";
 
 function CurrentDay() {
   const [pop, setPop] = useState([false, "", 0]);
@@ -10,18 +11,33 @@ function CurrentDay() {
   const cal = useSelector((state) => state.cal.cal);
   const user_id = useSelector((state) => state.user.user_id);
 
-  const [file, setFile] = useState(null);
-  const handleFileChange = (e) => setFile(e.target.files[0]);
+  
   const [fileContent, setFileContent] = useState(null);
 
-  const handleFileRead = (e) => {
-    setFileContent(e.target.result);
-  };
-  const handleFileUpload = () => {
-    const reader = new FileReader();
-    reader.onloadend = handleFileRead;
-    reader.readAsText(file);
-  };
+  // const handleFileRead = (e) => {
+  //   setFileContent(e.target.result);
+  // };
+  // const handleFileUpload = () => {
+  //   const reader = new FileReader();
+  //   reader.onloadend = handleFileRead;
+  //   // reader.readAsText(file);
+  //   reader.onload = (fileContent) => {
+  //     const jsonData = JSON.parse(event.target.result);
+  //     setData(jsonData);
+  //   }
+  //   reader.readAsText(file);
+  // }
+
+  const handleFileRead = () => {
+   
+    // const reader = new FileReader();
+    // reader.onload = (event) => {
+    //   const jsonData = JSON.parse(event.target.result);
+    //   setFileContent(jsonData);
+    // }
+    // reader.readAsText(file);
+  }
+  
 
   return (
     <div className="currentDay">
@@ -54,13 +70,13 @@ function CurrentDay() {
           ) : null}
         </>
       ) : null}
-      {!Array.isArray(cal.users) && cal.users.admin[0][0] == user_id ? (
+      {/* {!Array.isArray(cal.users) && cal.users.admin[0][0] == user_id  ? (
         <div className="import_file">
-          <input type="file" onChange={handleFileChange} />
-          {file ? <button onClick={handleFileUpload}>Upload</button> : null}
-          {fileContent ? <p>{fileContent}</p> : null}
+          
+          {file ? <button onClick={handleFileRead}>Upload</button> : null}
+          {fileContent ? <p>{fileContent.cal_id}</p> : null}
         </div>
-      ) : null}
+      ) : null} */}
     </div>
   );
 }

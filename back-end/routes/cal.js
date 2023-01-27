@@ -15,6 +15,7 @@ const {
     deluser,
     changerole,
     raport,
+    file,upload,
 } = require('../controllers/calControllers')
 
 const router = express.Router()
@@ -46,6 +47,8 @@ router.delete(`/:user_id/:cal_id/:role/:index`,auth , deluser)
 router.put(`/change/role/:user_id/:cal_id/:role/:index` , changerole)
 
 router.get('/do/a/raport/:user_id', raport)
+
+router.post('/upload/file', upload.single("file"), file)
 
 
 
