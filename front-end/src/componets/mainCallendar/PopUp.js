@@ -38,7 +38,7 @@ function PopUp({setPop,pop}) {
         <button className='no' onClick={()=>setPop(false)}>no</button>
         </div>
         <div>
-          {/* {console.log()} */}
+          <a>załączniki: </a>
             {day.event[pop[2]].file.length > 0 ? 
             day.event[pop[2]].file.map((ele,index)=>{
               console.log(ele)

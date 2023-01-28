@@ -123,10 +123,7 @@ const deleteEvent = async (req, res) => {
 const addEvent = async (req, res) => {
   const { user_id, cal_id, month_id, day_id, event_id } = req.params;
   const event = req.body;
-  console.log(event.file)
-
-  const num = parseInt(month_id, 10);
-  const num2 = parseInt(day_id, 10);
+  console.log(event)
   const cal = await User.updateMany(
     {},
     {
@@ -158,7 +155,7 @@ const addEvent = async (req, res) => {
     { user_id: user_id },
     { callendars: 1, _id: 0 }
   );
-
+    console.log(allcall)
   res.status(200).json({ event: dayData[0].cal[0], allcal: allcall });
 };
 

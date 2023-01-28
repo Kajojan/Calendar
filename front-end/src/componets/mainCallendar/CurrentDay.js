@@ -12,36 +12,11 @@ function CurrentDay() {
   const user_id = useSelector((state) => state.user.user_id);
 
   
-  const [fileContent, setFileContent] = useState(null);
-
-  // const handleFileRead = (e) => {
-  //   setFileContent(e.target.result);
-  // };
-  // const handleFileUpload = () => {
-  //   const reader = new FileReader();
-  //   reader.onloadend = handleFileRead;
-  //   // reader.readAsText(file);
-  //   reader.onload = (fileContent) => {
-  //     const jsonData = JSON.parse(event.target.result);
-  //     setData(jsonData);
-  //   }
-  //   reader.readAsText(file);
-  // }
-
-  const handleFileRead = () => {
-   
-    // const reader = new FileReader();
-    // reader.onload = (event) => {
-    //   const jsonData = JSON.parse(event.target.result);
-    //   setFileContent(jsonData);
-    // }
-    // reader.readAsText(file);
-  }
-  
 
   return (
     <div className="currentDay">
       <div className="Event">
+        {console.log(day.event)}
       <a>Events: </a> <br/>
       {day.event.length != 0 ? (
         day.event.map((ele, index) => {

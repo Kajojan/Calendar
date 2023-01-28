@@ -3,13 +3,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { actions } from "../../features/CurrentDaySlice";
 import "../../scss/day.scss";
+import ImportFile from "./ImportFile";
 
 function Day() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user_id);
   const [days, setdays] = useState(32);
   const [week, setweek] = useState(-1);
-
+  const [Import , setImport] = useState(false)
   const month = useSelector((state) => state.month.currentMonth);
   const currentYear = useSelector((state) => state.year.currentYear);
   const cal = useSelector((state) => state.cal.cal);
@@ -53,11 +54,13 @@ function Day() {
     cal.cal.map((ele, index) => {
       ele.map((ele2, index2) => {
         if (ele2.event.length > 0) {
-          ele2.event.filter(a=>a!=null).forEach((element) => {
-            if (element.name.toLowerCase() == search.toLowerCase()) {
-              events.push([element, ele2]);
-            }
-          });
+          ele2.event
+            .filter((a) => a != null)
+            .forEach((element) => {
+              if (element.name.toLowerCase() == search.toLowerCase()) {
+                events.push([element, ele2]);
+              }
+            });
         }
       });
     });
@@ -75,6 +78,8 @@ function Day() {
     }
   };
 
+ 
+
   return (
     <div className="day">
       <div className="search">
@@ -90,9 +95,9 @@ function Day() {
             data.map((ele, index) => {
               return (
                 <a key={index}>
-                  name: {ele[0].name}, 
-                  time: {ele[0].time ? "AllDay" : `${ele[0].start} - ${ele[0].end}`}, date:{" "}
-                  {monthNames[ele[1].month_Id]}, {ele[1].id}{" "}
+                  name: {ele[0].name}, time:{" "}
+                  {ele[0].time ? "AllDay" : `${ele[0].start} - ${ele[0].end}`},
+                  date: {monthNames[ele[1].month_Id]}, {ele[1].id}{" "}
                 </a>
               );
             })
@@ -100,6 +105,10 @@ function Day() {
             <a>Not found "{search}"</a>
           ) : null}
         </div>
+      </div>
+      <div className="Import">
+        <button onClick={()=>setImport(true)}>Import File</button>
+        {Import ? <ImportFile></ImportFile> : null }
       </div>
       <div className="week">
         <button onClick={() => clickhandler(7)}>Week view</button>
@@ -137,7 +146,7 @@ function Day() {
                     <ul>
                       {el.event.map((ele, index) => {
                         return ele == null ? null : (
-                          <a key={index}>{ele.name}</a> 
+                          <a key={index}>{ele.name}</a>
                         );
                       })}
                     </ul>
