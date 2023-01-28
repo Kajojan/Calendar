@@ -13,15 +13,17 @@ const EventForm = ({ name, pop }) => {
   const day_id = useSelector((state) => state.day.currentDay);
   const cal_id = cal.cal_id;
   const dispatch = useDispatch();
-  const [allday, setAllday] = useState(false);
+  const [allday, setAllday] = useState(
+    name == "Add Event" ? false : day.event[pop[2]].time
+  );
   const [file, setFile] = useState(null);
   const handleFileChange = (e) => setFile(e.target.files[0]);
   const formik = useFormik({
     initialValues: {
-      name: "",
-      start: "",
-      end: "",
-      time: allday,
+      name: name == "Add Event" ? "" : day.event[pop[2]].name,
+      start: name == "Add Event" ? "" : day.event[pop[2]].start,
+      end: name == "Add Event" ? "" : day.event[pop[2]].end,
+      time: name == "Add Event" ? "" : day.event[pop[2]].time,
       file: "",
     },
     validate,
@@ -31,16 +33,22 @@ const EventForm = ({ name, pop }) => {
       console.log(values);
       formik.handleReset();
       if (name == "Add Event") {
-        const fileData = new FormData();
-        fileData.append("file", file);
-        axios
-          .post(`http://localhost:4000/api/cal/upload/file`, fileData)
-          .then((res) => {
-            values.file = [res.data];
-            dispatch(
-              postEvent(user, cal.cal_id, currentMonth, day_id - 1, values)
-            );
-          });
+        if (file != null) {
+          const fileData = new FormData();
+          fileData.append("file", file);
+          axios
+            .post(`http://localhost:4000/api/cal/upload/file`, fileData)
+            .then((res) => {
+              values.file = [res.data];
+              dispatch(
+                postEvent(user, cal.cal_id, currentMonth, day_id - 1, values)
+              );
+            });
+        } else {
+          dispatch(
+            postEvent(user, cal.cal_id, currentMonth, day_id - 1, values)
+          );
+        }
       } else {
         if (file == null) {
           dispatch(
@@ -68,20 +76,21 @@ const EventForm = ({ name, pop }) => {
         // dispatch(changeCal({cal:{...cal,   cal.cal[num][num2].event = [...cal.cal[num][num2].event, values] }}))
         // }
       }
-      
     },
   });
   return (
     <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
       <h1>{name}</h1>
-      {formik.values.time}
+      {/* {formik.values.time} */}
       <label htmlFor="name"> Event Name</label>
       <input
         id="name"
         name="name"
         type="text"
         onChange={formik.handleChange}
-        value={formik.values.name}
+        value={
+          name == "Add Event" ? formik.values.name : day.event[pop[2]].name
+        }
       />
       {formik.errors.name ? <div>{formik.errors.name}</div> : null}
       {!allday ? (
@@ -92,7 +101,12 @@ const EventForm = ({ name, pop }) => {
             name="start"
             type="time"
             onChange={formik.handleChange}
-            value={formik.values.start}
+            // value={formik.values.start}
+            value={
+              name == "Add Event"
+                ? formik.values.start
+                : day.event[pop[2]].start
+            }
           />
 
           <label htmlFor="end">Time-end</label>
@@ -101,7 +115,10 @@ const EventForm = ({ name, pop }) => {
             name="end"
             type="time"
             onChange={formik.handleChange}
-            value={formik.values.end}
+            // value={formik.values.end}
+            value={
+              name == "Add Event" ? formik.values.end : day.event[pop[2]].end
+            }
           />
           {formik.errors.end ? <div>{formik.errors.end}</div> : null}
         </div>

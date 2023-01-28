@@ -31,6 +31,7 @@ function PopUp({setPop,pop}) {
     <div className='PopUp'>
       <div className='editPopUp'>
             <EventForm name={"Update Event"} pop={pop}/>
+            <button onClick={()=>setPop([false, ...pop])}>close</button>
           </div>
       <div className='deletePopUp'>
         <a>Do you want delete this event: {pop[1]} ? </a>
