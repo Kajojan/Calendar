@@ -3,7 +3,7 @@ const auth = require('../auth')
 const {
     createUser,
     getCallendars,
-    getSingleCallendar,
+    getAllEvents,
     deleteEvent,
     addEvent,
     login,
@@ -24,7 +24,7 @@ router.put('/:user_id', auth ,addCal)
 
 router.get('/:user_id',auth ,getCallendars)
 
-router.get('/:user_id/:cal_id',auth ,getSingleCallendar)
+router.get('/:user_id/:cal_id',auth ,getAllEvents)
 
 router.post('/', createUser)
 
