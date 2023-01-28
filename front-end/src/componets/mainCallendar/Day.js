@@ -106,10 +106,11 @@ function Day() {
           ) : null}
         </div>
       </div>
-      <div className="Import">
+      {console.log(cal)}
+     { !Array.isArray(cal.users) && cal.users.admin.find(ele => ele[0] === user) != undefined  ?  <div className="Import">
         <button onClick={()=>setImport(true)}>Import File</button>
         {Import ? <ImportFile></ImportFile> : null }
-      </div>
+      </div>:  null }
       <div className="week">
         <button onClick={() => clickhandler(7)}>Week view</button>
         <button onClick={() => clickhandler(32)}>Month view</button>
