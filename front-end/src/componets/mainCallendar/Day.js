@@ -1,9 +1,11 @@
+import FileSaver from "file-saver";
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { actions } from "../../features/CurrentDaySlice";
 import "../../scss/day.scss";
 import ImportFile from "./ImportFile";
+import axios from 'axios'
 
 function Day() {
   const dispatch = useDispatch();
@@ -77,6 +79,15 @@ function Day() {
       setweek(week - 7);
     }
   };
+  const handleDownload = () => {
+    axios.get(`http://localhost:4000/api/cal/${user}/${cal.cal_id}`).then((res)=>{
+      const jsonData = JSON.stringify(res.data[0].events[0]);
+      const blob = new Blob([jsonData], { type: 'application/json' });
+      // console.log(blob)
+      FileSaver.saveAs(blob, `events_${cal.cal_id}.json`);
+    })
+    
+  };
 
  
 
@@ -106,10 +117,12 @@ function Day() {
           ) : null}
         </div>
       </div>
-      {console.log(cal)}
+      {/* {console.log(cal)} */}
      { !Array.isArray(cal.users) && cal.users.admin.find(ele => ele[0] === user) != undefined  ?  <div className="Import">
         <button onClick={()=>setImport(true)}>Import File</button>
         {Import ? <ImportFile></ImportFile> : null }
+        <button onClick={()=>handleDownload()}>Export events</button>
+        
       </div>:  null }
       <div className="week">
         <button onClick={() => clickhandler(7)}>Week view</button>

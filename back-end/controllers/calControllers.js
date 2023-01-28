@@ -4,25 +4,24 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { options, use } = require("../routes/cal");
 const user = require("../models/user");
-const multer = require('multer')
+const multer = require("multer");
 
 const storagee = multer.diskStorage({
-    destination: (req, file, cb)=>{
-      console.log(file)
-      cb(null, './files')
-    },
-    filename: (req, file, cb)=>{
-      console.log(file)
-      cb(null, Date.now()+file.originalname)
-    }
-})
+  destination: (req, file, cb) => {
+    console.log(file);
+    cb(null, "./files");
+  },
+  filename: (req, file, cb) => {
+    console.log(file);
+    cb(null, Date.now() + file.originalname);
+  },
+});
 
-const upload = multer({storage: storagee })
+const upload = multer({ storage: storagee });
 
-const file =  async (req,res)=>{
-  res.send(req.file.filename)
+const file = async (req, res) => {
+  res.send(req.file.filename);
 };
-
 
 const getCallendars = async (req, res) => {
   const { user_id } = req.params;
@@ -31,15 +30,49 @@ const getCallendars = async (req, res) => {
   res.status(200).json(cals);
 };
 
+// const getAllEvents = async (req, res) => {
+//   const { user_id, cal_id } = req.params;
+//   const cal = await User.find(
+//     { user_id: user_id },
+//     { _id: 0, callendars: { $elemMatch: { cal_id: cal_id } } }
+//   );
 
+//   res.status(200).json(cal);
+// };
 
-const getSingleCallendar = async (req, res) => {
+const getAllEvents = async (req, res) => {
   const { user_id, cal_id } = req.params;
-  const cal = await User.find(
-    { user_id: user_id },
-    { _id: 0, callendars: { $elemMatch: { cal_id: cal_id } } }
-  );
-
+  const cal = await User.aggregate([
+    {
+      $match: {
+        user_id: user_id,
+        "callendars.cal_id": cal_id,
+      },
+    },
+    {
+      $project: {
+        callendars: {
+          $filter: {
+            input: "$callendars",
+            as: "calendar",
+            cond: {
+              $eq: [
+                "$$calendar.cal_id",
+                cal_id
+              ],
+            },
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        events: {
+          $map: { input: "$callendars.cal", as: "event", in: "$$event" },
+        },
+      },
+    },
+  ]);
   res.status(200).json(cal);
 };
 
@@ -123,7 +156,7 @@ const deleteEvent = async (req, res) => {
 const addEvent = async (req, res) => {
   const { user_id, cal_id, month_id, day_id, event_id } = req.params;
   const event = req.body;
-  console.log(event)
+  console.log(event);
   const cal = await User.updateMany(
     {},
     {
@@ -155,7 +188,7 @@ const addEvent = async (req, res) => {
     { user_id: user_id },
     { callendars: 1, _id: 0 }
   );
-    console.log(allcall)
+  console.log(allcall);
   res.status(200).json({ event: dayData[0].cal[0], allcal: allcall });
 };
 
@@ -288,7 +321,7 @@ const deleteCal = async (req, res) => {
 const editevent = async (req, res) => {
   const { user_id, cal_id, month_id, day_id, event_id } = req.params;
   const event = req.body;
-  console.log(event)
+  console.log(event);
   const cal = await User.updateMany(
     {},
     {
@@ -346,10 +379,8 @@ const deluser = async (req, res) => {
     { arrayFilters: [{ "element.cal_id": cal_id }] }
   );
 
-  const allcall = await User.findOne(
-    { "callendars.cal_id": cal_id }
-  );
-  res.status(200).json(allcall.callendars.filter(a=>a.cal_id == cal_id));
+  const allcall = await User.findOne({ "callendars.cal_id": cal_id });
+  res.status(200).json(allcall.callendars.filter((a) => a.cal_id == cal_id));
 };
 
 const changerole = async (req, res) => {
@@ -357,7 +388,6 @@ const changerole = async (req, res) => {
   const newRole = req.body.role;
   const user = req.body.user;
   try {
-
     const cal = await User.updateMany(
       {},
       {
@@ -369,13 +399,9 @@ const changerole = async (req, res) => {
       { arrayFilters: [{ "element.cal_id": cal_id }] }
     );
 
+    const allcall = await User.findOne({ "callendars.cal_id": cal_id });
 
-    const allcall = await User.findOne(
-      { "callendars.cal_id": cal_id },
-    
-    );
-
-    res.status(200).json(allcall.callendars.filter(a=>a.cal_id == cal_id));
+    res.status(200).json(allcall.callendars.filter((a) => a.cal_id == cal_id));
   } catch (error) {
     res.status(400).json(error);
   }
@@ -384,7 +410,7 @@ const changerole = async (req, res) => {
 const raport = async (req, res) => {
   const { user_id } = req.params;
 
-  const merge =(a,b)=>{
+  const merge = (a, b) => {
     const mergedArray = [];
 
     for (let i = 0; i < a.length; i++) {
@@ -394,8 +420,8 @@ const raport = async (req, res) => {
         }
       }
     }
-return mergedArray
-  }
+    return mergedArray;
+  };
   try {
     const users = await User.aggregate([
       { $match: { user_id: user_id } },
@@ -472,22 +498,19 @@ return mergedArray
         },
       },
     ]);
-    // 
-   
-    res.status(200).json(merge(users,event));
+    //
+
+    res.status(200).json(merge(users, event));
   } catch {
     res.status(400);
   }
 };
 
-
-
-
 module.exports = {
   raport,
   createUser,
   getCallendars,
-  getSingleCallendar,
+  getAllEvents,
   deleteEvent,
   addEvent,
   login,
@@ -498,5 +521,6 @@ module.exports = {
   loggedIn,
   deluser,
   changerole,
-  file,upload,
+  file,
+  upload,
 };
