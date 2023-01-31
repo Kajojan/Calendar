@@ -21,6 +21,8 @@ function Day() {
   const [data, setData] = useState([]);
   const [click, setClick] = useState(false);
 
+
+  console.log(new Date(currentYear, month, 1).getDay())
   const handleSubmit = (id) => {
     dispatch(actions.change(id));
     dispatch(actions.changeData(cal.cal[month][id - 1]));
@@ -30,6 +32,7 @@ function Day() {
     setdays(a);
     setweek(-1);
     if (a == 7) {
+      setdays(a-new Date(currentYear, month, 1).getDay());
       setweek(0);
     }
   };
@@ -70,10 +73,10 @@ function Day() {
     setClick(true);
   };
 
-  const weekHandler = (a) => {
-    if (a == "next") {
+  const weekHandler = (nextOrPrev) => {
+    if (nextOrPrev == "next") {
       setdays(days + 7);
-      setweek(week + 7);
+      setweek(days );
     } else {
       setdays(days - 7);
       setweek(week - 7);
@@ -89,10 +92,44 @@ function Day() {
     
   };
 
+  const dayOfWeek=(day, month, year) =>{
+
+    var weekDay = [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+    ];
+    month -= 1;
+    if (month < 1 ) {
+      month += 12;
+      year -= 1;
+    }
+  
+    var century = Math.floor(year / 100);
+
+    year %= 100;
+
+    
+    return weekDay[
+      (Math.floor((26 * month - 2) / 10) +
+        day +
+        year +
+        Math.floor(year / 4) +
+        Math.floor(century / 4) +
+        5 * century) %
+        7
+    ]
+  }
+
  
 
   return (
     <div className="day">
+      <h2>{cal.name}</h2>
       <div className="search">
         <input
           type="search"
@@ -117,7 +154,6 @@ function Day() {
           ) : null}
         </div>
       </div>
-      {/* {console.log(cal)} */}
      { !Array.isArray(cal.users) && cal.users.admin.find(ele => ele[0] === user) != undefined  ?  <div className="Import">
         <button onClick={()=>setImport(true)}>Import File</button>
         {Import ? <ImportFile></ImportFile> : null }
@@ -140,21 +176,22 @@ function Day() {
       </div>
       <div className="cal">
         <div className="weekDays">
+          <div className="weekday isSunday">S</div>
           <div className="weekday">M</div>
           <div className="weekday">T</div>
           <div className="weekday">W</div>
           <div className="weekday">T</div>
           <div className="weekday">F</div>
           <div className="weekday isSaturday">S</div>
-          <div className="weekday isSunday">S</div>
         </div>
 
         <div className="Month">
           {cal.cal[month].map((el, index) => {
             if (index < days && index >= week) {
               const key = `${el.month_Id}_${el.id}`;
+              const className = `${dayOfWeek(el.id, el.month_Id, currentYear)}`
               return (
-                <button key={key} onClick={() => handleSubmit(el.id)}>
+                <button key={key} className={`element_${className}`} onClick={() => handleSubmit(el.id)}>
                   {el.id}
                   {
                     <ul>

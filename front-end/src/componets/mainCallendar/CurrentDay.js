@@ -15,8 +15,9 @@ function CurrentDay() {
 
   return (
     <div className="currentDay">
+      <h2>{day.id} {day.month_Id}</h2>
       <div className="Event">
-        {console.log(day.event)}
+        
       <a>Events: </a> <br/>
       {day.event.length != 0 ? (
         day.event.map((ele, index) => {
@@ -37,10 +38,10 @@ function CurrentDay() {
       {!Array.isArray(cal.users) ? (
         <>
           {pop[0] && (
-            cal.users.admin[0][0] == user_id || (cal.users.reader.length > 0 && cal.users.reader[0][0] == user_id)) ? (
+            cal.users.admin.find(ele => ele[0] === user_id) != undefined   || (cal.users.reader.length > 0 && cal.users.reader.find(ele => ele[0] === user_id) != undefined  )) ? (
             <PopUp setPop={setPop} pop={pop} />
           ) : null}
-          {(cal.users.admin[0][0] == user_id || (cal.users.reader.length > 0 && cal.users.reader[0][0] == user_id) ) && !pop[0]? (
+          {(cal.users.admin.find(ele => ele[0] === user_id) != undefined || (cal.users.reader.length > 0 && cal.users.reader.find(ele => ele[0] === user_id) != undefined ) ) && !pop[0]? (
             <EventForm name={"Add Event"} pop={pop} />
           ) : null}
         </>
