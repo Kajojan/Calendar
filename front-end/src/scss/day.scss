@@ -1,4 +1,23 @@
+
+
+  $columns: (
+  "element_Sunday": 1,
+  "element_Monday": 2,
+  "element_Tuesday": 3,
+  "element_Wednesday": 4,
+  "element_Thursday": 5,
+  "element_Friday": 6,
+  "element_Saturday": 7,
+
+
+);
+
+
 .day {
+
+  h2{
+    font-size: 50px;
+}
   background-color: rgb(28, 160, 221);
   border-radius: 30px;
   .search {
@@ -65,7 +84,13 @@
       gap: 16px;
       grid-template-columns: repeat(7, 200px);
       justify-content: center;
-      button {
+      @each $class, $index in $columns {
+        .#{$class} {
+          grid-column: $index;
+        }
+      }
+      button{
+        
         width: 200px;
         height: 200px;
         border-radius: 15px;

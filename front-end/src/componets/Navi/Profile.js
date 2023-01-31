@@ -67,6 +67,10 @@ function Profile() {
 
   return (
     <div className="Profile">
+        <button className="LogOut" onClick={ClickHandler}>
+        Log Out
+      </button>
+      <h2>Profile</h2>
       <div className="Info">
         <a>Name: {name} </a>
         <a>Last name: {lastName} </a>
@@ -110,9 +114,7 @@ function Profile() {
         <button onClick={handleDownload}>Downloand you Raport </button>
       </div>
 
-      <button className="LogOut" onClick={ClickHandler}>
-        Log Out
-      </button>
+    
     </div>
   );
 }

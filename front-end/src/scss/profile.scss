@@ -1,5 +1,8 @@
 .Profile {
     margin: 10px;
+    h2{
+        font-size: 50px;
+    }
   .Info {
     display: flex;
     flex-direction: column;
@@ -45,8 +48,8 @@
 }
 button.LogOut{
     position: absolute;
-    top:10%;
-    left:1%;
+    top: 53px;
+    right:60px;
     font-weight: 450;
     // margin: 2px;
     cursor: pointer;        
