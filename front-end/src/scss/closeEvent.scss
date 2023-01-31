@@ -1,4 +1,5 @@
 .CloseEvent{
+    box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
     border-radius: 8px;
     background-color: white;
     width: 400px;
@@ -9,7 +10,8 @@
     font-size: x-large;
 }
 a{
-    background-color: rgb(133, 255, 133);
+    // background-color: rgb(133, 255, 133);
+    border: solid 2px;
     border-radius: 5px;
     padding: 10px;
     margin: 10px;

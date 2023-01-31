@@ -129,7 +129,7 @@ function Day() {
 
   return (
     <div className="day">
-      <h2>{cal.name}</h2>
+      <h1>{cal.name}</h1>
       <div className="search">
         <input
           type="search"

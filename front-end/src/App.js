@@ -1,6 +1,6 @@
 import { React, useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import "./App.css";
+import "./App.scss"
 import { useDispatch, useSelector } from "react-redux";
 import CurrentDay from "./componets/mainCallendar/CurrentDay";
 import Calendar from "./componets/mainCallendar/Calendar";
@@ -24,6 +24,8 @@ function App() {
   const currentYear = useSelector((state) => state.year.currentYear);
   const user = useSelector((state) => state.user.user_id);
   const logged = useSelector((state) => state.loggedin.loggedin);
+  const dark = useSelector((state)=> state.user.mod)
+  console.log(dark)
 
   useEffect(() => {
     dispatch(loggedIn());
@@ -34,7 +36,7 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className={dark ? "dark-mode" : "light-mode"}>
       {logged == true ? (
         <>
           <Navi />

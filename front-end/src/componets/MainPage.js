@@ -37,7 +37,7 @@ function MainPage() {
 
   return (
     <div className="mainpage">
-      <h2>Home</h2>      
+      <h1>Home</h1>      
       {callanders.map((el, index) => {
         return el ? (
           <button key={index} onClick={() => clickHandlerCal(index)}>

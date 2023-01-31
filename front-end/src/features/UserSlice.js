@@ -9,7 +9,8 @@ const initialState = {
   password: "",
   check: false,
   error: "",
-  raportChange:undefined
+  raportChange: undefined,
+  mod: true,
 };
 
 const UserSlice = createSlice({
@@ -26,13 +27,15 @@ const UserSlice = createSlice({
     checkUser: (state, action) => {
       state.check = action.payload;
     },
-    error:(state,action)=>{
-      state.error = action.payload
+    error: (state, action) => {
+      state.error = action.payload;
     },
-    raportChange:(state, action)=>{
-      state.raportChange = action.payload
-    }
-
+    modChange: (state, action) => {
+      state.mod = action.payload
+    },
+    raportChange: (state, action) => {
+      state.raportChange = action.payload;
+    },
   },
 });
 
@@ -41,12 +44,12 @@ export const postData = (data) => {
     axios
       .post(`http://localhost:4000/api/cal/`, { ...data, callendars: [] })
       .then((response) => {
-        if(response.data.status != "error"){
-          dispatch(error(""))
-          dispatch(Add(data))
+        if (response.data.status != "error") {
+          dispatch(error(""));
+          dispatch(Add(data));
           dispatch(checkUser(true));
-        }else{
-          dispatch(error(response.data.error))
+        } else {
+          dispatch(error(response.data.error));
           dispatch(checkUser(false));
         }
       })
@@ -61,8 +64,7 @@ export const raport = (user_id) => {
     axios
       .get(`http://localhost:4000/api/cal/do/a/raport/${user_id}`)
       .then((response) => {
-        dispatch(raportChange(response.data))
-      
+        dispatch(raportChange(response.data));
       })
       .catch((error) => {
         dispatch(checkUser(false));
@@ -70,9 +72,6 @@ export const raport = (user_id) => {
   };
 };
 
-
-
-
-export const { Add , checkUser, error, raportChange} = UserSlice.actions;
+export const { Add, checkUser, error, raportChange, modChange } = UserSlice.actions;
 
 export default UserSlice.reducer;

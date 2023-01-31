@@ -33,7 +33,7 @@ const EventForm = ({ name, pop }) => {
       console.log(values);
       formik.handleReset();
       if (name == "Add Event") {
-        if (file != null) {
+        if(file != null) {
           const fileData = new FormData();
           fileData.append("file", file);
           axios
@@ -73,14 +73,13 @@ const EventForm = ({ name, pop }) => {
               );
             });
         }
-        // dispatch(changeCal({cal:{...cal,   cal.cal[num][num2].event = [...cal.cal[num][num2].event, values] }}))
-        // }
+
       }
     },
   });
   return (
     <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-      <h1>{name}</h1>
+      <h2>{name}</h2>
       {/* {formik.values.time} */}
       <label htmlFor="name"> Event Name</label>
       <input
