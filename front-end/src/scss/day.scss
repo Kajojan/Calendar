@@ -18,11 +18,11 @@
   h2{
     font-size: 50px;
 }
-  background-color: rgb(28, 160, 221);
   border-radius: 30px;
   .search {
     padding-top: 20px;
     button {
+      
       cursor: pointer;
       border-radius: 7px;
       padding: 9px;
@@ -84,6 +84,7 @@
       gap: 16px;
       grid-template-columns: repeat(7, 200px);
       justify-content: center;
+
       @each $class, $index in $columns {
         .#{$class} {
           grid-column: $index;
@@ -100,7 +101,6 @@
           padding: 0;
           gap: 2px;
           a {
-            background-color: rgb(133, 255, 133);
 
             font-size: 18px;
             text-align: center;

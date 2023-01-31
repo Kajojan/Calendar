@@ -2,10 +2,10 @@ import {React, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loggedIn, logout } from "../../features/LoggedInSlice";
-import { raport, raportChange } from "../../features/UserSlice";
+import { modChange, raport, raportChange } from "../../features/UserSlice";
 import "../../scss/profile.scss";
 import FileSaver from "file-saver";
-import { change } from "../../features/YearSlice";
+
 
 function Profile() {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ function Profile() {
   const email = useSelector((state) => state.user.email);
   const dispatch = useDispatch();
   const User_raport = useSelector((state) => state.user.raportChange);
-
+  const dark = useSelector((state)=> state.user.mod)
 
   
 
@@ -64,13 +64,23 @@ function Profile() {
 
     }
   }
+  const darkhandler=()=>{
+    dispatch(modChange(!dark))
+  }
+
 
   return (
     <div className="Profile">
         <button className="LogOut" onClick={ClickHandler}>
         Log Out
       </button>
-      <h2>Profile</h2>
+      {dark? <a className="mode">Dark mode</a> : <a className="mode">Light mode</a>}
+
+      <label class="switch">
+        <input type="checkbox" onChange={darkhandler} checked={dark}/>
+      <span class="slider round"></span>
+      </label>    
+<h1>Profile</h1>
       <div className="Info">
         <a>Name: {name} </a>
         <a>Last name: {lastName} </a>

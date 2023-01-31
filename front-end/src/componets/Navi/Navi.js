@@ -13,6 +13,7 @@ function Navi() {
       <Link to="/mainpage"> Home</Link>
       <Link to="/profile"> Profile</Link>
       </div>
+      <div><a>Callendar</a></div>
       <div className="Welcome">
       <p>Welcome: {usersName}</p>
       </div>
