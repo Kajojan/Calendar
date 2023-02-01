@@ -1,0 +1,6 @@
+cal_id : eb718db0-c580-4ee0-b992-772ac051264a 
+ users: 
+ admin: 1 
+ reader: 0 
+ spec: 0 
+events: 4 

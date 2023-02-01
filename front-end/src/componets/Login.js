@@ -5,36 +5,13 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { Add } from "../features/UserSlice";
-import '../scss/loginPage.scss'
-
+import "../scss/loginPage.scss";
 
 import { upload } from "../features/CalSlice";
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user_id);
-
-  // function getCookie(cname) {
-  //     let name = cname + "=";
-  //     let ca = document.cookie.split(';');
-  //     for(let i = 0; i < ca.length; i++) {
-  //       let c = ca[i];
-  //       while (c.charAt(0) == ' ') {
-  //         c = c.substring(1);
-  //       }
-  //       if (c.indexOf(name) == 0) {
-  //         return c.substring(name.length, c.length);
-  //       }
-  //     }
-  //     return "";
-  //   }
-
-  //   function checkCookie() {
-  //     let user = getCookie("username");
-  //     if (user != "") {
-  //       alert("Welcome again " + user);
-  //     } 
-  //   } 
 
   const check = async (email, password) => {
     const response = await axios
@@ -49,9 +26,9 @@ function Login() {
           Add({ user_id, name, lastname, email, password, check: true })
         );
         dispatch(upload(callendars));
-        return res.data[0]
+        return res.data[0];
       });
-    return  response
+    return response;
   };
 
   const formik = useFormik({
@@ -66,7 +43,7 @@ function Login() {
 
     onSubmit: async (values) => {
       try {
-        const data = await check(values.email, values.password)
+        const data = await check(values.email, values.password);
         // checkCookie()
         navigate(`/mainpage`);
       } catch (error) {
@@ -96,7 +73,6 @@ function Login() {
         onChange={formik.handleChange}
         value={formik.values.password}
         placeholder={"Password"}
-
       />
       {formik.errors.password && formik.touched.password ? (
         <div>{formik.errors.password}</div>

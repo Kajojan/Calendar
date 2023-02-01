@@ -22,7 +22,6 @@ function Day() {
   const [click, setClick] = useState(false);
   const [searchdata, setSearchData]= useState("")
 
-  console.log(new Date(currentYear, month, 1).getDay());
   const handleSubmit = (id) => {
     dispatch(actions.change(id));
     dispatch(actions.changeData(cal.cal[month][id - 1]));
@@ -96,7 +95,6 @@ function Day() {
       .then((res) => {
         const jsonData = JSON.stringify(res.data[0].events[0]);
         const blob = new Blob([jsonData], { type: "application/json" });
-        // console.log(blob)
         FileSaver.saveAs(blob, `events_${cal.cal_id}.json`);
       });
   };
@@ -143,9 +141,9 @@ function Day() {
           onChange={searchhandler}
         ></input>
         {searchdata != "" ? <div>
-          <a>name event in db</a>
+          <a key={1}>name event in db</a>
           {searchdata.map((ele,index)=>{
-              return <button onClick={()=> setSearch(ele.event.name)}>{ele.event.name}</button>
+              return <button key={index} onClick={()=> setSearch(ele.event.name)}>{ele.event.name}</button>
           })}
         </div> : null }
         <button onClick={Clicksearch}>Search</button>

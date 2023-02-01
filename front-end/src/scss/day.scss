@@ -1,6 +1,4 @@
-
-
-  $columns: (
+$columns: (
   "element_Sunday": 1,
   "element_Monday": 2,
   "element_Tuesday": 3,
@@ -8,21 +6,16 @@
   "element_Thursday": 5,
   "element_Friday": 6,
   "element_Saturday": 7,
-
-
 );
 
-
 .day {
-
-  h2{
+  h2 {
     font-size: 50px;
-}
+  }
   border-radius: 30px;
   .search {
     padding-top: 20px;
     button {
-      
       cursor: pointer;
       border-radius: 7px;
       padding: 9px;
@@ -53,6 +46,11 @@
       border-radius: 7px;
       padding: 8px;
       margin: 2px;
+    }
+  }
+  .Import{
+    button{
+      margin-left: 5px;
     }
   }
   .cal {
@@ -90,8 +88,7 @@
           grid-column: $index;
         }
       }
-      button{
-        
+      button {
         width: 200px;
         height: 200px;
         border-radius: 15px;
@@ -101,7 +98,6 @@
           padding: 0;
           gap: 2px;
           a {
-
             font-size: 18px;
             text-align: center;
           }

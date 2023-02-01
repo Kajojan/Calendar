@@ -1,7 +1,5 @@
 $font: Verdana, Geneva, Tahoma, sans-serif;
 
-
-
 html,
 body {
   margin: 0;
@@ -12,13 +10,15 @@ body {
 
 .dark-mode {
   * {
+    letter-spacing: 0.01em;
+
     font-family: font;
   }
   margin: 0;
   padding: 0;
   min-height: 100vh;
   height: 100%;
-  
+
   h3 {
     color: yellow;
   }
@@ -28,7 +28,11 @@ body {
   }
   text-align: center;
   background-color: rgba(36, 36, 36, 1);
-  background-image: linear-gradient(175deg, rgba(36, 36, 36, 1) 57%, rgba(244, 255, 0, 1) 100%);  // color: #999;
+  background-image: linear-gradient(
+    175deg,
+    rgba(36, 36, 36, 1) 57%,
+    rgba(244, 255, 0, 1) 100%
+  ); // color: #999;
   height: 100%;
   transition: background-color 0.25s ease-in-out;
   div.Navi {
@@ -59,10 +63,13 @@ body {
   .Profile {
     padding: 0;
     margin: 0;
-    .Raports{
-      
+    .Raports {
       background-color: rgba(0, 0, 0, 1);
-background-image: linear-gradient(0deg, rgba(0, 0, 0, 1) 37%, rgba(242, 255, 0, 1) 100%);
+      background-image: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 1) 37%,
+        rgba(242, 255, 0, 1) 100%
+      );
     }
     .Raport_cal {
       background-color: yellow;
@@ -70,19 +77,18 @@ background-image: linear-gradient(0deg, rgba(0, 0, 0, 1) 37%, rgba(242, 255, 0, 
   }
 }
 
-
-
-
-
-
 .light-mode {
   margin: 0;
   padding: 0;
   height: 100%;
   button {
+    cursor: pointer;
+    border: 0;
     background-color: white;
   }
   * {
+    letter-spacing: 0.01em;
+
     font-family: font;
   }
   h2 {
@@ -108,14 +114,23 @@ background-image: linear-gradient(0deg, rgba(0, 0, 0, 1) 37%, rgba(242, 255, 0, 
   transition: background-color 0.25s ease-in-out;
   .day {
     background-color: rgba(112, 176, 255, 1);
-    background-image: linear-gradient(180deg, rgba(112, 176, 255, 1) 37%, rgba(214, 229, 255, 1) 100%);    a {
+    background-image: linear-gradient(
+      180deg,
+      rgba(112, 176, 255, 1) 37%,
+      rgba(214, 229, 255, 1) 100%
+    );
+    a {
       background-color: rgb(93, 177, 247);
       color: black;
     }
   }
-  .Raports{
+  .Raports {
     background-color: rgba(112, 176, 255, 1);
-background-image: linear-gradient(180deg, rgba(112, 176, 255, 1) 37%, rgba(214, 229, 255, 1) 100%);
+    background-image: linear-gradient(
+      180deg,
+      rgba(112, 176, 255, 1) 37%,
+      rgba(214, 229, 255, 1) 100%
+    );
   }
 }
 
@@ -132,8 +147,6 @@ div.BackButton button {
   font-size: 15px;
 }
 
-
 #root {
   height: 100%;
- 
 }

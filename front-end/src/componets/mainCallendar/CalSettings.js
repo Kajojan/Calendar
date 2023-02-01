@@ -172,7 +172,7 @@ function CalSettings({ setpop }) {
         </div>
       ) : null}
 
-      <button onClick={clickHandler}>Close</button>
+      <button className="Close" onClick={clickHandler}>Close</button>
     </div>
   );
 }

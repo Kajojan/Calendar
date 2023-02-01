@@ -33,7 +33,7 @@ const EventForm = ({ name, pop }) => {
       console.log(values);
       formik.handleReset();
       if (name == "Add Event") {
-        if(file != null) {
+        if (file != null) {
           const fileData = new FormData();
           fileData.append("file", file);
           axios
@@ -73,7 +73,6 @@ const EventForm = ({ name, pop }) => {
               );
             });
         }
-
       }
     },
   });
@@ -87,9 +86,7 @@ const EventForm = ({ name, pop }) => {
         name="name"
         type="text"
         onChange={formik.handleChange}
-        value={
-          name == "Add Event" ? formik.values.name : day.event[pop[2]].name
-        }
+        value={formik.values.name}
       />
       {formik.errors.name ? <div>{formik.errors.name}</div> : null}
       {!allday ? (
@@ -101,11 +98,7 @@ const EventForm = ({ name, pop }) => {
             type="time"
             onChange={formik.handleChange}
             // value={formik.values.start}
-            value={
-              name == "Add Event"
-                ? formik.values.start
-                : day.event[pop[2]].start
-            }
+            value={formik.values.start}
           />
 
           <label htmlFor="end">Time-end</label>
@@ -115,9 +108,7 @@ const EventForm = ({ name, pop }) => {
             type="time"
             onChange={formik.handleChange}
             // value={formik.values.end}
-            value={
-              name == "Add Event" ? formik.values.end : day.event[pop[2]].end
-            }
+            value={formik.values.end}
           />
           {formik.errors.end ? <div>{formik.errors.end}</div> : null}
         </div>
