@@ -19,7 +19,7 @@ $mod: (
       }
 }
 
-h2 {
+h1 {
   color: white;
   font-family: $font;
   font-size: x-large;
@@ -47,7 +47,7 @@ form.Login {
   padding: 100px;
   width: fit-content;
   input {
-    width: 100%;
+    width: 300px;
     height: 60px;
   }
   button {

@@ -5,14 +5,14 @@ import { useNavigate } from "react-router-dom";
 import { actions } from "../../features/CurrentDaySlice";
 import "../../scss/day.scss";
 import ImportFile from "./ImportFile";
-import axios from 'axios'
+import axios from "axios";
 
 function Day() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user_id);
   const [days, setdays] = useState(32);
   const [week, setweek] = useState(-1);
-  const [Import , setImport] = useState(false)
+  const [Import, setImport] = useState(false);
   const month = useSelector((state) => state.month.currentMonth);
   const currentYear = useSelector((state) => state.year.currentYear);
   const cal = useSelector((state) => state.cal.cal);
@@ -20,9 +20,9 @@ function Day() {
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
   const [click, setClick] = useState(false);
+  const [searchdata, setSearchData]= useState("")
 
-
-  console.log(new Date(currentYear, month, 1).getDay())
+  console.log(new Date(currentYear, month, 1).getDay());
   const handleSubmit = (id) => {
     dispatch(actions.change(id));
     dispatch(actions.changeData(cal.cal[month][id - 1]));
@@ -32,13 +32,19 @@ function Day() {
     setdays(a);
     setweek(-1);
     if (a == 7) {
-      setdays(a-new Date(currentYear, month, 1).getDay());
+      setdays(a - new Date(currentYear, month, 1).getDay());
       setweek(0);
     }
   };
   const searchhandler = (event) => {
     setClick(false);
     setSearch(event.target.value);
+    axios.post(
+      `http://localhost:4000/api/cal/search/with/regex/in/${cal.cal_id}/${user}`,
+      {"letter": search}
+    ).then((res)=>{
+      setSearchData(res.data)
+    })
   };
   const monthNames = [
     "Styczeń",
@@ -70,50 +76,51 @@ function Day() {
       });
     });
     setData(events);
+    setSearch("")
+    setSearchData("")
     setClick(true);
   };
 
   const weekHandler = (nextOrPrev) => {
     if (nextOrPrev == "next") {
       setdays(days + 7);
-      setweek(days );
+      setweek(days);
     } else {
       setdays(days - 7);
       setweek(week - 7);
     }
   };
   const handleDownload = () => {
-    axios.get(`http://localhost:4000/api/cal/${user}/${cal.cal_id}`).then((res)=>{
-      const jsonData = JSON.stringify(res.data[0].events[0]);
-      const blob = new Blob([jsonData], { type: 'application/json' });
-      // console.log(blob)
-      FileSaver.saveAs(blob, `events_${cal.cal_id}.json`);
-    })
-    
+    axios
+      .get(`http://localhost:4000/api/cal/${user}/${cal.cal_id}`)
+      .then((res) => {
+        const jsonData = JSON.stringify(res.data[0].events[0]);
+        const blob = new Blob([jsonData], { type: "application/json" });
+        // console.log(blob)
+        FileSaver.saveAs(blob, `events_${cal.cal_id}.json`);
+      });
   };
 
-  const dayOfWeek=(day, month, year) =>{
-
+  const dayOfWeek = (day, month, year) => {
     var weekDay = [
-      'Sunday',
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
     ];
     month -= 1;
-    if (month < 1 ) {
+    if (month < 1) {
       month += 12;
       year -= 1;
     }
-  
+
     var century = Math.floor(year / 100);
 
     year %= 100;
 
-    
     return weekDay[
       (Math.floor((26 * month - 2) / 10) +
         day +
@@ -122,10 +129,8 @@ function Day() {
         Math.floor(century / 4) +
         5 * century) %
         7
-    ]
-  }
-
- 
+    ];
+  };
 
   return (
     <div className="day">
@@ -137,6 +142,12 @@ function Day() {
           value={search}
           onChange={searchhandler}
         ></input>
+        {searchdata != "" ? <div>
+          <a>name event in db</a>
+          {searchdata.map((ele,index)=>{
+              return <button onClick={()=> setSearch(ele.event.name)}>{ele.event.name}</button>
+          })}
+        </div> : null }
         <button onClick={Clicksearch}>Search</button>
         <div className="searchEvents">
           {data.length > 0 ? (
@@ -154,12 +165,14 @@ function Day() {
           ) : null}
         </div>
       </div>
-     { !Array.isArray(cal.users) && cal.users.admin.find(ele => ele[0] === user) != undefined  ?  <div className="Import">
-        <button onClick={()=>setImport(true)}>Import File</button>
-        {Import ? <ImportFile></ImportFile> : null }
-        <button onClick={()=>handleDownload()}>Export events</button>
-        
-      </div>:  null }
+      {!Array.isArray(cal.users) &&
+      cal.users.admin.find((ele) => ele[0] === user) != undefined ? (
+        <div className="Import">
+          <button onClick={() => setImport(true)}>Import File</button>
+          {Import ? <ImportFile></ImportFile> : null}
+          <button onClick={() => handleDownload()}>Export events</button>
+        </div>
+      ) : null}
       <div className="week">
         <button onClick={() => clickhandler(7)}>Week view</button>
         <button onClick={() => clickhandler(32)}>Month view</button>
@@ -189,9 +202,13 @@ function Day() {
           {cal.cal[month].map((el, index) => {
             if (index < days && index >= week) {
               const key = `${el.month_Id}_${el.id}`;
-              const className = `${dayOfWeek(el.id, el.month_Id, currentYear)}`
+              const className = `${dayOfWeek(el.id, el.month_Id, currentYear)}`;
               return (
-                <button key={key} className={`element_${className}`} onClick={() => handleSubmit(el.id)}>
+                <button
+                  key={key}
+                  className={`element_${className}`}
+                  onClick={() => handleSubmit(el.id)}
+                >
                   {el.id}
                   {
                     <ul>

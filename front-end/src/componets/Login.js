@@ -76,7 +76,7 @@ function Login() {
   });
   return (
     <form className="Login" onSubmit={formik.handleSubmit}>
-      <h2>Welcome to Calendar</h2>
+      <h1>Welcome to Calendar</h1>
       <input
         id="email"
         name="email"

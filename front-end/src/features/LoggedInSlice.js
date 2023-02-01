@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios"
 import { upload } from "./CalSlice";
-import { Add } from "./UserSlice";
+import { Add, modChange } from "./UserSlice";
 export const LoggedinSlice = createSlice({
   name: 'logged',
   initialState:{

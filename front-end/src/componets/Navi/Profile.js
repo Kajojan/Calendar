@@ -65,6 +65,7 @@ function Profile() {
     }
   }
   const darkhandler=()=>{
+    localStorage.setItem("mode", !dark);
     dispatch(modChange(!dark))
   }
 
@@ -76,9 +77,9 @@ function Profile() {
       </button>
       {dark? <a className="mode">Dark mode</a> : <a className="mode">Light mode</a>}
 
-      <label class="switch">
+      <label className="switch">
         <input type="checkbox" onChange={darkhandler} checked={dark}/>
-      <span class="slider round"></span>
+      <span className="slider round"></span>
       </label>    
 <h1>Profile</h1>
       <div className="Info">

@@ -14,26 +14,30 @@ import SingUp from "./componets/SingUp";
 import axios from "axios";
 import { loggedIn } from "./features/LoggedInSlice";
 import AllEventCAl from "./componets/AllEventCAl";
+import { modChange } from "./features/UserSlice";
 axios.defaults.withCredentials = true;
 
 function App() {
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
   const currentMonth = useSelector((state) => state.month.currentMonth);
   const currentYear = useSelector((state) => state.year.currentYear);
   const user = useSelector((state) => state.user.user_id);
   const logged = useSelector((state) => state.loggedin.loggedin);
   const dark = useSelector((state)=> state.user.mod)
-  console.log(dark)
+  const mod = localStorage.getItem("mode") == "true" 
 
   useEffect(() => {
+   
+
     dispatch(loggedIn());
+    dispatch(modChange(mod))
   });
 
   const handleClick = () => {
     navigate(-1);
   };
+   
 
   return (
     <div className={dark ? "dark-mode" : "light-mode"}>
