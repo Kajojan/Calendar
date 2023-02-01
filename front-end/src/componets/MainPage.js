@@ -9,7 +9,6 @@ import CloseEvent from "./CloseEvent";
 function MainPage() {
   const navigate = useNavigate();
   const currentMonth = useSelector((state) => state.month.currentMonth);
-  const currentYear = useSelector((state) => state.year.currentYear);
   const user = useSelector((state) => state.user.user_id);
   const lastname = useSelector((state) => state.user.lastname);
   const callanders = useSelector((state) => state.cal.Allcall);

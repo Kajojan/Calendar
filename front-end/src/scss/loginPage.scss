@@ -7,18 +7,6 @@ $mod: (
 );
 
 
-
-:root {
-    @each $class, $index in $mod {
-        .#{$class} {
-          //   font-family: $font;
-            background-color: $index;
-          //   letter-spacing: 0.01em;
-          
-        }
-      }
-}
-
 h1 {
   color: white;
   font-family: $font;

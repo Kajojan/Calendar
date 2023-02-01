@@ -9,7 +9,6 @@ import FileSaver from "file-saver";
 
 function Profile() {
   const navigate = useNavigate();
-  const [role, setRole] = useState("");
 
   const id = useSelector((state) => state.user.user_id);
   const name = useSelector((state) => state.user.name);

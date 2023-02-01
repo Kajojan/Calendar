@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { Navigate, useNavigate } from "react-router-dom";
 import { calendar } from "./cal";
 
 const initialState = {
@@ -15,11 +14,7 @@ const CalSlice = createSlice({
   reducers: {
     changeCal: (state, action) => {
       state.cal = action.payload.cal;
-      
     },
-    // fetchCal: (state, action) => {
-    //   state.cal = action.payload;
-    // },
     add: (state, action) => {
       state.Allcall.push(action.payload);
     },
@@ -42,13 +37,12 @@ const CalSlice = createSlice({
 
 export const postData = (
   user_id,
-  name ,
+  name,
   admin_name = null,
-  data = calendar(user_id,name,admin_name),
+  data = calendar(user_id, name, admin_name),
   seUser_id = null,
   cal_id = null,
-  role = null,
-  
+  role = null
 ) => {
   return (dispatch) => {
     axios
@@ -63,11 +57,10 @@ export const postData = (
           if (seUser_id == null) {
             dispatch(changeCal(data));
             dispatch(add(data));
-          }else{
+          } else {
             dispatch(addUser(response.data.cal[0].users));
             dispatch(error({ status: false, data: "" }));
           }
-          
         } else {
           dispatch(error({ status: true, data: response.data.error }));
         }
@@ -83,7 +76,7 @@ export const delCal = (user_id, cal_id) => {
     axios
       .delete(`http://localhost:4000/api/cal/${user_id}/${cal_id}`)
       .then((response) => {
-        dispatch(upload(response.data[0].callendars))
+        dispatch(upload(response.data[0].callendars));
       })
       .catch((error) => {
         dispatch({ type: "POST_ERROR", error });
@@ -91,12 +84,14 @@ export const delCal = (user_id, cal_id) => {
   };
 };
 
-export const deleteUser = (user_id, cal_id,role,index) => {
+export const deleteUser = (user_id, cal_id, role, index) => {
   return (dispatch) => {
     axios
-      .delete(`http://localhost:4000/api/cal/${user_id}/${cal_id}/${role}/${index}`)
+      .delete(
+        `http://localhost:4000/api/cal/${user_id}/${cal_id}/${role}/${index}`
+      )
       .then((response) => {
-        dispatch(changeCal({cal:response.data[0]}))
+        dispatch(changeCal({ cal: response.data[0] }));
       })
       .catch((error) => {
         dispatch({ type: "POST_ERROR", error });
@@ -104,20 +99,21 @@ export const deleteUser = (user_id, cal_id,role,index) => {
   };
 };
 
-
-export const editRole = (user_id, cal_id,role,index, newRole, id,name) => {
+export const editRole = (user_id, cal_id, role, index, newRole, id, name) => {
   return (dispatch) => {
     axios
-      .put(`http://localhost:4000/api/cal/change/role/${user_id}/${cal_id}/${role}/${index}`, {role: newRole, user:[id, name]})
+      .put(
+        `http://localhost:4000/api/cal/change/role/${user_id}/${cal_id}/${role}/${index}`,
+        { role: newRole, user: [id, name] }
+      )
       .then((response) => {
-        dispatch(changeCal({cal:response.data[0]}))
+        dispatch(changeCal({ cal: response.data[0] }));
       })
       .catch((error) => {
         dispatch({ type: "POST_ERROR", error });
       });
   };
 };
-
 
 export const { changeCal, fetchCal, add, upload, error, addUser } =
   CalSlice.actions;

@@ -1,9 +1,6 @@
 const User = require("../models/user");
-const fs = require("fs");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const { options, use } = require("../routes/cal");
-const user = require("../models/user");
+
+
 const multer = require("multer");
 
 const storagee = multer.diskStorage({
@@ -73,40 +70,7 @@ const getAllEvents = async (req, res) => {
   res.status(200).json(cal);
 };
 
-const createUser = async (req, res) => {
-  const { user_id, name, lastname, email, password } = req.body;
-  const salt = await bcrypt.genSalt();
-  const passwordHash = await bcrypt.hash(password, salt);
 
-  const token = jwt.sign(
-    {
-      user: user_id,
-    },
-    process.env.JWT_SECRET
-  );
-
-  const userCkeck = await User.find({ email: email });
-  if (userCkeck.length == 0) {
-    try {
-      const user = await User.create({
-        user_id,
-        name,
-        lastname,
-        email,
-        password: passwordHash,
-      });
-      res
-        .cookie("token", token, {
-          httpOnly: true,
-        })
-        .send();
-    } catch (error) {
-      res.json({ status: "error", error: "Duplicate email" });
-    }
-  } else {
-    res.json({ status: "error", error: "Duplicate email" });
-  }
-};
 
 const deleteEvent = async (req, res) => {
   const { user_id, cal_id, month_id, day_id, event_id } = req.params;
@@ -189,60 +153,6 @@ const addEvent = async (req, res) => {
   res.status(200).json({ event: dayData[0].cal[0], allcal: allcall });
 };
 
-const login = async (req, res) => {
-  const { email, password } = req.body;
-
-  try {
-    const check = await User.find({ email: email });
-    if (check) {
-      const paswordCorret = await bcrypt.compare(password, check[0].password);
-      if (!paswordCorret) {
-        return res.status(401).json({ message: "Wrong  password" });
-      }
-      const token = jwt.sign(
-        {
-          user: check[0].user_id,
-        },
-        process.env.JWT_SECRET
-      );
-
-      res
-        .cookie("token", token, {
-          httpOnly: true,
-        })
-        .status(200)
-        .json(check);
-    } else {
-      res.status(401).json({ message: "Wrong Email od password" });
-    }
-  } catch {
-    res.status(400).json({ error: "Wrong" });
-  }
-};
-
-const loggedIn = async (req, res) => {
-  try {
-    const token = req.cookies.token;
-    if (!token) return res.json(false);
-
-    jwt.verify(token, process.env.JWT_SECRET);
-    const data = await User.find({ user_id: jwt.decode(token).user });
-    res.send({ status: true, data: data[0] });
-  } catch (err) {
-    res.json({ status: false });
-  }
-};
-
-const logout = async (req, res) => {
-  res
-    .cookie("token", "", {
-      httpOnly: true,
-      expires: new Date(0),
-      secure: true,
-      sameSite: "none",
-    })
-    .send();
-};
 
 const addCal = async (req, res) => {
   const { user_id } = req.params;
@@ -404,150 +314,19 @@ const changerole = async (req, res) => {
   }
 };
 
-const raport = async (req, res) => {
-  const { user_id } = req.params;
 
-  const merge = (a, b) => {
-    const mergedArray = [];
 
-    for (let i = 0; i < a.length; i++) {
-      for (let j = 0; j < b.length; j++) {
-        if (a[i].cal_id === b[j]._id) {
-          mergedArray.push({ ...a[i], ...b[j] });
-        }
-      }
-    }
-    return mergedArray;
-  };
-  try {
-    const users = await User.aggregate([
-      { $match: { user_id: user_id } },
-      { $unwind: "$callendars" },
-      {
-        $group: {
-          _id: "$callendars.cal_id",
-          count_admin: {
-            $sum: {
-              $size: {
-                $filter: {
-                  input: "$callendars.users.admin",
-                  as: "user",
-                  cond: { $ne: ["$$user", null] },
-                },
-              },
-            },
-          },
-          count_reader: {
-            $sum: {
-              $size: {
-                $filter: {
-                  input: "$callendars.users.reader",
-                  as: "user",
-                  cond: { $ne: ["$$user", null] },
-                },
-              },
-            },
-          },
-          count_spec: {
-            $sum: {
-              $size: {
-                $filter: {
-                  input: "$callendars.users.spec",
-                  as: "user",
-                  cond: { $ne: ["$$user", null] },
-                },
-              },
-            },
-          },
-        },
-      },
-      {
-        $project: {
-          _id: 0,
-          cal_id: "$_id",
-          count_admin: 1,
-          count_reader: 1,
-          count_spec: 1,
-        },
-      },
-    ]);
-    const event = await User.aggregate([
-      { $match: { user_id: user_id } },
-      { $unwind: "$callendars" },
-      { $unwind: "$callendars.cal" },
-      {
-        $group: {
-          _id: "$callendars.cal_id",
-          eventCount: {
-            $sum: {
-              $reduce: {
-                input: {
-                  $filter: {
-                    input: "$callendars.cal.event",
-                    cond: { $ne: ["$$this", null] },
-                  },
-                },
-                initialValue: 0,
-                in: { $add: ["$$value", { $size: "$$this" }] },
-              },
-            },
-          },
-        },
-      },
-    ]);
-    //
-
-    res.status(200).json(merge(users, event));
-  } catch {
-    res.status(400);
-  }
-};
-
-const search = async (req, res) => {
-  const { cal_id, user_id } = req.params;
-  const check = await User.find({user_id:user_id})
-  console.log(check.callendars)
-  const regex = req.body.letter;
-  console.log(regex)
-
-  try{
-  const result = await User.aggregate([
-    { $match: { user_id: user_id } },
-    { $unwind: "$callendars" },
-    { $unwind: "$callendars.cal" },
-    { $unwind: "$callendars.cal" },
-    { $match: { "callendars.cal_id": cal_id } },
-    { $unwind: "$callendars.cal.event" },
-    {
-      $match: {
-        "callendars.cal.event.name": { $regex: new RegExp(regex, "i") },
-      },
-    },
-    { $project: { event: "$callendars.cal.event" } },
-  ]);
-  res.send(result);
-
-}catch{
-  res.send("error")
-}
-};
 
 module.exports = {
-  raport,
-  createUser,
   getCallendars,
   getAllEvents,
   deleteEvent,
   addEvent,
-  login,
   addCal,
   deleteCal,
   editevent,
-  logout,
-  loggedIn,
   deluser,
   changerole,
   file,
-  upload,
-  search,
+  upload
 };

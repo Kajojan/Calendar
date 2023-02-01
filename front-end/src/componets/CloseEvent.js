@@ -62,12 +62,12 @@ function CloseEvent() {
     <div className="CloseEvent">
       <p className="title">Your next Events: </p>
       {event.map((ele, index) => {
-        if (ele.event.length == 1) {
+        if (ele.event.length == 1 && ele.event[0] != null) {
           return (
-            
             <a key={index}>
-              name: {ele.event[0].name} <br /> 
-              date: {ele.id}  {monthNames[ele.month_Id]}<br /> 
+              name: {ele.event[0].name} <br />
+              date: {ele.id} {monthNames[ele.month_Id]}
+              <br />
               time:{" "}
               {ele.event[0].time
                 ? "AllDay"
@@ -75,15 +75,17 @@ function CloseEvent() {
             </a>
           );
         } else {
-           return ele.event.filter(a=> a != null).map((ele2, index2) => {
-            return (
-              <a key={index2}>
-                name: {ele2.name} <br /> 
-                date: {monthNames[ele.month_Id]}: {ele.id} <br /> 
-                time: {ele2.time ? "AllDay " : `${ele2.start} : ${ele2.end} `}
-              </a>
-            );
-          });
+          return ele.event
+            .filter((a) => a != null)
+            .map((ele2, index2) => {
+              return (
+                <a key={index2}>
+                  name: {ele2.name} <br />
+                  date: {monthNames[ele.month_Id]}: {ele.id} <br />
+                  time: {ele2.time ? "AllDay " : `${ele2.start} : ${ele2.end} `}
+                </a>
+              );
+            });
         }
       })}
     </div>

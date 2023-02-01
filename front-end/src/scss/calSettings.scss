@@ -6,6 +6,15 @@
   background-color: rgb(255, 255, 255);
   overflow: auto;
   border-radius: 10px;
+  .Delete{
+    button{
+      border: solid 1px;
+    }
+  }
+  .Close{
+    border: solid 1px;
+  }
+
   .users {
     border: solid 1px;
     display: flex;
@@ -17,20 +26,20 @@
       align-self: center;
     }
     button {
+      border: solid 1px;
       height: 30px;
       width: fit-content;
       font-size: small;
       align-self: center;
     }
-  
   }
-  button.user{
+  button.user {
     background-color: hsl(240, 82%, 74%);
   }
   button.yes {
     background-color: rgb(133, 255, 133);
   }
-  button.no{
+  button.no {
     background-color: rgb(245, 63, 63);
   }
 }

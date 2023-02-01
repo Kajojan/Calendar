@@ -1,6 +1,6 @@
 import { React, useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import "./App.scss"
+import "./App.scss";
 import { useDispatch, useSelector } from "react-redux";
 import CurrentDay from "./componets/mainCallendar/CurrentDay";
 import Calendar from "./componets/mainCallendar/Calendar";
@@ -9,7 +9,6 @@ import MainPage from "./componets/MainPage";
 import Login from "./componets/Login";
 import Profile from "./componets/Navi/Profile";
 import Notice from "./componets/Navi/Notice";
-import Settings from "./componets/Navi/Settings";
 import SingUp from "./componets/SingUp";
 import axios from "axios";
 import { loggedIn } from "./features/LoggedInSlice";
@@ -24,20 +23,17 @@ function App() {
   const currentYear = useSelector((state) => state.year.currentYear);
   const user = useSelector((state) => state.user.user_id);
   const logged = useSelector((state) => state.loggedin.loggedin);
-  const dark = useSelector((state)=> state.user.mod)
-  const mod = localStorage.getItem("mode") == "true" 
+  const dark = useSelector((state) => state.user.mod);
+  const mod = localStorage.getItem("mode") == "true";
 
   useEffect(() => {
-   
-
     dispatch(loggedIn());
-    dispatch(modChange(mod))
+    dispatch(modChange(mod));
   });
 
   const handleClick = () => {
     navigate(-1);
   };
-   
 
   return (
     <div className={dark ? "dark-mode" : "light-mode"}>
@@ -55,7 +51,6 @@ function App() {
             <Route path={`/mainpage`} element={<MainPage />} />
             <Route path={`/profile`} element={<Profile />} />
             <Route path="/Notice" element={<Notice />} />
-            <Route path="/Settings" element={<Settings />} />
             <Route
               path={`/callander/${user}/${currentYear}/${currentMonth}/:currentday`}
               element={<CurrentDay />}
