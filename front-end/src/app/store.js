@@ -19,6 +19,6 @@ import  { logger } from "redux-logger"
     loggedin : LoggedInSlice,
 
   },
-  middleware: (getDefaultMiddleware)=> getDefaultMiddleware().concat(logger)
+  // middleware: (getDefaultMiddleware)=> getDefaultMiddleware().concat(logger)
 },applyMiddleware(thunk));
 export default store

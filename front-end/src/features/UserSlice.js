@@ -10,7 +10,7 @@ const initialState = {
   check: false,
   error: "",
   raportChange: undefined,
-  mod: true,
+  mod: true
 };
 
 const UserSlice = createSlice({

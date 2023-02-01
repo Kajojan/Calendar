@@ -56,10 +56,7 @@ const getAllEvents = async (req, res) => {
             input: "$callendars",
             as: "calendar",
             cond: {
-              $eq: [
-                "$$calendar.cal_id",
-                cal_id
-              ],
+              $eq: ["$$calendar.cal_id", cal_id],
             },
           },
         },
@@ -506,6 +503,35 @@ const raport = async (req, res) => {
   }
 };
 
+const search = async (req, res) => {
+  const { cal_id, user_id } = req.params;
+  const check = await User.find({user_id:user_id})
+  console.log(check.callendars)
+  const regex = req.body.letter;
+  console.log(regex)
+
+  try{
+  const result = await User.aggregate([
+    { $match: { user_id: user_id } },
+    { $unwind: "$callendars" },
+    { $unwind: "$callendars.cal" },
+    { $unwind: "$callendars.cal" },
+    { $match: { "callendars.cal_id": cal_id } },
+    { $unwind: "$callendars.cal.event" },
+    {
+      $match: {
+        "callendars.cal.event.name": { $regex: new RegExp(regex, "i") },
+      },
+    },
+    { $project: { event: "$callendars.cal.event" } },
+  ]);
+  res.send(result);
+
+}catch{
+  res.send("error")
+}
+};
+
 module.exports = {
   raport,
   createUser,
@@ -523,4 +549,5 @@ module.exports = {
   changerole,
   file,
   upload,
+  search,
 };

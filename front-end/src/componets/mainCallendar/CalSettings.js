@@ -15,7 +15,7 @@ function CalSettings({ setpop }) {
   const errorMsg = useSelector((state) => state.cal.error);
   const [input, setinput] = useState("");
   const [sure, setSure] = useState(false);
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState("reader");
   const [change, setChange] = useState({
     status: false,
     role: "",
@@ -135,7 +135,6 @@ function CalSettings({ setpop }) {
                 <div className="ChangeYes">
                   
                   <select onChange={selectHandler}>
-                    <option value="admin">Admin</option>
                     <option value="reader">Reader</option>
                     <option value="spec">Spectator</option>
                   </select>
@@ -152,7 +151,6 @@ function CalSettings({ setpop }) {
           <label>Enter user ID:</label>
           <input onChange={handleChange} value={input}></input>
           <select onChange={selectHandler}>
-            <option value="admin">Admin</option>
             <option value="reader">Reader</option>
             <option value="spec">Spectator</option>
           </select>

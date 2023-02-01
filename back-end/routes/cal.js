@@ -16,6 +16,7 @@ const {
     changerole,
     raport,
     file,upload,
+    search
 } = require('../controllers/calControllers')
 
 const router = express.Router()
@@ -49,6 +50,8 @@ router.put(`/change/role/:user_id/:cal_id/:role/:index` , changerole)
 router.get('/do/a/raport/:user_id', raport)
 
 router.post('/upload/file', upload.single("file"), file)
+
+router.post('/search/with/regex/in/:cal_id/:user_id', search)
 
 
 
