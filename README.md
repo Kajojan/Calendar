@@ -5,7 +5,7 @@ Wykorzystywane
 
 - MERN (MongoDB, Express, React, Node)
 
-- cookie, JWT, bcrypt, multer oraz certufikat TLS
+- redux,cookie, JWT, bcrypt, multer oraz certufikat TLS
 
 - docker
 ------------------------------------------------------------------------
