@@ -1,0 +1,305 @@
+commit 592c00d10b123ee0dee031c23c2573c659818d16
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Wed Feb 1 21:49:59 2023 +0100
+
+    final
+
+commit e613f7d778f8e24f28419afe09ec4096e155be02
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Wed Feb 1 14:49:14 2023 +0100
+
+    search
+
+commit f042073e884a8a561ce88da5fddb938045e15fc2
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Tue Jan 31 22:28:38 2023 +0100
+
+    css
+
+commit 6213da2c5472d0e93ace3b55892ff47b6df982eb
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Tue Jan 31 19:25:08 2023 +0100
+
+    dni tygodnia
+
+commit ce0498fc1f38066e60428911b1977f84c1c24fee
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Sat Jan 28 16:16:34 2023 +0100
+
+    export cal
+
+commit ac8e9978b3c6a5049760f9ed965a346576894f1e
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Sat Jan 28 15:08:26 2023 +0100
+
+    lekkie zmiany w updateEvent
+
+commit 90f4e85a35be40e46185a965ea64bef461de4979
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Sat Jan 28 14:15:17 2023 +0100
+
+    import event
+
+commit 162c9f55673dab4913cb21c0e8bbf59446f08aaa
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Fri Jan 27 15:40:46 2023 +0100
+
+    dodanie i pobranie załącznika
+
+commit 7166d111b82f83b38c98baab2d308ba2480658cd
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Wed Jan 25 12:42:03 2023 +0100
+
+    lekkie poprawki
+
+commit 12896ea7e9bf591da9d5e00de5737857630af46b
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Wed Jan 25 02:33:11 2023 +0100
+
+    sort Raport
+
+commit 928f8f931ccdb32214f3f6500c592841103f62ef
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Mon Jan 23 22:00:34 2023 +0100
+
+    scss
+
+commit 734b989900237bb0c416290681aedea4c6f509b4
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Mon Jan 23 18:58:46 2023 +0100
+
+    jakis tam scss
+
+commit 4b4eb9ce5d97acfb661e18fcf1e570c809879e45
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Sun Jan 22 17:02:42 2023 +0100
+
+    pobieranie raport do pliku
+
+commit 736e04d557f67504a04c807fd9234d25b7edcb6c
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Sun Jan 22 03:33:00 2023 +0100
+
+    zliczenie users i event
+
+commit a14f76f3e9f6ec07d00727f56e682f851c3fc12f
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Sat Jan 21 17:40:38 2023 +0100
+
+    zmiana uprawnień i usuwanie uzytkownika
+
+commit 6dbbf30c2546f00be0b125d2d5a3c40b26f4de3a
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Fri Jan 20 11:16:39 2023 +0100
+
+    wyszukiwanie event
+
+commit 340dd1734e160ede7f8520d2b27c4b6152cd0fe5
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Thu Jan 19 16:35:48 2023 +0100
+
+    week view / month view / day view
+
+commit bdc7f4a69db83d711d0cab478972cb401474d628
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Thu Jan 19 16:11:44 2023 +0100
+
+    wyświetlenie najbliższych event
+
+commit 255979eb8ed1a29393caa56c237138eef8e38a18
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Thu Jan 19 01:47:49 2023 +0100
+
+    tylko wyświetlenie wszystkich cal
+
+commit 40ef7ab2a2e77e702b2b4507a6f4bbb5550ecfb9
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Tue Jan 17 21:45:25 2023 +0100
+
+    pobieranie danch z ciasteczek
+
+commit 313b57bd186d83c16d0281bf78b13774ba070b6a
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Tue Jan 17 14:20:00 2023 +0100
+
+    cookie
+
+commit 8502ade4658763ecc53a335701149fc4f72d988e
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Fri Jan 13 15:45:17 2023 +0100
+
+    edycja event
+
+commit b4b8a1a3d3e31390bf589d3af3315b0e8be5f5e1
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Fri Jan 13 02:16:26 2023 +0100
+
+    usuwanie i dodawania dla wszystkich
+
+commit 241342c3af94d0bf140fd37ba4f88bff62ceb840
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Thu Jan 12 15:27:38 2023 +0100
+
+    reader/admin może dodawać event spec nie
+
+commit bdfdc081db6a24b4960e791e3ea633966a113a58
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Thu Jan 12 14:58:10 2023 +0100
+
+    admiin może tylko dodać użytkownika i usunać cal
+
+commit 8eabbb1637b676426aeb8aff807ed307a43e42b9
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Thu Jan 12 14:10:30 2023 +0100
+
+    porzadek w dodaniu roli w bazie mongo
+
+commit 6ea95b539f55bcf6f499ddc663b3c74d1d320c58
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Wed Jan 11 19:28:02 2023 +0100
+
+    dodanie roli użytkownika
+
+commit f11a5438ea6b8106606713c2739067d8517295bb
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Wed Jan 11 18:22:13 2023 +0100
+
+    cal jako obiekt
+
+commit f9a008aae380b7810420b89eab7dcf2636e8ea43
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Tue Jan 10 13:33:37 2023 +0100
+
+    walidacje dodanie użytkownika
+
+commit df16c77a5454d0d446fe32733cdefdbd7189de72
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Mon Jan 9 02:53:12 2023 +0100
+
+    dodanie uzytkownika do cal
+
+commit f29c3ab753a9173b6a0deb748873b40630230d35
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Sun Jan 8 02:06:17 2023 +0100
+
+    dodanie/usuniecie event
+
+commit 20ec788ef2db9b58a1be9903c07405c225e07ee3
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Thu Jan 5 17:11:15 2023 +0100
+
+    duplicate emial
+
+commit a3f8ff7e5ff3ea723783d22e10dcc8c15fa1e187
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Thu Jan 5 14:28:27 2023 +0100
+
+    poprawa błędów
+
+commit 15114cff3b47291e90ebf6ff0abc1169dfcd4a7b
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Wed Jan 4 22:22:54 2023 +0100
+
+    poprawki event
+
+commit ee2d64ed1aa4e99e57859ad09da15e209b1d600d
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Wed Jan 4 21:50:18 2023 +0100
+
+    poprawki cal
+
+commit 2e9e8ac7a9a6e1a8acf6393ffe26712a89bccc60
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Thu Dec 29 17:59:14 2022 +0100
+
+    dodanie event
+
+commit 8232ccce1bc41b66e971fdfcb14b2cce8c55a0c0
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Thu Dec 29 15:06:07 2022 +0100
+
+    dodanie event
+
+commit c618278e43391d75a8009add74131180dfd7813b
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Thu Dec 29 14:48:49 2022 +0100
+
+    ustawienie cal z pobranych danyhc
+
+commit 94e52f774e7717a52ec7593daca7d14d8b5fabab
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Wed Dec 28 18:21:22 2022 +0100
+
+    dodanie cal
+
+commit 7d6ae51360369885176b9de402a364d2336b1970
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Wed Dec 28 17:44:59 2022 +0100
+
+    zmiany w check login
+
+commit 043e9fe5bd552c5627dc1fa74ff19c45fbadff16
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Wed Dec 28 17:30:16 2022 +0100
+
+     check user
+
+commit 70e6af25654fe8e307653c5cdf3ce10a60267495
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Wed Dec 28 00:41:31 2022 +0100
+
+    check login
+
+commit c3aab53f14ae06309f6ce1765e40fec6a31ff8ff
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Tue Dec 27 17:12:08 2022 +0100
+
+    dodanie user do mongo
+
+commit 328e07d542569cb2320970fa1b80b33e576b5be5
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Tue Dec 27 11:34:29 2022 +0100
+
+    front
+
+commit 3bd85663c6857e703e5e73420e5216567757761e
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Thu Dec 22 13:00:24 2022 +0100
+
+    modules
+
+commit f4a2c47ee19be9818251e040f586649858ed5c6f
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Tue Dec 20 12:47:37 2022 +0100
+
+    connectMongo
+
+commit c66120f8c94647e48e7fedda51a52ccea315a41d
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Tue Dec 20 12:33:55 2022 +0100
+
+    serwerRoutes
+
+commit ba3c5e13b3e1951bd679db3ebfe896d0f9818269
+Author: Kajojan <kajetan.jankowski@interia.pl>
+Date:   Tue Dec 20 12:15:27 2022 +0100
+
+    serwer
+
+commit 5a8922106a33beb24f77bd017068f7a1a4053cba
+Author: github-classroom[bot] <66690702+github-classroom[bot]@users.noreply.github.com>
+Date:   Mon Dec 12 15:03:50 2022 +0000
+
+    Setting up GitHub Classroom Feedback
+
+commit 27f8f4500c6e71a0f281546f924dbc733979dcce
+Author: github-classroom[bot] <66690702+github-classroom[bot]@users.noreply.github.com>
+Date:   Mon Dec 12 15:03:50 2022 +0000
+
+    GitHub Classroom Feedback
+
+commit 0856ee537bf61f698fcb39aca6c910b770354673
+Author: github-classroom[bot] <66690702+github-classroom[bot]@users.noreply.github.com>
+Date:   Mon Dec 12 15:03:49 2022 +0000
+
+    Add online IDE url
