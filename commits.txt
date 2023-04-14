@@ -1,1 +1,2 @@
-When I was developing this app, I had a different emial in my local git setting. I wanted to change the author to my main account and didn't think it would be one commit
+When I was developing this app, I had a different emial in my local git setting.
+I wanted to change the author to my main account and didn't think it would be one commit. You can see my commits history in log.txt
