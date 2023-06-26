@@ -1,10 +1,7 @@
 require("dotenv").config();
 const express = require("express");
-const https = require("https");
 const calRoutes = require("./routes/cal");
 const mongoose = require("mongoose");
-const fs = require("fs");
-const path = require("path");
 
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -12,7 +9,7 @@ const cookieParser = require("cookie-parser");
 const app = express();
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:31200"],
     credentials: true,
   })
 );
@@ -30,26 +27,20 @@ app.get("/:download", (req, res) => {
 });
 
 
+
 app.use("/api/cal", calRoutes);
 mongoose.set("strictQuery", false);
 
-// const server = https.createServer(
-//   {
-//       key: fs.readFileSync(path.join('plik.key')),
-//       cert: fs.readFileSync(path.join( 'cert.crt'))
-//   },
-//   app
-// )
+
 
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect('mongodb://mongodb-service:27017/user')
   .then(() => {
-    // server.listen(process.env.PORT, () => console.log('Serwer ssl chodzi'));
-
-    app.listen(process.env.PORT, () => {
-      console.log("listening on port", process.env.PORT);
+    app.listen(4000, () => {
+      console.log("listening on port", 4000);
     });
   })
   .catch((error) => {
     console.log(error);
   });
+

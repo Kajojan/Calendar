@@ -13,12 +13,14 @@ const {
   file,
   upload,
 } = require("../controllers/calControllers");
+
 const {
   createUser,
   login,
   logout,
   loggedIn,
 } = require("../controllers/usersControllers");
+
 const { raport, search } = require("../controllers/othersControllers");
 
 const router = express.Router();
@@ -29,7 +31,7 @@ router.get("/:user_id", auth, getCallendars);
 
 router.get("/:user_id/:cal_id", auth, getAllEvents);
 
-router.post("/", createUser);
+router.post("/", createUser);     ///
 
 router.post("/:login", login);
 
