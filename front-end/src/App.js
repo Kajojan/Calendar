@@ -10,10 +10,14 @@ import Login from "./componets/Login";
 import Profile from "./componets/Navi/Profile";
 import Notice from "./componets/Navi/Notice";
 import SingUp from "./componets/SingUp";
+import keycloak from "./Keycloak";
 import axios from "axios";
 import { loggedIn } from "./features/LoggedInSlice";
 import AllEventCAl from "./componets/AllEventCAl";
-import { modChange } from "./features/UserSlice";
+import { error, modChange } from "./features/UserSlice";
+import { ReactKeycloakProvider } from "@react-keycloak/web";
+import PrivateRoute from "./PrivateRoute";
+import NotLogin from "./componets/NotLogin";
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -23,13 +27,9 @@ function App() {
   const currentYear = useSelector((state) => state.year.currentYear);
   const user = useSelector((state) => state.user.user_id);
   const logged = useSelector((state) => state.loggedin.loggedin);
+  const change = useSelector((state) => state.loggedin.change);
   const dark = useSelector((state) => state.user.mod);
   const mod = localStorage.getItem("mode") == "true";
-
-  useEffect(() => {
-    dispatch(loggedIn());
-    dispatch(modChange(mod));
-  });
 
   const handleClick = () => {
     navigate(-1);
@@ -37,37 +37,42 @@ function App() {
 
   return (
     <div className={dark ? "dark-mode" : "light-mode"}>
-      {logged == true ? (
-        <>
-          <Navi />
+      <ReactKeycloakProvider authClient={keycloak}>
+          <Navi/>
           <div className="BackButton">
             <button onClick={handleClick}>Cofnij</button>
           </div>
           <Routes>
+
+          <Route path={`/mainpage`} element={<PrivateRoute> <MainPage /> </PrivateRoute>} />
+        
             <Route
               path={`/callander/${user}/allCal`}
-              element={<AllEventCAl />}
-            ></Route>
-            <Route path={`/mainpage`} element={<MainPage />} />
-            <Route path={`/profile`} element={<Profile />} />
-            <Route path="/Notice" element={<Notice />} />
+              element={<PrivateRoute>
+               <AllEventCAl />
+              </PrivateRoute>}
+            />
+            <Route path={`/profile`} element={<PrivateRoute>
+              <Profile />
+              </PrivateRoute>} />
+            <Route path="/Notice" element={<PrivateRoute>
+              <Notice />
+              </PrivateRoute>} />
             <Route
               path={`/callander/${user}/${currentYear}/${currentMonth}/:currentday`}
-              element={<CurrentDay />}
+              element={<PrivateRoute>
+                <CurrentDay />
+                </PrivateRoute>}
             />
             <Route
               path={`/callander/${user}/${currentYear}/${currentMonth}`}
-              element={<Calendar />}
+              element={<PrivateRoute>
+                <Calendar />
+                </PrivateRoute>}
             />
+            
           </Routes>
-        </>
-      ) : (
-        <Routes>
-          <Route path="/" element={<Login />} />
-
-          <Route path="/singup" element={<SingUp />} />
-        </Routes>
-      )}
+      </ReactKeycloakProvider>
     </div>
   );
 }

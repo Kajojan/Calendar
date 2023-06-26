@@ -17,8 +17,9 @@ export const LoggedinSlice = createSlice({
 export const loggedIn = () => {
   return (dispatch) => {
     axios
-      .get(`http://localhost:4000/api/cal/if/logged/in`)
+      .get(`http://localhost:31201/api/cal/if/logged/in`)
       .then((response) => {
+        console.log(response)
         if (response.data.status == true) {
           dispatch(upload(response.data.data.callendars));
           dispatch(change(response.data.status));
@@ -36,7 +37,7 @@ export const loggedIn = () => {
 export const logout = () => {
   return (dispatch) => {
     axios
-      .get(`http://localhost:4000/api/cal/`)
+      .get(`http://localhost:31201/api/cal/`)
       .then((response) => {
         dispatch(change(false));
       })

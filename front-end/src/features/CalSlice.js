@@ -46,7 +46,7 @@ export const postData = (
 ) => {
   return (dispatch) => {
     axios
-      .put(`http://localhost:4000/api/cal/${user_id}`, {
+      .put(`http://localhost:31201/api/cal/${user_id}`, {
         seUser_id: seUser_id,
         seUsersCal_id: cal_id,
         role: role,
@@ -74,7 +74,7 @@ export const postData = (
 export const delCal = (user_id, cal_id) => {
   return (dispatch) => {
     axios
-      .delete(`http://localhost:4000/api/cal/${user_id}/${cal_id}`)
+      .delete(`http://localhost:31201/api/cal/${user_id}/${cal_id}`)
       .then((response) => {
         dispatch(upload(response.data[0].callendars));
       })
@@ -88,7 +88,7 @@ export const deleteUser = (user_id, cal_id, role, index) => {
   return (dispatch) => {
     axios
       .delete(
-        `http://localhost:4000/api/cal/${user_id}/${cal_id}/${role}/${index}`
+        `http://localhost:31201/api/cal/${user_id}/${cal_id}/${role}/${index}`
       )
       .then((response) => {
         dispatch(changeCal({ cal: response.data[0] }));
@@ -103,7 +103,7 @@ export const editRole = (user_id, cal_id, role, index, newRole, id, name) => {
   return (dispatch) => {
     axios
       .put(
-        `http://localhost:4000/api/cal/change/role/${user_id}/${cal_id}/${role}/${index}`,
+        `http://localhost:31201//cal/change/role/${user_id}/${cal_id}/${role}/${index}`,
         { role: newRole, user: [id, name] }
       )
       .then((response) => {

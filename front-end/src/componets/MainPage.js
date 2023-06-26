@@ -17,6 +17,7 @@ function MainPage() {
   const [name, setName] = useState("");
 
   const clickHandler = () => {
+    console.log(user)
     dispatch(postData(user, name, lastname));
 
     setPop(false);

@@ -42,8 +42,9 @@ const UserSlice = createSlice({
 export const postData = (data) => {
   return (dispatch) => {
     axios
-      .post(`http://localhost:4000/api/cal/`, { ...data, callendars: [] })
+      .post(`http://localhost:31201/api/cal/`, { ...data, callendars: [] })
       .then((response) => {
+        console.log(response)
         if (response.data.status != "error") {
           dispatch(error(""));
           dispatch(Add(data));
@@ -62,7 +63,7 @@ export const postData = (data) => {
 export const raport = (user_id) => {
   return (dispatch) => {
     axios
-      .get(`http://localhost:4000/api/cal/do/a/raport/${user_id}`)
+      .get(`http://localhost:31201/api/cal/do/a/raport/${user_id}`)
       .then((response) => {
         dispatch(raportChange(response.data));
       })

@@ -39,7 +39,7 @@ function Day() {
     setClick(false);
     setSearch(event.target.value);
     axios.post(
-      `http://localhost:4000/api/cal/search/with/regex/in/${cal.cal_id}/${user}`,
+      `http://localhost:31201/api/cal/search/with/regex/in/${cal.cal_id}/${user}`,
       {"letter": search}
     ).then((res)=>{
       setSearchData(res.data)
@@ -91,7 +91,7 @@ function Day() {
   };
   const handleDownload = () => {
     axios
-      .get(`http://localhost:4000/api/cal/${user}/${cal.cal_id}`)
+      .get(`http://localhost:31201/api/cal/${user}/${cal.cal_id}`)
       .then((res) => {
         const jsonData = JSON.stringify(res.data[0].events[0]);
         const blob = new Blob([jsonData], { type: "application/json" });

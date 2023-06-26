@@ -22,7 +22,7 @@ export const postEvent = (user_id, cal_id, month_id, day_id, data) => {
   return (dispatch) => {
     axios
       .put(
-        `http://localhost:4000/api/cal/${user_id}/${cal_id}/${month_id}/${day_id}`,
+        `http://localhost:31201/api/cal/${user_id}/${cal_id}/${month_id}/${day_id}`,
         data
       )
       .then((response) => {
@@ -40,7 +40,7 @@ export const dellevent = (user_id, cal_id, month_id, day_id, event_id) => {
   return (dispatch) => {
     axios
       .delete(
-        `http://localhost:4000/api/cal/${user_id}/${cal_id}/${month_id}/${
+        `http://localhost:31201/api/cal/${user_id}/${cal_id}/${month_id}/${
           day_id - 1
         }/${event_id}`
       )
@@ -68,7 +68,7 @@ export const editEvent = (
   return (dispatch) => {
     axios
       .put(
-        `http://localhost:4000/api/cal/${user_id}/${cal_id}/${month_id}/${
+        `http://localhost:31201/api/cal/${user_id}/${cal_id}/${month_id}/${
           day_id - 1
         }/${event_id}`,
         value

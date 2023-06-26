@@ -20,7 +20,7 @@ function PopUp({ setPop, pop }) {
   };
   const download = (ele) => {
     axios({
-      url: `http://localhost:4000/${ele}`,
+      url: `http://localhost:31201/${ele}`,
       method: "GET",
       responseType: "blob",
     }).then((data) => {
