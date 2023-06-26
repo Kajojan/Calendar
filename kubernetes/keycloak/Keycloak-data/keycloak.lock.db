@@ -1,0 +1,6 @@
+#FileLock
+#Fri Jun 16 10:35:44 GMT 2023
+server=10.1.1.98\:42233
+hostName=keycloak-deployment-9bc8c7c59-hd6j2
+method=file
+id=188c3c67a94aa1fb957865d92fd1d612f3cb7e036f8

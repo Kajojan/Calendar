@@ -7,7 +7,7 @@ Wykorzystywane
 
 - redux,cookie, JWT, bcrypt, multer oraz certufikat TLS
 
-- docker
+- docker, Kubernetes
 ------------------------------------------------------------------------
 
 Działanie
@@ -35,3 +35,13 @@ Działanie
 -z poziomu roli admin możliwość importowania/exportowania wydarzeń do kalendarza
 
 -tworzenie raportu o kalendarzach użytkownika (ilość wydarzeń w kalendarzu, ilosć urzytkowników)
+
+-------------------------------------------------------------------------------
+Odpalenie aplikacji:
+
+    znajdując się w ./Calendar-main  
+
+    kubectl apply -f kubernetes/keycloak/keylock_deployment.yaml -f kubernetes/mongo/mongo.yaml -f back-end/kubernetes/back_end.yaml -f front-end/kubernetes/front_end.yaml 
+
+    kubernetes odpali 4 pody front_end, back_end, mongo, ora keycloak(stworzyłem image , który przekazuje pliki konfiguracji keycloak )
+    Image dla front_end, back_end oraz keycloak są publiczne na  dockerHub kajojan/mern 
